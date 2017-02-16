@@ -22,5 +22,10 @@
 hs_err_pid*
 
 # Custom 
-target/
-.idea/
+target
+.idea
+.idea/workspace.xml
+
+# idea config
+kwetter/nb-configuration.xml
+kwetter/kwetter.iml
