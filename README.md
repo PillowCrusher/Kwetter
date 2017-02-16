@@ -17,7 +17,7 @@ Gekozen branch structuur
 In deze opdracht komen de volgende onderwerpen aan bod:
 
 - [ ] Automatische tests ( Jenkins )
-- [ ] Een analyse en ontwerp (userstories, klassendiagram) Document
+- [x] Een analyse en ontwerp (userstories, klassendiagram) Document
 - [ ] Volg SOLID Principles
 - [ ] Opzetten lokale enterprise webserver die resources/beans managed
 - [ ] Gebruiken maken van voor object management en resource management door webserver
