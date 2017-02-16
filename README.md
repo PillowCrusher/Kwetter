@@ -4,16 +4,16 @@
 In documenten zijn alle vereisten requirements opgesomt.
 
 ## Branches
-
+---  
 Gekozen branch structuur
 
 - Master
 - Fix branches
 - Develop
-- Feature branches
----
-## Back-end vereisten
+- Feature branches  
 
+## Back-end vereisten
+---  
 In deze opdracht komen de volgende onderwerpen aan bod:
 
 - [ ] Automatische tests ( Jenkins )
@@ -27,12 +27,12 @@ In deze opdracht komen de volgende onderwerpen aan bod:
 - [ ] Web Authenticatie realiseren op service niveau met JAAS annotaties
 - [ ] Gegevens kunnen bewaard worden in memory en in een database (JPA)
 
-EXTRA:
+**Optioneel**:
 - [ ] maak gebruik van CDI: events en interceptors
 - [ ] maak gebruik van Java Batch
 - [ ] maak gebruik van Java Mail
 - [ ] maak gebruik van TDD: Embedded server testing
 
-Als voorbeeld van de lagenstructuur zie -> webLog applicatie
+Als voorbeeld van de lagenstructuur zie -> webLog applicatie  
 
-Beoordeling back-end
+**Beoordeling back-end**

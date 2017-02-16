@@ -1,5 +1,5 @@
 # User stories
-ALs ... wil ... zodat ...
+Als ... wil ... zodat ...
 ---
 ## Functional requirements  
 
@@ -31,7 +31,7 @@ ALs ... wil ... zodat ...
 - **Optioneel** als administrator wil ik in de lijst van gebruikers rollen kunnen toewijzen zodat er verschillende gebruikers mogelijk  zijn.  
 
 ---
-## Non functional requirements  
+## Non-functional requirements  
 
 ## Constraints  
 
