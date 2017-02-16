@@ -3,6 +3,14 @@
 
 In documenten zijn alle vereisten requirements opgesomt.
 
+## Branches
+
+Gekozen branch structuur
+
+- Master
+- Fix branches
+- Develop
+- Feature branches
 ---
 ## Back-end vereisten
 
