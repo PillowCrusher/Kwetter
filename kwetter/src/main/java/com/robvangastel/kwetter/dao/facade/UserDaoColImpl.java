@@ -7,6 +7,8 @@ package com.robvangastel.kwetter.dao.facade;
 
 import com.robvangastel.kwetter.dao.IUserDao;
 import com.robvangastel.kwetter.domain.User;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,34 +17,53 @@ import java.util.List;
  */
 public class UserDaoColImpl implements IUserDao {
 
+    private final List<User> users;
+    
+    public UserDaoColImpl() {
+        users = new ArrayList<>();
+    }
+    
     @Override
     public User findById(long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for(User user : users) {
+            if(user.getId().equals(id)) {
+                return user;
+            }
+        }
+        return null;
     }
 
     @Override
     public List<User> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return users;
     }
 
     @Override
     public void create(User entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        users.add(entity);
     }
 
     @Override
     public User update(User entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       for(User user : users) {
+            if(user.getId().equals(entity.getId())) {
+                user = entity;
+            }
+        }
+        return null;
     }
 
     @Override
     public void delete(User entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        users.remove(entity);
     }
 
     @Override
-    public void deleteById(long Id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void deleteById(long id) {
+        for(User user : users) {
+            if(user.getId().equals(id)) {
+                users.remove(user);
+            }
+        }
     }
-    
 }

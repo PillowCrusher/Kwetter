@@ -7,6 +7,7 @@ package com.robvangastel.kwetter.dao.facade;
 
 import com.robvangastel.kwetter.dao.ITweetDao;
 import com.robvangastel.kwetter.domain.Tweet;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,34 +16,54 @@ import java.util.List;
  */
 public class TweetDaoColImpl implements ITweetDao {
 
+    private final List<Tweet> tweets;
+    
+    public TweetDaoColImpl() {
+        tweets = new ArrayList<>();
+    }
+    
     @Override
     public Tweet findById(long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for(Tweet tweet : tweets) {
+            if(tweet.getId().equals(id)) {
+                return tweet;
+            }
+        }
+        return null;
     }
 
     @Override
     public List<Tweet> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return tweets;
     }
 
     @Override
     public void create(Tweet entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        tweets.add(entity);
     }
 
     @Override
     public Tweet update(Tweet entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       for(Tweet tweet : tweets) {
+            if(tweet.getId().equals(entity.getId())) {
+                tweet = entity;
+            }
+        }
+        return null;
     }
 
     @Override
     public void delete(Tweet entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        tweets.remove(entity);
     }
 
     @Override
-    public void deleteById(long Id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void deleteById(long id) {
+        for(Tweet tweet : tweets) {
+            if(tweet.getId().equals(id)) {
+                tweets.remove(tweet);
+            }
+        }
     }
     
 }
