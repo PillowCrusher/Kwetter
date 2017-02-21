@@ -7,6 +7,8 @@ package com.robvangastel.kwetter.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -39,7 +41,18 @@ public class User implements Serializable {
     @Column(length = 160)
     private String bio;
     
+    private List<Tweet> tweets;
     
+    public User(Long id, Role role, String email, String username, String password) {
+        tweets = new ArrayList<>();
+        
+        this.id = id;
+        this.role = role;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+    }
+      
     User() {}
 
     /**
@@ -152,5 +165,19 @@ public class User implements Serializable {
      */
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    /**
+     * @return the tweets
+     */
+    public List<Tweet> getTweets() {
+        return tweets;
+    }
+
+    /**
+     * @param tweets the tweets to set
+     */
+    public void setTweets(List<Tweet> tweets) {
+        this.tweets = tweets;
     }
 }
