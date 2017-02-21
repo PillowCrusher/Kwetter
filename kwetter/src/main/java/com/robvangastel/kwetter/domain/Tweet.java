@@ -25,5 +25,53 @@ public class Tweet implements Serializable {
     private String message;
     private Date timeStamp;
     
+    public Tweet(Long id, String message, Date timeStamp) {
+        this.id = id;
+        this.message = message;
+        this.timeStamp = timeStamp;
+    }
+    
     Tweet() {}
+
+    /**
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * @return the message
+     */
+    public String getMessage() {
+        return message;
+    }
+
+    /**
+     * @param message the message to set
+     */
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    /**
+     * @return the timeStamp
+     */
+    public Date getTimeStamp() {
+        return timeStamp;
+    }
+
+    /**
+     * @param timeStamp the timeStamp to set
+     */
+    public void setTimeStamp(Date timeStamp) {
+        this.timeStamp = timeStamp;
+    }
 }
