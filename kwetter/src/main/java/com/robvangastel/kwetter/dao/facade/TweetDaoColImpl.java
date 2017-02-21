@@ -5,10 +5,44 @@
  */
 package com.robvangastel.kwetter.dao.facade;
 
+import com.robvangastel.kwetter.dao.ITweetDao;
+import com.robvangastel.kwetter.domain.Tweet;
+import java.util.List;
+
 /**
  *
  * @author Rob
  */
-public class TweetDaoColImpl {
+public class TweetDaoColImpl implements ITweetDao {
+
+    @Override
+    public Tweet findById(long id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Tweet> findAll() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void create(Tweet entity) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Tweet update(Tweet entity) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void delete(Tweet entity) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteById(long Id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
