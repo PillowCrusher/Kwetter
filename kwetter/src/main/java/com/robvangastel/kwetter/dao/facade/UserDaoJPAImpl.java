@@ -38,4 +38,9 @@ public class UserDaoJPAImpl extends AbstractJPADao<User> implements IUserDao {
                 .setParameter("username", username);
         return (User) query.getSingleResult();
     }
+
+    @Override
+    public User findByEmail(String email) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

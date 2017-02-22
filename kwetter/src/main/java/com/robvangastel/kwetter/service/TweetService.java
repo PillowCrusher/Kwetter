@@ -6,7 +6,9 @@
 package com.robvangastel.kwetter.service;
 
 import com.robvangastel.kwetter.dao.ITweetDao;
+import com.robvangastel.kwetter.dao.IUserDao;
 import com.robvangastel.kwetter.domain.Tweet;
+import com.robvangastel.kwetter.domain.User;
 
 import java.util.List;
 
@@ -23,31 +25,49 @@ import javax.inject.Inject;
 public class TweetService {
     
     @Inject @Default
-    private ITweetDao dao;
+    private ITweetDao tweetDao;
+    
+    @Inject @Default
+    private IUserDao userDao;
 
     public TweetService() {
         super();
     }
-
-    public Tweet create(Tweet entity) {
-        return dao.create(entity);
+        
+    public Tweet create(Tweet tweet, long id) {
+        User user = userDao.findById(id);
+        
+        tweet.setUser(user);
+        tweet = tweetDao.create(tweet);
+        
+        user.addTweet(tweet);
+        userDao.update(user);
+        return tweet;
     }
     
     public void delete(long id) {
-        Tweet entity = dao.findById(id);
-        dao.delete(entity);
+        Tweet entity = tweetDao.findById(id);
+        tweetDao.delete(entity);
     }
     
     public void update(Tweet entity) {
-        dao.update(entity);
+        tweetDao.update(entity);
     }
 
     public Tweet findById(long id) {
-        return dao.findById(id);
+        return tweetDao.findById(id);
+    }
+    
+    public List<Tweet> findByMessage(String arg) {
+        return tweetDao.findByMessage(arg);
+    }
+    
+    public List<Tweet> findByUser(long id) {
+        return tweetDao.findByUser(id);
     }
 
     public List<Tweet> findAll() {
-        return dao.findAll();
+        return tweetDao.findAll();
     }
     
 }

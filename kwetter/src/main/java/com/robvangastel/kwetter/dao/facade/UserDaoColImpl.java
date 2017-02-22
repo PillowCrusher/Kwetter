@@ -52,6 +52,16 @@ public class UserDaoColImpl implements IUserDao {
         }
         return null;
     }
+    
+    @Override
+    public User findByEmail(String email) {
+        for(User user : users) {
+            if(user.getEmail().equals(email)) {
+                return user;
+            }
+        }
+        return null;
+    }
 
     @Override
     public List<User> findAll() {
