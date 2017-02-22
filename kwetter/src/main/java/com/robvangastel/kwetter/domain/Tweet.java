@@ -26,8 +26,9 @@ public class Tweet implements Serializable {
     private String message;
     private Date timeStamp;
     
+    private User user;
+    
     public Tweet(String message, Date timeStamp) {
-        this.id = id;
         this.message = message;
         this.timeStamp = timeStamp;
     }
@@ -74,5 +75,19 @@ public class Tweet implements Serializable {
      */
     public void setTimeStamp(Date timeStamp) {
         this.timeStamp = timeStamp;
+    }
+
+    /**
+     * @return the user
+     */
+    public User getUser() {
+        return user;
+    }
+
+    /**
+     * @param user the user to set
+     */
+    public void setUser(User user) {
+        this.user = user;
     }
 }

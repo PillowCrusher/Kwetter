@@ -50,7 +50,6 @@ public class User implements Serializable {
         following = new ArrayList<>();
         followers = new ArrayList<>();
         
-        this.id = id;
         this.role = role;
         this.email = email;
         this.username = username;
@@ -201,11 +200,19 @@ public class User implements Serializable {
     }
 
     /**
-     * Add a Following User
-     * @param followingUser Following User to add
+     * Add a following User
+     * @param user Following User to add
      */
-    public void addFollowing(User followingUser) {
-        following.add(followingUser);
+    public void addFollowing(User user) {
+        following.add(user);
+    }
+    
+    /**
+     * Remove a following User
+     * @param user 
+     */
+    public void removeFollowing(User user) {
+        following.remove(user);
     }
     
     /**
@@ -223,11 +230,19 @@ public class User implements Serializable {
     }
 
     /**
-     * Add a Follower to an User
+     * Add a Follower to a User
      * @param follower Follower to add
      */
     public void addFollower(User follower) {
         followers.add(follower);
+    }
+    
+    /**
+     * Remove a Follower of a User
+     * @param follower 
+     */
+    public void removeFollower(User follower) {
+        followers.remove(follower);
     }
     
     /**
