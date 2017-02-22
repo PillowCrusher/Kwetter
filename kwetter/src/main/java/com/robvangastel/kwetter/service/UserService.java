@@ -11,6 +11,7 @@ import com.robvangastel.kwetter.domain.User;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 /**
@@ -21,7 +22,7 @@ import javax.inject.Inject;
 @Stateless
 public class UserService {
     
-    @Inject
+    @Inject @Default
     private IUserDao dao;
 
     public UserService() {

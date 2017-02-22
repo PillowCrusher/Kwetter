@@ -11,6 +11,7 @@ import com.robvangastel.kwetter.domain.Tweet;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 /**
@@ -21,7 +22,7 @@ import javax.inject.Inject;
 @Stateless
 public class TweetService {
     
-    @Inject
+    @Inject @Default
     private ITweetDao dao;
 
     public TweetService() {

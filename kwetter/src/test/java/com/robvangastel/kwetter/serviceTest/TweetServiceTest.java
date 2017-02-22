@@ -12,7 +12,6 @@ import com.robvangastel.kwetter.service.TweetService;
 import java.sql.Date;
 import javax.inject.Inject;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.junit.Assert.assertEquals;
