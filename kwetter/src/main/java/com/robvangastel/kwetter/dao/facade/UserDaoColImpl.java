@@ -70,4 +70,9 @@ public class UserDaoColImpl implements IUserDao {
             }
         }
     }
+
+    @Override
+    public User findByUsername(String username) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

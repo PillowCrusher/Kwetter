@@ -29,4 +29,9 @@ public class UserDaoJPAImpl extends AbstractJPADao<User> implements IUserDao {
         super();
         setClassObj(User.class);
     }
+
+    @Override
+    public User findByUsername(String username) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

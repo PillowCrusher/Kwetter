@@ -47,6 +47,8 @@ public class User implements Serializable {
     
     public User(Long id, Role role, String email, String username, String password) {
         tweets = new ArrayList<>();
+        following = new ArrayList<>();
+        followers = new ArrayList<>();
         
         this.id = id;
         this.role = role;
@@ -175,6 +177,14 @@ public class User implements Serializable {
     public List<Tweet> getTweets() {
         return tweets;
     }
+    
+    /**
+     * Add a Tweet to an User
+     * @param tweet Tweet to add
+     */
+    public void addTweet(Tweet tweet) {
+        tweets.add(tweet);
+    }
 
     /**
      * @param tweets the tweets to set
@@ -191,6 +201,14 @@ public class User implements Serializable {
     }
 
     /**
+     * Add a Following User
+     * @param followingUser Following User to add
+     */
+    public void addFollowing(User followingUser) {
+        following.add(followingUser);
+    }
+    
+    /**
      * @param following the following to set
      */
     public void setFollowing(List<User> following) {
@@ -204,6 +222,14 @@ public class User implements Serializable {
         return followers;
     }
 
+    /**
+     * Add a Follower to an User
+     * @param follower Follower to add
+     */
+    public void addFollower(User follower) {
+        followers.add(follower);
+    }
+    
     /**
      * @param followers the followers to set
      */
