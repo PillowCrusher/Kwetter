@@ -10,6 +10,8 @@ import com.robvangastel.kwetter.domain.Tweet;
 import com.robvangastel.kwetter.service.TweetService;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 import javax.inject.Inject;
 
 import org.junit.Test;
@@ -27,32 +29,51 @@ public class TweetServiceTest {
     @Inject
     private TweetService tweetService;
         
-    /***
-     * Create Tweet test
-     */
     @Test
     public void createTest() {
-        Tweet tweet = new Tweet(1L, "Hello world!", new Date(1L));
-        tweetService.create(tweet);
+        //Case 1 - Create a Tweet retrieve the Tweet and 
+        //AssertEquals
         
-        Tweet tweetFound = tweetService.findById(1L);
-        assertEquals(tweet, tweetFound);
+        Tweet tweet = new Tweet("Hello world!", new Date(1L));
+        Tweet createdTweet = tweetService.create(tweet);
+        
+        Tweet tweetFound = tweetService.findById(createdTweet.getId());
+        assertEquals(createdTweet, tweetFound);
+        
+        //Case 2 - Create a new Tweet with the same values
+        //AssertNotEquals with the old Tweet
+        Tweet tweet2 = new Tweet("Hello world!", new Date(1L));
+        Tweet createdTweet2 = tweetService.create(tweet2);
+        
+        assertNotEquals(createdTweet2, tweetFound);
     }
     
     @Test
     public void deleteTest() {
-        Tweet tweet = new Tweet(1L, "Hello world!", new Date(1L));
-        tweetService.create(tweet);
+        //Case 1 - Delete created Tweet assertNull on deleted Tweet
+        Tweet tweet = new Tweet("Hello world!", new Date(1L));
+        Tweet createdTweet = tweetService.create(tweet);
         
-        tweetService.delete(1L);
+        tweetService.delete(createdTweet.getId());
         
-        Tweet tweetFound = tweetService.findById(1L);
+        Tweet tweetFound = tweetService.findById(createdTweet.getId());
         assertNull(tweetFound);
+        
+        //Case 2 - Delete an id not existing AssertNotNull on created
+        //Tweet
+        Tweet tweet2 = new Tweet("Hello world!", new Date(1L));
+        Tweet createdTweet2 = tweetService.create(tweet2);
+        
+        tweetService.delete(createdTweet2.getId() + 1L);
+        
+        Tweet tweetFound2 = tweetService.findById(createdTweet2.getId());
+        assertNotNull(tweetFound2);
     }
     
     @Test
     public void updateTest() {
-        Tweet tweet = new Tweet(1L, "Hello world!", new Date(1L));
+        //Case 1 - 
+        Tweet tweet = new Tweet("Hello world!", new Date(1L));
         tweetService.create(tweet);
         
         tweet.setMessage("world Hello!");
@@ -64,15 +85,26 @@ public class TweetServiceTest {
    
     @Test
     public void findByIdTest() {
-        Tweet tweet = new Tweet(1L, "Hello world!", new Date(1L));
-        tweetService.create(tweet);
+        Tweet tweet = new Tweet("Hello world!", new Date(1L));
+        Tweet createdTweet = tweetService.create(tweet);
         
-        Tweet tweetFound = tweetService.findById(1L);
-        assertEquals(tweet, tweetFound); 
+        Tweet tweetFound = tweetService.findById(createdTweet.getId());
+        assertEquals(createdTweet, tweetFound); 
     }
     
     @Test
     public void findAllTest() {
+        Tweet tweet1 = new Tweet("Hello world!", new Date(1L));
+        Tweet tweet2 = new Tweet("Hello world!", new Date(2L));
         
+        List<Tweet> tweets = new ArrayList<>();
+        tweets.add(tweet1);
+        tweets.add(tweet2);
+        
+        tweetService.create(tweet1);
+        tweetService.create(tweet2);
+        List<Tweet> tweetsService = tweetService.findAll();
+        
+        assertEquals(tweets, tweetsService);
     }
 }
