@@ -45,7 +45,7 @@ public class User implements Serializable {
     private List<User> following;
     private List<User> followers;
     
-    public User(Long id, Role role, String email, String username, String password) {
+    public User(Role role, String email, String username, String password) {
         tweets = new ArrayList<>();
         following = new ArrayList<>();
         followers = new ArrayList<>();

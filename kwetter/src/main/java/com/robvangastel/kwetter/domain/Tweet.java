@@ -26,7 +26,7 @@ public class Tweet implements Serializable {
     private String message;
     private Date timeStamp;
     
-    public Tweet(Long id, String message, Date timeStamp) {
+    public Tweet(String message, Date timeStamp) {
         this.id = id;
         this.message = message;
         this.timeStamp = timeStamp;
