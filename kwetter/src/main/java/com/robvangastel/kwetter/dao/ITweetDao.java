@@ -37,12 +37,13 @@ public interface ITweetDao {
     /***
      * Update Tweet with same id
      * @param entity Tweet to update
-     * @return Tweet updated
+     * @return Tweet updated or Null when
+     * the user wasn't found
      */
     Tweet update(Tweet entity);
 
     /***
-     * Delete Tweet with same id
+     * Delete Tweet
      * @param entity Tweet to delete
      */
     void delete(Tweet entity);

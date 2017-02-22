@@ -7,6 +7,7 @@ package com.robvangastel.kwetter.domain;
 
 import java.io.Serializable;
 import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
