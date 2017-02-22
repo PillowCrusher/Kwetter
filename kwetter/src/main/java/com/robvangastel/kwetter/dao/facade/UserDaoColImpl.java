@@ -10,11 +10,15 @@ import com.robvangastel.kwetter.domain.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.Stateless;
+import javax.enterprise.inject.Default;
 
 /**
  *
  * @author Rob
  */
+
+@Stateless @Default
 public class UserDaoColImpl implements IUserDao {
 
     private final List<User> users;
