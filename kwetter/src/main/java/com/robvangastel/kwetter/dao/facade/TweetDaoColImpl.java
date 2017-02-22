@@ -9,11 +9,15 @@ import com.robvangastel.kwetter.dao.ITweetDao;
 import com.robvangastel.kwetter.domain.Tweet;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.Stateless;
+import javax.enterprise.inject.Default;
 
 /**
  *
  * @author Rob
  */
+
+@Stateless @Default
 public class TweetDaoColImpl implements ITweetDao {
 
     private final List<Tweet> tweets;

@@ -7,7 +7,9 @@ package com.robvangastel.kwetter.dao.facade;
 
 import com.robvangastel.kwetter.dao.AbstractJPADao;
 import com.robvangastel.kwetter.dao.IUserDao;
+import com.robvangastel.kwetter.dao.JPA;
 import com.robvangastel.kwetter.domain.User;
+import javax.ejb.Stateless;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,6 +18,8 @@ import javax.persistence.PersistenceContext;
  *
  * @author Rob
  */
+
+@Stateless @JPA
 public class UserDaoJPAImpl extends AbstractJPADao<User> implements IUserDao {
 
     @PersistenceContext
