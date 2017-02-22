@@ -15,15 +15,41 @@ import java.util.List;
  */
 public interface ITweetDao {
     
+    /***
+     * Find Tweet by id
+     * @param id
+     * @return Found tweet or Null when not found
+     */
     Tweet findById(long id);
 
+    /***
+     * 
+     * @return return all tweets
+     */
     List<Tweet> findAll();
 
+    /***
+     * Create a Tweet
+     * @param entity Tweet to create
+     */
     void create(Tweet entity);
 
+    /***
+     * Update Tweet with same id
+     * @param entity Tweet to update
+     * @return Tweet updated
+     */
     Tweet update(Tweet entity);
 
+    /***
+     * Delete Tweet with same id
+     * @param entity Tweet to delete
+     */
     void delete(Tweet entity);
 
-    void deleteById(long Id);
+    /***
+     * Delete tweet by id
+     * @param id id of the tweet
+     */
+    void deleteById(long id);
 }

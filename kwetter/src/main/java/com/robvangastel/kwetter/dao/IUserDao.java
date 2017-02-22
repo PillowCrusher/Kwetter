@@ -15,6 +15,11 @@ import java.util.List;
  */
 public interface IUserDao {
 
+    /***
+     * Find User by id
+     * @param id
+     * @return 
+     */
     User findById(long id);
 
     List<User> findAll();
@@ -25,5 +30,5 @@ public interface IUserDao {
 
     void delete(User entity);
 
-    void deleteById(long Id);
+    void deleteById(long id);
 }
