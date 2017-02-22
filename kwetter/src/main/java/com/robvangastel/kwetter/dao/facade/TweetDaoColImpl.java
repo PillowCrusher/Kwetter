@@ -21,9 +21,15 @@ import javax.enterprise.inject.Default;
 public class TweetDaoColImpl implements ITweetDao {
 
     private final List<Tweet> tweets;
+    private static int INCREMENT = 0;
     
     public TweetDaoColImpl() {
         tweets = new ArrayList<>();
+    }
+    
+    private long getIncrement() {
+        INCREMENT++;
+        return (long) INCREMENT;
     }
     
     @Override
@@ -42,8 +48,10 @@ public class TweetDaoColImpl implements ITweetDao {
     }
 
     @Override
-    public void create(Tweet entity) {
+    public Tweet create(Tweet entity) {
+        entity.setId(getIncrement());
         tweets.add(entity);
+        return entity;
     }
 
     @Override

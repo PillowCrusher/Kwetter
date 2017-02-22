@@ -13,6 +13,7 @@ import javax.ejb.Stateless;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -32,6 +33,9 @@ public class UserDaoJPAImpl extends AbstractJPADao<User> implements IUserDao {
 
     @Override
     public User findByUsername(String username) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Query query = entityManager.createQuery(
+                "SELECT u FROM User u WHERE u.Username = :username")
+                .setParameter("username", username);
+        return (User) query.getSingleResult();
     }
 }

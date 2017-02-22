@@ -22,15 +22,31 @@ import javax.enterprise.inject.Default;
 public class UserDaoColImpl implements IUserDao {
 
     private final List<User> users;
+    private static int INCREMENT = 0;
     
     public UserDaoColImpl() {
         users = new ArrayList<>();
     }
     
+    private long getIncrement() {
+        INCREMENT++;
+        return (long) INCREMENT;
+    }
+        
     @Override
     public User findById(long id) {
         for(User user : users) {
             if(user.getId().equals(id)) {
+                return user;
+            }
+        }
+        return null;
+    }
+    
+    @Override
+    public User findByUsername(String username) {
+        for(User user : users) {
+            if(user.getUsername().equals(username)) {
                 return user;
             }
         }
@@ -43,8 +59,10 @@ public class UserDaoColImpl implements IUserDao {
     }
 
     @Override
-    public void create(User entity) {
+    public User create(User entity) {
+        entity.setId(getIncrement());
         users.add(entity);
+        return entity;
     }
 
     @Override
@@ -69,10 +87,5 @@ public class UserDaoColImpl implements IUserDao {
                 users.remove(user);
             }
         }
-    }
-
-    @Override
-    public User findByUsername(String username) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

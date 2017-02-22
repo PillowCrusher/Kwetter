@@ -32,8 +32,9 @@ public abstract class AbstractJPADao<T extends Serializable> {
         return entityManager.createQuery("from " + classObj.getName()).getResultList();
     }
 
-    public void create(final T entity) {
+    public T create(final T entity) {
         entityManager.persist(entity);
+        return entity;
     }
 
     public T update(final T entity) {
