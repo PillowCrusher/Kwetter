@@ -5,27 +5,28 @@
  */
 package com.robvangastel.kwetter.serviceTest;
 
+import com.robvangastel.kwetter.configuration.WeldJUnit4Runner;
 import com.robvangastel.kwetter.domain.Tweet;
 import com.robvangastel.kwetter.service.TweetService;
+
 import java.sql.Date;
-import static org.junit.Assert.assertEquals;
+import javax.inject.Inject;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import static org.junit.Assert.assertEquals;
 
 
 /**
  *
  * @author robvangastel
  */
+@RunWith(WeldJUnit4Runner.class)
 public class TweetServiceTest {
     
+    @Inject
     private TweetService tweetService;
-    
-    @BeforeClass
-    public static void startUp() {
-        
-    }
         
     /***
      * Create Tweet test
