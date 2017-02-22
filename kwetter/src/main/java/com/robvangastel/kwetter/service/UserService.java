@@ -10,8 +10,8 @@ import com.robvangastel.kwetter.domain.User;
 
 import java.util.List;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 
 /**
  *
@@ -21,7 +21,7 @@ import javax.ejb.Stateless;
 @Stateless
 public class UserService {
     
-    @EJB
+    @Inject
     private IUserDao dao;
 
     public UserService() {
