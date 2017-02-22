@@ -14,7 +14,7 @@ import javax.inject.Inject;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 
 /**
@@ -37,5 +37,42 @@ public class TweetServiceTest {
         
         Tweet tweetFound = tweetService.findById(1L);
         assertEquals(tweet, tweetFound);
+    }
+    
+    @Test
+    public void deleteTest() {
+        Tweet tweet = new Tweet(1L, "Hello world!", new Date(1L));
+        tweetService.create(tweet);
+        
+        tweetService.delete(1L);
+        
+        Tweet tweetFound = tweetService.findById(1L);
+        assertNull(tweetFound);
+    }
+    
+    @Test
+    public void updateTest() {
+        Tweet tweet = new Tweet(1L, "Hello world!", new Date(1L));
+        tweetService.create(tweet);
+        
+        tweet.setMessage("world Hello!");
+        tweetService.update(tweet);
+        
+        Tweet tweetFound = tweetService.findById(1L);
+        assertEquals(tweet.getMessage(), tweetFound.getMessage());
+    }
+   
+    @Test
+    public void findByIdTest() {
+        Tweet tweet = new Tweet(1L, "Hello world!", new Date(1L));
+        tweetService.create(tweet);
+        
+        Tweet tweetFound = tweetService.findById(1L);
+        assertEquals(tweet, tweetFound); 
+    }
+    
+    @Test
+    public void findAllTest() {
+        
     }
 }
