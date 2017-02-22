@@ -19,34 +19,6 @@ import javax.persistence.Id;
  * @author Rob
  */
 public class User implements Serializable {
-
-    /**
-     * @return the following
-     */
-    public List<User> getFollowing() {
-        return following;
-    }
-
-    /**
-     * @param following the following to set
-     */
-    public void setFollowing(List<User> following) {
-        this.following = following;
-    }
-
-    /**
-     * @return the followers
-     */
-    public List<User> getFollowers() {
-        return followers;
-    }
-
-    /**
-     * @param followers the followers to set
-     */
-    public void setFollowers(List<User> followers) {
-        this.followers = followers;
-    }
     
     @Id
     @GeneratedValue
@@ -209,5 +181,33 @@ public class User implements Serializable {
      */
     public void setTweets(List<Tweet> tweets) {
         this.tweets = tweets;
+    }
+    
+    /**
+     * @return the following
+     */
+    public List<User> getFollowing() {
+        return following;
+    }
+
+    /**
+     * @param following the following to set
+     */
+    public void setFollowing(List<User> following) {
+        this.following = following;
+    }
+
+    /**
+     * @return the followers
+     */
+    public List<User> getFollowers() {
+        return followers;
+    }
+
+    /**
+     * @param followers the followers to set
+     */
+    public void setFollowers(List<User> followers) {
+        this.followers = followers;
     }
 }
