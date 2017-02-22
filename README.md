@@ -18,10 +18,10 @@ In deze opdracht komen de volgende onderwerpen aan bod:
 
 - [ ] Automatische tests ( Jenkins )
 - [x] Een analyse en ontwerp (userstories, klassendiagram) Document
-- [ ] Volg SOLID Principles
+- [x] Volg SOLID Principles
 - [ ] Opzetten lokale enterprise webserver die resources/beans managed
 - [ ] Gebruiken maken van voor object management en resource management door webserver
-- [ ] TDD op model, service, service + persistence. EXTRA Container managed testen
+- [x] TDD op model, service, service + persistence. EXTRA Container managed testen
 - [ ] HTTP RestService (niveau 1)
 - [ ] Authorisatie door EA met database, gebruikers hebben rollen
 - [ ] Web Authenticatie realiseren op service niveau met JAAS annotaties
