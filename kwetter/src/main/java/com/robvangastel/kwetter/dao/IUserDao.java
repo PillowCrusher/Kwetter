@@ -40,8 +40,9 @@ public interface IUserDao {
     /***
      * Create User
      * @param entity User to create
+     * @return Created User
      */
-    void create(User entity);
+    User create(User entity);
 
     /***
      * Update User with the same id

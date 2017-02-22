@@ -29,8 +29,8 @@ public class UserService {
         super();
     }
 
-    public void create(User entity) {
-        dao.create(entity);
+    public User create(User entity) {
+        return dao.create(entity);
     }
     
     public void delete(long id) {

@@ -31,8 +31,9 @@ public interface ITweetDao {
     /***
      * Create a Tweet
      * @param entity Tweet to create
+     * @return Created Tweet
      */
-    void create(Tweet entity);
+    Tweet create(Tweet entity);
 
     /***
      * Update Tweet with same id

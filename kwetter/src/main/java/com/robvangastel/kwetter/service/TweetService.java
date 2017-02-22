@@ -29,8 +29,8 @@ public class TweetService {
         super();
     }
 
-    public void create(Tweet entity) {
-        dao.create(entity);
+    public Tweet create(Tweet entity) {
+        return dao.create(entity);
     }
     
     public void delete(long id) {
