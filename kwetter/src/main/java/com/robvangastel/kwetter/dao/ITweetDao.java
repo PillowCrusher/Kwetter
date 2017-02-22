@@ -18,10 +18,27 @@ public interface ITweetDao {
     /***
      * Find Tweet by id
      * @param id
-     * @return Found tweet or Null when not found
+     * @return Found tweet or Null when 
+     * the Tweet isn't found
      */
     Tweet findById(long id);
 
+    /***
+     * Find Tweet(s) by message
+     * @param message
+     * @return Found tweet(s) or Null when 
+     * the Tweet(s) isn't found
+     */
+    List<Tweet> findByMessage(String message);
+    
+    /***
+     * Find Tweet(s) by User
+     * @param id User id
+     * @return Found tweet(s) or Null when 
+     * the Tweet(s) isn't found
+     */
+    List<Tweet> findByUser(long id);
+    
     /***
      * 
      * @return return all tweets

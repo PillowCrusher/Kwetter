@@ -19,15 +19,23 @@ public interface IUserDao {
      * Find User by id
      * @param id
      * @return Found User or Null when
-     * The User wasn't found
+     * The User isn't found
      */
     User findById(long id);
 
+    /**
+     * Find User by email
+     * @param email
+     * @return Found User or Null when
+     * The User isn't found
+     */
+    User findByEmail(String email);
+    
     /***
      * Find User by username
      * @param username
      * @return Found User or Null when
-     * The User wasn't found
+     * The User isn't found
      */
     User findByUsername(String username);
     
