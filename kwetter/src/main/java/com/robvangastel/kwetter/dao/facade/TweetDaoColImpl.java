@@ -7,8 +7,10 @@ package com.robvangastel.kwetter.dao.facade;
 
 import com.robvangastel.kwetter.dao.ITweetDao;
 import com.robvangastel.kwetter.domain.Tweet;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
 
@@ -17,15 +19,13 @@ import javax.enterprise.inject.Default;
  * @author Rob
  */
 
-@Stateless @Default
+@Default
+@Stateless
 public class TweetDaoColImpl implements ITweetDao {
 
-    private final List<Tweet> tweets;
+    private final CopyOnWriteArrayList<Tweet> tweets = new CopyOnWriteArrayList<>();
     private static int INCREMENT = 0;
     
-    public TweetDaoColImpl() {
-        tweets = new ArrayList<>();
-    }
     
     private long getIncrement() {
         INCREMENT++;

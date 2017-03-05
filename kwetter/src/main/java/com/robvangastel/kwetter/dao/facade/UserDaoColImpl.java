@@ -8,8 +8,8 @@ package com.robvangastel.kwetter.dao.facade;
 import com.robvangastel.kwetter.dao.IUserDao;
 import com.robvangastel.kwetter.domain.User;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
 
@@ -18,15 +18,12 @@ import javax.enterprise.inject.Default;
  * @author Rob
  */
 
-@Stateless @Default
+@Default
+@Stateless
 public class UserDaoColImpl implements IUserDao {
 
-    private final List<User> users;
+    private final CopyOnWriteArrayList<User> users = new CopyOnWriteArrayList<>();
     private static int INCREMENT = 0;
-    
-    public UserDaoColImpl() {
-        users = new ArrayList<>();
-    }
     
     private long getIncrement() {
         INCREMENT++;

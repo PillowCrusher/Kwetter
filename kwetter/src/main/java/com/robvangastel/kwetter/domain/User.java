@@ -54,6 +54,9 @@ public class User implements Serializable {
         this.email = email;
         this.username = username;
         this.password = password;
+        this.location = "";
+        this.websiteUrl = "";
+        this.bio = "";
     }
       
     User() {}
