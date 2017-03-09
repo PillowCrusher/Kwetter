@@ -30,8 +30,8 @@ public class UserService {
     }
 
     public User create(User entity) {
-        if(dao.findByUsername(entity.getUsername()) != null 
-                && dao.findByEmail(entity.getEmail()) != null) {
+        if(dao.findByUsername(entity.getUsername()) == null
+                && dao.findByEmail(entity.getEmail()) == null) {
             
             if(entity.getPassword() != null) {
                 return dao.create(entity);
@@ -51,7 +51,7 @@ public class UserService {
         user.setBio(entity.getBio());
         user.setLocation(entity.getLocation());
         user.setWebsiteUrl(entity.getWebsiteUrl());
-        
+
         dao.update(user);
     }
     
@@ -77,7 +77,7 @@ public class UserService {
         
         user.addFollowing(followingUser);
         followingUser.addFollower(user);
-        
+
         dao.update(user);
         dao.update(followingUser);
     }
@@ -88,7 +88,7 @@ public class UserService {
         
         user.removeFollowing(followingUser);
         followingUser.removeFollower(user);
-        
+
         dao.update(user);
         dao.update(followingUser);
     }
