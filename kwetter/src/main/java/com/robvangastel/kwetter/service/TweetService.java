@@ -9,6 +9,7 @@ import com.robvangastel.kwetter.dao.ITweetDao;
 import com.robvangastel.kwetter.dao.IUserDao;
 import com.robvangastel.kwetter.domain.Tweet;
 import com.robvangastel.kwetter.domain.User;
+import com.robvangastel.kwetter.exception.UserException;
 
 import java.util.List;
 
@@ -26,22 +27,26 @@ public class TweetService {
     
     @Inject @Default
     private ITweetDao tweetDao;
-    
+
     @Inject @Default
     private IUserDao userDao;
 
     public TweetService() {
         super();
     }
+
+    public TweetService(ITweetDao tweetDao, IUserDao userDao) {
+        this.tweetDao = tweetDao;
+        this.userDao = userDao;
+    }
         
-    public Tweet create(Tweet tweet, long id) {
-        User user = userDao.findById(id);
-        
-        tweet.setUser(user);
+    public Tweet create(Tweet tweet) {
+        User user = userDao.findById(tweet.getUser().getId());
         tweet = tweetDao.create(tweet);
-        
+
         user.addTweet(tweet);
         userDao.update(user);
+
         return tweet;
     }
     
