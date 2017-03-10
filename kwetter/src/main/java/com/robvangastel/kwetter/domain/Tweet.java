@@ -8,14 +8,15 @@ package com.robvangastel.kwetter.domain;
 import java.io.Serializable;
 import java.sql.Date;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  *
  * @author Rob
  */
+
+
+@Entity
 public class Tweet implements Serializable {
     
     @Id
@@ -25,16 +26,18 @@ public class Tweet implements Serializable {
     @Column(length = 140)
     private String message;
     private Date timeStamp;
-    
+
+    @OneToOne
     private User user;
     
     public Tweet(String message, Date timeStamp, User user) {
+
         this.message = message;
         this.timeStamp = timeStamp;
         this.user = user;
     }
     
-    Tweet() {}
+    public Tweet() {}
 
     /**
      * @return the id
@@ -59,6 +62,7 @@ public class Tweet implements Serializable {
 
     /**
      * @param message the message to set
+     * @throws java.lang.Exception
      */
     public void setMessage(String message) {
         this.message = message;

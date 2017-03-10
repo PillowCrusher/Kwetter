@@ -7,9 +7,9 @@ package com.robvangastel.kwetter.service;
 
 import com.robvangastel.kwetter.dao.ITweetDao;
 import com.robvangastel.kwetter.dao.IUserDao;
+import com.robvangastel.kwetter.dao.JPA;
 import com.robvangastel.kwetter.domain.Tweet;
 import com.robvangastel.kwetter.domain.User;
-import com.robvangastel.kwetter.exception.UserException;
 
 import java.util.List;
 
@@ -25,10 +25,10 @@ import javax.inject.Inject;
 @Stateless
 public class TweetService {
     
-    @Inject @Default
+    @Inject @JPA
     private ITweetDao tweetDao;
 
-    @Inject @Default
+    @Inject @JPA
     private IUserDao userDao;
 
     public TweetService() {

@@ -6,6 +6,7 @@
 package com.robvangastel.kwetter.service;
 
 import com.robvangastel.kwetter.dao.IUserDao;
+import com.robvangastel.kwetter.dao.JPA;
 import com.robvangastel.kwetter.domain.User;
 
 import java.util.List;
@@ -22,7 +23,7 @@ import javax.inject.Inject;
 @Stateless
 public class UserService {
     
-    @Inject @Default
+    @Inject @JPA
     private IUserDao dao;
 
     public UserService() {
@@ -33,7 +34,7 @@ public class UserService {
         if(dao.findByUsername(entity.getUsername()) == null
                 && dao.findByEmail(entity.getEmail()) == null) {
             
-            if(entity.getPassword() != null) {
+            if(entity.getPassword() != "") {
                 return dao.create(entity);
             }
         }
@@ -47,8 +48,12 @@ public class UserService {
     
     public void update(User entity) {
         User user = dao.findById(entity.getId());
-        
-        user.setBio(entity.getBio());
+
+	    try {
+		    user.setBio(entity.getBio());
+	    } catch(Exception e) {
+		    System.out.println(e.getMessage());
+	    }
         user.setLocation(entity.getLocation());
         user.setWebsiteUrl(entity.getWebsiteUrl());
 
@@ -57,10 +62,10 @@ public class UserService {
     
     public void updateUsername(String username, long id) {
         User user = dao.findById(id);
-        
-        if(dao.findByUsername(username) != null) {
-            user.setUsername(username);
-        }
+
+	    if (dao.findByUsername(username) == null && username != "") {
+		    user.setUsername(username);
+	    }
     }
 
     public User findById(long id) {
@@ -72,25 +77,32 @@ public class UserService {
     }
     
     public void addFollowing(long followingId, long id) {
-        User user = dao.findById(id);
-        User followingUser = dao.findById(followingId);
-        
-        user.addFollowing(followingUser);
-        followingUser.addFollower(user);
+	    if(followingId != id) {
+		    User user = dao.findById(id);
+		    User followingUser = dao.findById(followingId);
+		    if(user != null && followingUser != null) {
 
-        dao.update(user);
-        dao.update(followingUser);
+			    user.addFollowing(followingUser);
+			    followingUser.addFollower(user);
+
+			    dao.update(user);
+			    dao.update(followingUser);
+		    }
+	    }
     }
     
     public void removeFollowing(long followingId, long id) {
-        User user = dao.findById(id);
-        User followingUser = dao.findById(followingId);
-        
-        user.removeFollowing(followingUser);
-        followingUser.removeFollower(user);
+	    if(followingId != id) {
+		    User user = dao.findById(id);
+		    User followingUser = dao.findById(followingId);
+		    if(user != null && followingUser != null) {
+			    user.removeFollowing(followingUser);
+			    followingUser.removeFollower(user);
 
-        dao.update(user);
-        dao.update(followingUser);
+			    dao.update(user);
+			    dao.update(followingUser);
+		    }
+	    }
     }
 
     public List<User> findAll() {

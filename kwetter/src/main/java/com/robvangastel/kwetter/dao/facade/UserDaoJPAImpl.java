@@ -11,6 +11,7 @@ import com.robvangastel.kwetter.dao.JPA;
 import com.robvangastel.kwetter.domain.User;
 import javax.ejb.Stateless;
 
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -20,16 +21,23 @@ import javax.persistence.Query;
  * @author Rob
  */
 
-@Stateless @JPA
+@JPA
+@Stateless
 public class UserDaoJPAImpl extends AbstractJPADao<User> implements IUserDao {
 
-    @PersistenceContext
+    @PersistenceContext(unitName ="KwetterPU")
     private EntityManager entityManager;
         
     public UserDaoJPAImpl() {
         super();
         setClassObj(User.class);
     }
+
+	public UserDaoJPAImpl(EntityManager entityManager) {
+		super();
+		this.entityManager = entityManager;
+		setClassObj(User.class);
+	}
 
     @Override
     public User findByUsername(String username) {
@@ -41,6 +49,9 @@ public class UserDaoJPAImpl extends AbstractJPADao<User> implements IUserDao {
 
     @Override
     public User findByEmail(String email) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	    Query query = entityManager.createQuery(
+			    "SELECT u FROM User u WHERE u.Email = :email")
+			    .setParameter("email", email);
+	    return (User) query.getSingleResult();
     }
 }

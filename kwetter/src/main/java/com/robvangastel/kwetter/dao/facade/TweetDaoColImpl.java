@@ -25,13 +25,13 @@ public class TweetDaoColImpl implements ITweetDao {
 
     private final CopyOnWriteArrayList<Tweet> tweets = new CopyOnWriteArrayList<>();
     private static int INCREMENT = 0;
-    
-    
+
+
     private long getIncrement() {
         INCREMENT++;
         return (long) INCREMENT;
     }
-    
+
     @Override
     public Tweet findById(long id) {
         for(Tweet tweet : tweets) {
@@ -41,22 +41,29 @@ public class TweetDaoColImpl implements ITweetDao {
         }
         return null;
     }
-    
+
     @Override
     public List<Tweet> findByMessage(String message) {
         List<Tweet> tweetsFound = new ArrayList<>();
-        
+
         for(Tweet tweet : tweets) {
             if(tweet.getMessage().equals(message)) {
-                tweets.add(tweet);
+                tweetsFound.add(tweet);
             }
         }
         return tweetsFound;
     }
-    
+
     @Override
     public List<Tweet> findByUser(long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Tweet> tweetsFound = new ArrayList<>();
+
+        for(Tweet tweet : tweets) {
+            if(tweet.getUser().getId().equals(id)) {
+                tweetsFound.add(tweet);
+            }
+        }
+        return tweetsFound;
     }
 
     @Override

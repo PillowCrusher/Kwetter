@@ -81,7 +81,11 @@ public class DomainTest {
             + "World! Hello World! Hello World! Hello World! Hello World! "
             + "Hello World! Hello World! Hello World! "
             + "Hello World! Hell"; //160 characters
-        user.setBio(message160Char);
+        try {
+            user.setBio(message160Char);
+        } catch(Exception e) {
+
+        }
 
         assertEquals(message160Char, user.getBio());
 
@@ -91,8 +95,11 @@ public class DomainTest {
             + "World! Hello World! Hello World! Hello World! Hello World! "
             + "Hello World! Hello World! Hello World! "
             + "Hello World! Hello"; //161 characters
+        try {
+            user2.setBio(message161Char);
+        } catch(Exception e) {
 
-        user2.setBio(message161Char);
+        }
 
         assertTrue(StringUtil.isEmpty(user2.getBio())==false);
     }

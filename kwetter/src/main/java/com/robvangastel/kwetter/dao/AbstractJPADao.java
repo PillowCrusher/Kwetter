@@ -16,8 +16,10 @@ public abstract class AbstractJPADao<T extends Serializable> {
 
     private Class<T> classObj;
 
-    @PersistenceContext
+    @PersistenceContext(unitName ="KwetterPU")
     private EntityManager entityManager;
+
+    public void setEntityManager(EntityManager entityManager) { this.entityManager = entityManager; }
 
     public final void setClassObj(final Class<T> classObjToSet) {
         this.classObj = classObjToSet;

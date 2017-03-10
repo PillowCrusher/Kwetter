@@ -1,33 +1,38 @@
+package com.robvangastel.kwetter.persistenceTest;
+
+/**
+ * Created by robvangastel on 09/03/2017.
+ */
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.robvangastel.kwetter.serviceTest;
 
-import com.robvangastel.kwetter.dao.facade.TweetDaoColImpl;
-import com.robvangastel.kwetter.dao.facade.UserDaoColImpl;
-import com.robvangastel.kwetter.domain.Role;
-import com.robvangastel.kwetter.domain.Tweet;
-import com.robvangastel.kwetter.domain.User;
 import com.robvangastel.kwetter.service.TweetService;
 import com.robvangastel.kwetter.service.UserService;
+import com.robvangastel.kwetter.dao.facade.TweetDaoJPAImpl;
+import com.robvangastel.kwetter.dao.facade.UserDaoJPAImpl;
+import com.robvangastel.kwetter.domain.Tweet;
+import com.robvangastel.kwetter.domain.Role;
+import com.robvangastel.kwetter.domain.User;
 
 import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertNull;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.mockito.MockitoAnnotations.initMocks;
-import org.junit.Assert;
+import static junit.framework.TestCase.assertNull;
+import static org.junit.Assert.assertEquals;
+import org.mockito.InjectMocks;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Spy;
+import org.junit.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-
 
 
 /**
@@ -37,22 +42,31 @@ import java.util.List;
 
 public class serviceTest {
 
-    @InjectMocks
-    private TweetService tweetService;
+	@InjectMocks
+	private TweetService tweetService;
 
-    @InjectMocks
-    private UserService userService;
-
-	@Spy
-    private UserDaoColImpl userDao;
+	@InjectMocks
+	private UserService userService;
 
 	@Spy
-    private TweetDaoColImpl tweetDao;
+	private UserDaoJPAImpl userDao;
 
-    @Before
-    public void setUp() {
-	    initMocks(this);
-    }
+	@Spy
+	private TweetDaoJPAImpl tweetDao;
+
+	@PersistenceContext(unitName ="KwetterPU")
+	private EntityManager em;
+
+	@Before
+	public void setUp() {
+		initMocks(this);
+
+		userDao = new UserDaoJPAImpl(em);
+		userDao.setEntityManager(em);
+
+		tweetDao = new TweetDaoJPAImpl(em);
+		tweetDao.setEntityManager(em);
+	}
 
 	@Test
 	public void ServiceTest() {
@@ -60,29 +74,29 @@ public class serviceTest {
 		assertNotNull(userService);
 	}
 
-    // Tweet Dao Test
-    // public Tweet findById(long id);
-    @Test
-    public void findTweetByIdTest() {
-        //Case 1 - Find an existing tweet by id
-	    User user12 = userService.create(new User(Role.USER, "user991@mail.com", "user991", "password"));
+	// Tweet Dao Test
+	// public Tweet findById(long id);
+	@Test
+	public void findTweetByIdTest() {
+		//Case 1 - Find an existing tweet by id
+		User user12 = userService.create(new User(Role.USER, "user991@mail.com", "user991", "password"));
 
-        Tweet tweet = new Tweet("Hello world!", new Date(1L), user12);
-        Tweet createdTweet = tweetService.create(tweet);
+		Tweet tweet = new Tweet("Hello world!", new Date(1L), user12);
+		Tweet createdTweet = tweetService.create(tweet);
 
-        Tweet tweetFound = tweetService.findById(createdTweet.getId());
-        assertEquals(createdTweet, tweetFound);
+		Tweet tweetFound = tweetService.findById(createdTweet.getId());
+		assertEquals(createdTweet, tweetFound);
 
-        //Case 2 - Find a not existing tweet by id
-        Tweet tweet2Found = tweetService.findById(createdTweet.getId()+1);
-        assertNull(tweet2Found);
-    }
+		//Case 2 - Find a not existing tweet by id
+		Tweet tweet2Found = tweetService.findById(createdTweet.getId()+1);
+		assertNull(tweet2Found);
+	}
 
-    // public List<Tweet> findByMessage(String arg);
-    @Test
-    public void findByMessageTest() {
+	// public List<Tweet> findByMessage(String arg);
+	@Test
+	public void findByMessageTest() {
 		//Case 1 - Find an existing tweet by message
-	    User user1 = userService.create(new User(Role.USER, "user1wq1@mail.com", "user1wq1", "password"));
+		User user1 = userService.create(new User(Role.USER, "user1wq1@mail.com", "user1wq1", "password"));
 
 		Tweet tweet = new Tweet("Hello world!", new Date(1L), user1);
 		Tweet createdTweet = tweetService.create(tweet);
@@ -96,31 +110,31 @@ public class serviceTest {
 		tweetService.create(tweet2);
 
 		List<Tweet> tweet2Found = tweetService.findByMessage("!dlorw elloh");
-	    List<Tweet> emptyList = new ArrayList<>();
+		List<Tweet> emptyList = new ArrayList<>();
 
 		assertEquals(emptyList, tweet2Found);
-    }
+	}
 
-    // public List<Tweet> findByUser(long id);
-    @Test
-    public void findTweetByUserTest() {
-        //Case 1 - Find all existing tweets by user
-	    User user1 = userService.create(new User(Role.USER, "user1wq@mail.com", "user1wq", "password"));
-        Tweet tweet1 = new Tweet("Hello world!", new Date(1L), user1);
-        Tweet tweet2 = new Tweet("Hello world!", new Date(2L), user1);
+	// public List<Tweet> findByUser(long id);
+	@Test
+	public void findTweetByUserTest() {
+		//Case 1 - Find all existing tweets by user
+		User user1 = userService.create(new User(Role.USER, "user1wq@mail.com", "user1wq", "password"));
+		Tweet tweet1 = new Tweet("Hello world!", new Date(1L), user1);
+		Tweet tweet2 = new Tweet("Hello world!", new Date(2L), user1);
 
-        List<Tweet> tweets = new ArrayList<>();
-        tweets.add(tweet1);
-        tweets.add(tweet2);
+		List<Tweet> tweets = new ArrayList<>();
+		tweets.add(tweet1);
+		tweets.add(tweet2);
 
-        tweetService.create(tweet1);
-        tweetService.create(tweet2);
-        List<Tweet> tweetsService = tweetService.findByUser(user1.getId());
+		tweetService.create(tweet1);
+		tweetService.create(tweet2);
+		List<Tweet> tweetsService = tweetService.findByUser(user1.getId());
 
-        assertEquals(tweets.size(), tweetsService.size());
-    }
+		assertEquals(tweets.size(), tweetsService.size());
+	}
 
-    // User Dao Test
+	// User Dao Test
 	@Test
 	public void updateUsernameTest() {
 		//Case 1 - Update new username
@@ -149,56 +163,56 @@ public class serviceTest {
 		assertNotEquals(user2Found.getUsername(), emptyUsername);
 	}
 
-    // public Tweet create(Tweet tweet, long id);
-    @Test
-    public void createTweetTest() {
-	    //Case 1 - Create user and check if the existing user is equal
-	    User user1 = userService.create(new User(Role.USER, "user123@mail.com", "user123", "password"));
-	    User user1Found = userService.findById(user1.getId());
+	// public Tweet create(Tweet tweet, long id);
+	@Test
+	public void createTweetTest() {
+		//Case 1 - Create user and check if the existing user is equal
+		User user1 = userService.create(new User(Role.USER, "user123@mail.com", "user123", "password"));
+		User user1Found = userService.findById(user1.getId());
 
-	    assertEquals(user1, user1Found);
+		assertEquals(user1, user1Found);
 
-	    //Case 2 - Create user with the same email
-	    User user2 = userService.create(new User(Role.USER, "user123@mail.com", "user2", "password"));
-	    assertNull(user2);
+		//Case 2 - Create user with the same email
+		User user2 = userService.create(new User(Role.USER, "user123@mail.com", "user2", "password"));
+		assertNull(user2);
 
-	    //Case 3 - Create user with the same username
-	    User user3 = userService.create(new User(Role.USER, "user3@mail.com", "user123", "password"));
-	    assertNull(user3);
+		//Case 3 - Create user with the same username
+		User user3 = userService.create(new User(Role.USER, "user3@mail.com", "user123", "password"));
+		assertNull(user3);
 
-	    //Case 4 - Create user with empty password
-	    User user4 = userService.create(new User(Role.USER, "user4@mail.com", "user4", ""));
-	    assertNull(user4);
+		//Case 4 - Create user with empty password
+		User user4 = userService.create(new User(Role.USER, "user4@mail.com", "user4", ""));
+		assertNull(user4);
 
-    }
+	}
 
-    // public void addFollowing(long followingId, long id);
-    @Test
-    public void addFollowingTest() {
-	    //Case 1 - Add another user to your following list
-	    User user1 = userService.create(new User(Role.USER, "user500@mail.com", "user500", "password"));
-	    User user2 = userService.create(new User(Role.USER, "user510@mail.com", "user510", "password"));
+	// public void addFollowing(long followingId, long id);
+	@Test
+	public void addFollowingTest() {
+		//Case 1 - Add another user to your following list
+		User user1 = userService.create(new User(Role.USER, "user500@mail.com", "user500", "password"));
+		User user2 = userService.create(new User(Role.USER, "user510@mail.com", "user510", "password"));
 
-	    userService.addFollowing(user1.getId(), user2.getId());
-	    User userfound = userService.findById(user1.getId());
+		userService.addFollowing(user1.getId(), user2.getId());
+		User userfound = userService.findById(user1.getId());
 
-	    assertNotNull(userfound.getFollowing());
+		assertNotNull(userfound.getFollowing());
 
-	    //Case 2 - Add yourself to your following list
-	    User user3 = userService.create(new User(Role.USER, "user530@mail.com", "user530", "password"));
+		//Case 2 - Add yourself to your following list
+		User user3 = userService.create(new User(Role.USER, "user530@mail.com", "user530", "password"));
 
-	    userService.addFollowing(user3.getId(), user3.getId());
-	    User user3found = userService.findById(user3.getId());
+		userService.addFollowing(user3.getId(), user3.getId());
+		User user3found = userService.findById(user3.getId());
 		List<User> EmptyUserList = new ArrayList<>();
 
-	    assertEquals(EmptyUserList, user3found.getFollowing());
+		assertEquals(EmptyUserList, user3found.getFollowing());
 
-	    //Case 3 - Add an not existing id to your following list
-	    userService.addFollowing(user3.getId(), user3.getId()+1L);
-	    user3found = userService.findById(user3.getId());
+		//Case 3 - Add an not existing id to your following list
+		userService.addFollowing(user3.getId(), user3.getId()+1L);
+		user3found = userService.findById(user3.getId());
 
-	    assertEquals(EmptyUserList, user3found.getFollowing());
-    }
+		assertEquals(EmptyUserList, user3found.getFollowing());
+	}
 
 
 	// public void removeFollowing(long followingId, long id);

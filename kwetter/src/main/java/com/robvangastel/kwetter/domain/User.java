@@ -10,14 +10,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  *
  * @author Rob
  */
+@Entity
 public class User implements Serializable {
     
     @Id
@@ -40,9 +39,14 @@ public class User implements Serializable {
     
     @Column(length = 160)
     private String bio;
-    
+
+	@OneToMany
     private List<Tweet> tweets;
+
+	@OneToMany
     private List<User> following;
+
+	@OneToMany
     private List<User> followers;
     
     public User(Role role, String email, String username, String password) {
@@ -52,14 +56,16 @@ public class User implements Serializable {
         
         this.role = role;
         this.email = email;
+
         this.username = username;
         this.password = password;
+
         this.location = "";
         this.websiteUrl = "";
         this.bio = "";
     }
       
-    User() {}
+    public User() {}
 
     /**
      * @return the id
@@ -114,7 +120,7 @@ public class User implements Serializable {
      * @param username the username to set
      */
     public void setUsername(String username) {
-        this.username = username;
+       this.username = username;
     }
 
     /**
@@ -168,6 +174,7 @@ public class User implements Serializable {
 
     /**
      * @param bio the bio to set
+     * @throws java.lang.Exception
      */
     public void setBio(String bio) {
         this.bio = bio;

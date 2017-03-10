@@ -10,6 +10,7 @@ import com.robvangastel.kwetter.domain.User;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
 
@@ -24,12 +25,12 @@ public class UserDaoColImpl implements IUserDao {
 
     private final CopyOnWriteArrayList<User> users = new CopyOnWriteArrayList<>();
     private static int INCREMENT = 0;
-    
+
     private long getIncrement() {
         INCREMENT++;
         return (long) INCREMENT;
     }
-        
+
     @Override
     public User findById(long id) {
         for(User user : users) {
@@ -39,7 +40,7 @@ public class UserDaoColImpl implements IUserDao {
         }
         return null;
     }
-    
+
     @Override
     public User findByUsername(String username) {
         for(User user : users) {
@@ -49,7 +50,7 @@ public class UserDaoColImpl implements IUserDao {
         }
         return null;
     }
-    
+
     @Override
     public User findByEmail(String email) {
         for(User user : users) {
@@ -76,7 +77,9 @@ public class UserDaoColImpl implements IUserDao {
     public User update(User entity) {
        for(User user : users) {
             if(user.getId().equals(entity.getId())) {
-                user = entity;
+                user.setUsername(entity.getUsername());
+                user.setBio(entity.getBio());
+                user.setLocation(entity.getLocation());
             }
         }
         return null;

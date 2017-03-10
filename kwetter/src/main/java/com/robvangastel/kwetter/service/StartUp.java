@@ -21,8 +21,12 @@ public class StartUp {
 
 	@PostConstruct
 	public void initData() {
-		userService.create(new User(Role.USER, "user@mail.com", "user", "password"));
-		userService.create(new User(Role.ADMINISTRATOR, "user@admin.com", "admin", "password"));
-		userService.create(new User(Role.MODERATOR, "user@moderator.com", "moderator", "password"));
+		try {
+			userService.create(new User(Role.USER, "user@mail.com", "user", "password"));
+			userService.create(new User(Role.ADMINISTRATOR, "user@admin.com", "admin", "password"));
+			userService.create(new User(Role.MODERATOR, "user@moderator.com", "moderator", "password"));
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 }
