@@ -20,7 +20,7 @@ import javax.enterprise.inject.Default;
  */
 
 @Default
-@Stateless
+@Stateful
 public class UserDaoColImpl implements IUserDao {
 
     private final CopyOnWriteArrayList<User> users = new CopyOnWriteArrayList<>();

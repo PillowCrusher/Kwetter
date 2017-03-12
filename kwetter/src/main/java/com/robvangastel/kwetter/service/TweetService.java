@@ -13,6 +13,8 @@ import com.robvangastel.kwetter.domain.User;
 
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
@@ -35,11 +37,7 @@ public class TweetService {
         super();
     }
 
-    public TweetService(ITweetDao tweetDao, IUserDao userDao) {
-        this.tweetDao = tweetDao;
-        this.userDao = userDao;
-    }
-        
+	@RolesAllowed({"USER","ADMINISTRATOR", "MODERATOR"})
     public Tweet create(Tweet tweet) {
         User user = userDao.findById(tweet.getUser().getId());
         tweet = tweetDao.create(tweet);
@@ -49,28 +47,31 @@ public class TweetService {
 
         return tweet;
     }
-    
-    public void delete(long id) {
+
+	@RolesAllowed({"USER","ADMINISTRATOR", "MODERATOR"})
+    public void delete(long id, long userId) {
         Tweet entity = tweetDao.findById(id);
-        tweetDao.delete(entity);
-    }
-    
-    public void update(Tweet entity) {
-        tweetDao.update(entity);
+	    if(entity.getUser().getId().equals(userId)) {
+		    tweetDao.delete(entity);
+	    }
     }
 
+	@PermitAll
     public Tweet findById(long id) {
         return tweetDao.findById(id);
     }
-    
+
+	@PermitAll
     public List<Tweet> findByMessage(String arg) {
         return tweetDao.findByMessage(arg);
     }
-    
+
+	@PermitAll
     public List<Tweet> findByUser(long id) {
         return tweetDao.findByUser(id);
     }
 
+	@PermitAll
     public List<Tweet> findAll() {
         return tweetDao.findAll();
     }

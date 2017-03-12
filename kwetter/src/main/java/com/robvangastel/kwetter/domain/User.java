@@ -6,16 +6,21 @@
 package com.robvangastel.kwetter.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.ws.rs.WebApplicationException;
 
 /**
  *
  * @author Rob
  */
+
 @Entity
 public class User implements Serializable {
     
@@ -23,7 +28,7 @@ public class User implements Serializable {
     @GeneratedValue
     private Long id;
     
-    private Role role;
+    private String role;
     
     @Column(nullable = false, unique = true)
     private String email;
@@ -40,12 +45,15 @@ public class User implements Serializable {
     @Column(length = 160)
     private String bio;
 
+	@JsonIgnore
 	@OneToMany
     private List<Tweet> tweets;
 
+	@JsonIgnore
 	@OneToMany
     private List<User> following;
 
+	@JsonIgnore
 	@OneToMany
     private List<User> followers;
     
@@ -54,7 +62,7 @@ public class User implements Serializable {
         following = new ArrayList<>();
         followers = new ArrayList<>();
         
-        this.role = role;
+        this.role = role.toString();
         this.email = email;
 
         this.username = username;
@@ -85,14 +93,21 @@ public class User implements Serializable {
      * @return the role
      */
     public Role getRole() {
-        return role;
+        if(role.equalsIgnoreCase(Role.ADMINISTRATOR.toString())) {
+			return Role.ADMINISTRATOR;
+        } else if(role.equalsIgnoreCase(Role.MODERATOR.toString())) {
+		    return Role.MODERATOR;
+	    } else if(role.equalsIgnoreCase(Role.USER.toString())) {
+		    return Role.USER;
+	    }
+	    return Role.USER;
     }
 
     /**
      * @param role the role to set
      */
     public void setRole(Role role) {
-        this.role = role;
+        this.role = role.toString();
     }
 
     /**
@@ -261,4 +276,20 @@ public class User implements Serializable {
     public void setFollowers(List<User> followers) {
         this.followers = followers;
     }
+
+	/**
+	 * Deserializes an Object of class User from its JSON representation
+	 * @param jsonRepresentation JSON String
+	 * @return User object or null when an error occurs
+	 */
+	public static User fromString(String jsonRepresentation) {
+		ObjectMapper mapper = new ObjectMapper(); //Jackson's JSON marshaller
+		User o= null;
+		try {
+			o = mapper.readValue(jsonRepresentation, User.class );
+		} catch (IOException e) {
+			throw new WebApplicationException();
+		}
+		return o;
+	}
 }

@@ -11,6 +11,7 @@ import com.robvangastel.kwetter.domain.Tweet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
 
@@ -20,7 +21,7 @@ import javax.enterprise.inject.Default;
  */
 
 @Default
-@Stateless
+@Stateful
 public class TweetDaoColImpl implements ITweetDao {
 
     private final CopyOnWriteArrayList<Tweet> tweets = new CopyOnWriteArrayList<>();

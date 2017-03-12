@@ -11,6 +11,8 @@ import com.robvangastel.kwetter.domain.User;
 
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
@@ -30,6 +32,7 @@ public class UserService {
         super();
     }
 
+	@PermitAll
     public User create(User entity) {
         if(dao.findByUsername(entity.getUsername()) == null
                 && dao.findByEmail(entity.getEmail()) == null) {
@@ -40,26 +43,26 @@ public class UserService {
         }
         return null;
     }
-    
+
+
+	@RolesAllowed({"ADMINISTRATOR"})
     public void delete(long id) {
         User entity = dao.findById(id);
         dao.delete(entity);
     }
-    
+
+	@RolesAllowed({"USER","ADMINISTRATOR", "MODERATOR"})
     public void update(User entity) {
         User user = dao.findById(entity.getId());
 
-	    try {
-		    user.setBio(entity.getBio());
-	    } catch(Exception e) {
-		    System.out.println(e.getMessage());
-	    }
+	    user.setBio(entity.getBio());
         user.setLocation(entity.getLocation());
         user.setWebsiteUrl(entity.getWebsiteUrl());
 
         dao.update(user);
     }
-    
+
+	@RolesAllowed({"USER","ADMINISTRATOR", "MODERATOR"})
     public void updateUsername(String username, long id) {
         User user = dao.findById(id);
 
@@ -68,14 +71,22 @@ public class UserService {
 	    }
     }
 
+	@PermitAll
     public User findById(long id) {
         return dao.findById(id);
     }
-    
+
+	@PermitAll
     public User findByUsername(String username) {
         return dao.findByUsername(username);
     }
-    
+
+	@PermitAll
+	public User findByEmail(String email) {
+		return dao.findByEmail(email);
+	}
+
+	@RolesAllowed({"USER","ADMINISTRATOR", "MODERATOR"})
     public void addFollowing(long followingId, long id) {
 	    if(followingId != id) {
 		    User user = dao.findById(id);
@@ -90,7 +101,8 @@ public class UserService {
 		    }
 	    }
     }
-    
+
+	@RolesAllowed({"USER","ADMINISTRATOR", "MODERATOR"})
     public void removeFollowing(long followingId, long id) {
 	    if(followingId != id) {
 		    User user = dao.findById(id);
@@ -105,6 +117,7 @@ public class UserService {
 	    }
     }
 
+	@PermitAll
     public List<User> findAll() {
         return dao.findAll();
     }

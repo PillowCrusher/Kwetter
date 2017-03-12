@@ -5,10 +5,14 @@
  */
 package com.robvangastel.kwetter.domain;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Date;
 
 import javax.persistence.*;
+import javax.ws.rs.WebApplicationException;
 
 /**
  *
@@ -62,7 +66,6 @@ public class Tweet implements Serializable {
 
     /**
      * @param message the message to set
-     * @throws java.lang.Exception
      */
     public void setMessage(String message) {
         this.message = message;
@@ -95,4 +98,20 @@ public class Tweet implements Serializable {
     public void setUser(User user) {
         this.user = user;
     }
+
+	/**
+	 * Deserializes an Object of class Tweet from its JSON representation
+	 * @param jsonRepresentation JSON String
+	 * @return User object or null when an error occurs
+	 */
+	public static Tweet fromString(String jsonRepresentation) {
+		ObjectMapper mapper = new ObjectMapper(); //Jackson's JSON marshaller
+		Tweet o = null;
+		try {
+			o = mapper.readValue(jsonRepresentation, Tweet.class );
+		} catch (IOException e) {
+			throw new WebApplicationException();
+		}
+		return o;
+	}
 }

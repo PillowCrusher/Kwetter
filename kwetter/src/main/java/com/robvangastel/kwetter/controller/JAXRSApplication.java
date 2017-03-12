@@ -13,7 +13,7 @@ import javax.ws.rs.core.Application;
  * @author robvangastel
  */
 
-@ApplicationPath("api")
+@ApplicationPath("/api")
 public class JAXRSApplication extends Application {
-    
+
 }

@@ -25,10 +25,14 @@ import static org.junit.Assert.assertEquals;
 import org.mockito.InjectMocks;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.junit.*;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -42,24 +46,24 @@ import java.util.List;
 
 public class serviceTest {
 
-	@InjectMocks
 	private TweetService tweetService;
 
-	@InjectMocks
 	private UserService userService;
 
-	@Spy
+	@InjectMocks
 	private UserDaoJPAImpl userDao;
 
-	@Spy
+	@InjectMocks
 	private TweetDaoJPAImpl tweetDao;
 
+	@Spy
 	@PersistenceContext(unitName ="KwetterPU")
 	private EntityManager em;
 
 	@Before
 	public void setUp() {
 		initMocks(this);
+//		em = Mockito.mock(EntityManager.class);
 
 		userDao = new UserDaoJPAImpl(em);
 		userDao.setEntityManager(em);
@@ -70,6 +74,7 @@ public class serviceTest {
 
 	@Test
 	public void ServiceTest() {
+		User user12 = userService.create(new User(Role.USER, "user991@mail.com", "user991", "password"));
 		assertNotNull(tweetService);
 		assertNotNull(userService);
 	}
