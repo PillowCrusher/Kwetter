@@ -6,6 +6,7 @@
 package com.robvangastel.kwetter.dao;
 
 import com.robvangastel.kwetter.domain.User;
+import com.robvangastel.kwetter.exception.UserException;
 
 import java.util.List;
 
@@ -50,7 +51,7 @@ public interface IUserDao {
      * @param entity User to create
      * @return Created User
      */
-    User create(User entity);
+    User create(User entity) throws UserException;
 
     /***
      * Update User with the same id
@@ -58,17 +59,17 @@ public interface IUserDao {
      * @return User updated or Null when 
      * the user wasn't found
      */
-    User update(User entity);
+    User update(User entity) throws UserException;
 
     /***
      * Delete user
      * @param entity User to delete
      */
-    void delete(User entity);
+    void delete(User entity) throws UserException;
 
     /***
      * Delete user with the same id
      * @param id id to delete
      */
-    void deleteById(long id);
+    void deleteById(long id) throws UserException;
 }

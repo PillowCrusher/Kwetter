@@ -24,119 +24,6 @@ import org.junit.Test;
  */
 public class DomainTest {
 
-    // User Domain tests
-
-    // @Column(nullable = false, unique = true, length = 20)
-    // private String username;
-    @Test
-    public void usernameTest() {
-        // Case 1 - Check if String can be empty
-        User user = new User(Role.USER, "user@mail.nl", "", "password");
-        assertNull(user);
-
-        // Case 2 - Check for String length of 20
-        String message20Char = "Hello World Hello Wo"; //20 characters
-        User user2 = new User(Role.USER, "user@mail.nl", message20Char, "password");
-
-        assertNotNull(user2);
-
-        // Case 3 - Check for String length of 21
-        String message21Char = "Hello World Hello Wor"; //21 characters
-        User user3 = new User(Role.USER, "user@mail.nl", message21Char, "password");
-
-        assertNull(user3);
-    }
-
-    // @JsonIgnore
-    // @Column(nullable = false, length = 20)
-    // private String password;
-    @Test
-    public void passwordTest() {
-        // Case 1 - Check if String can be empty
-        User user = new User(Role.USER, "user@mail.nl", "username", "");
-        assertNull(user);
-
-        // Case 2 - Check for String length of 20
-        String message20Char = "Hello World Hello Wo"; //20 characters
-        User user2 = new User(Role.USER, "user@mail.nl", "username", message20Char);
-
-        assertNotNull(user2);
-
-        // Case 3 - Check for String length of 21
-        String message21Char = "Hello World Hello Wor"; //21 characters
-        User user3 = new User(Role.USER, "user@mail.nl", "username", message21Char);
-
-        assertNull(user3);
-    }
-
-    // @Column(length = 160)
-    // private String bio;
-    @Test
-    public void bioTest() {
-        // Constr Role role, String email, String username, String password
-        User user = new User(Role.USER, "user@mail.nl", "username", "password");
-
-        // Case 1 - Check for String length of 160
-        String message160Char = "Hello World! Hello World! Hello World! Hello "
-            + "World! Hello World! Hello World! Hello World! Hello World! "
-            + "Hello World! Hello World! Hello World! "
-            + "Hello World! Hell"; //160 characters
-        try {
-            user.setBio(message160Char);
-        } catch(Exception e) {
-
-        }
-
-        assertEquals(message160Char, user.getBio());
-
-        // Case 2 - Check for String length of 161
-        User user2 = new User(Role.USER, "user@mail.nl", "username", "password");
-        String message161Char = "Hello World! Hello World! Hello World! Hello "
-            + "World! Hello World! Hello World! Hello World! Hello World! "
-            + "Hello World! Hello World! Hello World! "
-            + "Hello World! Hello"; //161 characters
-        try {
-            user2.setBio(message161Char);
-        } catch(Exception e) {
-
-        }
-
-        assertTrue(StringUtil.isEmpty(user2.getBio())==false);
-    }
-
-    // Tweet Domain tests
-
-    // @Column(length = 140)
-    // private String message;
-    @Test
-    public void messageTest() {
-        // Constr Role role, String email, String username, String password
-        User user = new User(Role.USER, "user@mail.nl", "username", "password");
-        // Constr String message, Date timeStamp, User user
-
-        // Case 1 - Create tweet with message
-        Tweet tweet = new Tweet("Tweet message", new Date(1L), user);
-        assertNotNull(tweet);
-
-        // Case 2 - Check if message can be empty
-        Tweet tweetEmpty = new Tweet("", new Date(1L), user);
-        assertNull(tweetEmpty);
-
-        // Case 3 - Check if message can be 140 Characters
-        String message140Char = "Hello World! Hello World! Hello World! Hello "
-            + "World! Hello World! Hello World! Hello World! Hello World! "
-            + "Hello World! Hello World! Hello Worl"; //140 characters
-        Tweet tweet140Chars = new Tweet(message140Char, new Date(1L), user);
-        assertNull(tweet140Chars);
-
-        // Case 4 - Check if message can be 141 Characters
-        String message141Char = "Hello World! Hello World! Hello World! Hello "
-            + "World! Hello World! Hello World! Hello World! Hello World! "
-            + "Hello World! Hello World! Hello World"; //141 characters
-        Tweet tweet141Chars = new Tweet(message141Char, new Date(1L), user);
-        assertNull(tweet141Chars);
-    }
-
     // private User user;
     @Test
     public void userTest() {
@@ -148,5 +35,28 @@ public class DomainTest {
         Tweet tweet = new Tweet("Tweet message", new Date(1L), user);
 
         assertEquals(user, tweet.getUser());
+    }
+
+
+    @Test
+    public void ConstructorTest() {
+        //Case 1 - Check if Hashtags from message created
+	    User user = new User(Role.USER, "testUser@mail.com", "testUser", "password");
+	    Tweet tweet = new Tweet("Message #cool #swag", new Date(1l), user);
+
+	    assertEquals(2, tweet.getHashtags().size());
+	    assertEquals(0, tweet.getMentions().size());
+
+	    //Case 2 - Check if mentions from message created
+	    Tweet tweet2 = new Tweet("Message @cool @swag", new Date(1l), user);
+
+	    assertEquals(2, tweet2.getMentions().size());
+	    assertEquals(0, tweet2.getHashtags().size());
+
+	    //Case 3 - Check if Hashtags and Mentions are empty when created
+	    Tweet tweetEmpty = new Tweet("Message", new Date(1l), user);
+
+	    assertEquals(0, tweetEmpty.getHashtags().size());
+	    assertEquals(0, tweetEmpty.getMentions().size());
     }
 }

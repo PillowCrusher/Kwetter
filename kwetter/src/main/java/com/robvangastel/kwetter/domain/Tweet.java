@@ -10,6 +10,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.persistence.*;
 import javax.ws.rs.WebApplicationException;
@@ -29,12 +33,34 @@ public class Tweet implements Serializable {
     
     @Column(length = 140)
     private String message;
+
+	@Column(nullable = false)
     private Date timeStamp;
 
-    @OneToOne
+    @ManyToOne
     private User user;
+
+	@ElementCollection
+	private List<String> hashtags;
+
+	@ElementCollection
+	private List<String> mentions;
     
     public Tweet(String message, Date timeStamp, User user) {
+
+	    List<String> hashtags = new ArrayList<String>();
+	    Matcher hashtagMatches = Pattern.compile("\\B#\\w\\w+").matcher(message);
+	    while (hashtagMatches.find()) {
+		    hashtags.add(hashtagMatches.group());
+	    }
+	    this.setHashtags(hashtags);
+
+	    List<String> mentions = new ArrayList<String>();
+	    Matcher mentionMatches = Pattern.compile("\\B@\\w\\w+").matcher(message);
+	    while (mentionMatches.find()) {
+		    mentions.add(mentionMatches.group());
+	    }
+	    this.setMentions(mentions);
 
         this.message = message;
         this.timeStamp = timeStamp;
@@ -113,5 +139,21 @@ public class Tweet implements Serializable {
 			throw new WebApplicationException();
 		}
 		return o;
+	}
+
+	public List<String> getHashtags() {
+		return hashtags;
+	}
+
+	public void setHashtags(List<String> hashtags) {
+		this.hashtags = hashtags;
+	}
+
+	public List<String> getMentions() {
+		return mentions;
+	}
+
+	public void setMentions(List<String> mentions) {
+		this.mentions = mentions;
 	}
 }

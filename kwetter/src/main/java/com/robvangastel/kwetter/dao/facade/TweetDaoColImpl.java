@@ -7,6 +7,7 @@ package com.robvangastel.kwetter.dao.facade;
 
 import com.robvangastel.kwetter.dao.ITweetDao;
 import com.robvangastel.kwetter.domain.Tweet;
+import com.robvangastel.kwetter.exception.TweetException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,12 +75,16 @@ public class TweetDaoColImpl implements ITweetDao {
 
     @Override
     public Tweet create(Tweet entity) {
-        entity.setId(getIncrement());
-        tweets.add(entity);
-        return entity;
+        if(!entity.getMessage().isEmpty()) {
+            if(entity.getMessage().length() < 141 && entity.getMessage().length() > 0) {
+                entity.setId(getIncrement());
+                tweets.add(entity);
+                return entity;
+            }
+        }
+	    return null;
     }
 
-    @Override
     public Tweet update(Tweet entity) {
        for(Tweet tweet : tweets) {
             if(tweet.getId().equals(entity.getId())) {
@@ -95,11 +100,13 @@ public class TweetDaoColImpl implements ITweetDao {
     }
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(long id) throws TweetException {
         for(Tweet tweet : tweets) {
             if(tweet.getId().equals(id)) {
                 tweets.remove(tweet);
+	            return;
             }
         }
+	    throw new TweetException("Tweet is not found.");
     }
 }

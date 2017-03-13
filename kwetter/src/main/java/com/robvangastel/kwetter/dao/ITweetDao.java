@@ -6,6 +6,7 @@
 package com.robvangastel.kwetter.dao;
 
 import com.robvangastel.kwetter.domain.Tweet;
+import com.robvangastel.kwetter.exception.TweetException;
 
 import java.util.List;
 
@@ -50,25 +51,17 @@ public interface ITweetDao {
      * @param entity Tweet to create
      * @return Created Tweet
      */
-    Tweet create(Tweet entity);
-
-    /***
-     * Update Tweet with same id
-     * @param entity Tweet to update
-     * @return Tweet updated or Null when
-     * the user wasn't found
-     */
-    Tweet update(Tweet entity);
+    Tweet create(Tweet entity) throws TweetException;
 
     /***
      * Delete Tweet
      * @param entity Tweet to delete
      */
-    void delete(Tweet entity);
+    void delete(Tweet entity) throws TweetException;
 
     /***
      * Delete tweet by id
      * @param id id of the tweet
      */
-    void deleteById(long id);
+    void deleteById(long id) throws TweetException;
 }

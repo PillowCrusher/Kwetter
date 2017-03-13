@@ -9,6 +9,8 @@ import com.robvangastel.kwetter.dao.AbstractJPADao;
 import com.robvangastel.kwetter.dao.IUserDao;
 import com.robvangastel.kwetter.dao.JPA;
 import com.robvangastel.kwetter.domain.User;
+import com.robvangastel.kwetter.exception.UserException;
+
 import javax.ejb.Stateless;
 
 import javax.enterprise.inject.Default;
@@ -39,19 +41,76 @@ public class UserDaoJPAImpl extends AbstractJPADao<User> implements IUserDao {
 		setClassObj(User.class);
 	}
 
+	@Override
+	public User create(User entity) throws UserException {
+		checkCreate(entity);
+		entityManager.persist(entity);
+		return entity;
+	}
+
+	public User update(User entity) throws UserException {
+		checkUpdate(entity);
+		return entityManager.merge(entity);
+	}
+
     @Override
     public User findByUsername(String username) {
         Query query = entityManager.createQuery(
-                "SELECT u FROM User u WHERE u.Username = :username")
+                "SELECT u FROM User u WHERE u.username = :username")
                 .setParameter("username", username);
-        return (User) query.getSingleResult();
+
+	    if(query.getResultList().isEmpty()) {
+		    return null;
+	    } else {
+		    return (User) query.getSingleResult();
+	    }
     }
 
     @Override
     public User findByEmail(String email) {
 	    Query query = entityManager.createQuery(
-			    "SELECT u FROM User u WHERE u.Email = :email")
+			    "SELECT u FROM User u WHERE u.email = :email")
 			    .setParameter("email", email);
-	    return (User) query.getSingleResult();
+
+	    if(query.getResultList().isEmpty()) {
+		    return null;
+	    } else {
+		    return (User) query.getSingleResult();
+	    }
     }
+
+	@Override
+	public void deleteById(long id) throws UserException {
+		final User entity = findById(id);
+
+		if(entity == null) {
+			throw new UserException("User is not found.");
+		} else {
+			delete(entity);
+		}
+	}
+
+	private void checkCreate(User entity) throws UserException {
+		if(entity.getUsername().length() > 20 || entity.getUsername().length() < 0 || entity.getUsername().isEmpty()) {
+			throw new UserException("Username has an invalid length");
+		}
+
+		if(entity.getPassword().length() > 20 || entity.getPassword().length() < 0 || entity.getPassword().isEmpty()) {
+			throw new UserException("Email has an invalid length");
+		}
+	}
+
+	private void checkUpdate(User entity) throws UserException {
+		if(entity.getUsername().length() > 20 || entity.getUsername().length() < 0 || entity.getUsername().isEmpty()) {
+			throw new UserException("Username has an invalid length");
+		}
+
+		if(entity.getPassword().length() > 20 || entity.getPassword().length() < 0 || entity.getPassword().isEmpty()) {
+			throw new UserException("Email has an invalid length");
+		}
+
+		if(entity.getBio().length() > 160 || entity.getBio().length() < 0 || entity.getBio().isEmpty()) {
+			throw new UserException("Email has an invalid length");
+		}
+	}
 }

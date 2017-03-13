@@ -34,21 +34,7 @@ public abstract class AbstractJPADao<T extends Serializable> {
         return entityManager.createQuery("from " + classObj.getName()).getResultList();
     }
 
-    public T create(final T entity) {
-        entityManager.persist(entity);
-        return entity;
-    }
-
-    public T update(final T entity) {
-        return entityManager.merge(entity);
-    }
-
     public void delete(final T entity) {
         entityManager.remove(entity);
-    }
-
-    public void deleteById(final long id) {
-        final T entity = findById(id);
-        delete(entity);
     }
 }

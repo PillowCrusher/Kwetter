@@ -1,12 +1,13 @@
 package com.robvangastel.kwetter.service;
 
+import com.robvangastel.kwetter.dao.JPA;
 import com.robvangastel.kwetter.domain.Role;
 import com.robvangastel.kwetter.domain.User;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Startup;
+import javax.ejb.Singleton;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 /**
  * Created by robvangastel on 09/03/2017.

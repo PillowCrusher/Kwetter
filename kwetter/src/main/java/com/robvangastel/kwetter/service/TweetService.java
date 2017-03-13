@@ -10,11 +10,15 @@ import com.robvangastel.kwetter.dao.IUserDao;
 import com.robvangastel.kwetter.dao.JPA;
 import com.robvangastel.kwetter.domain.Tweet;
 import com.robvangastel.kwetter.domain.User;
+import com.robvangastel.kwetter.exception.TweetException;
+import com.robvangastel.kwetter.exception.UserException;
 
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
@@ -38,18 +42,19 @@ public class TweetService {
     }
 
 	@RolesAllowed({"USER","ADMINISTRATOR", "MODERATOR"})
-    public Tweet create(Tweet tweet) {
+    public Tweet create(Tweet tweet) throws UserException, TweetException {
         User user = userDao.findById(tweet.getUser().getId());
-        tweet = tweetDao.create(tweet);
-
-        user.addTweet(tweet);
-        userDao.update(user);
-
-        return tweet;
+		if(user != null) {
+			tweet = tweetDao.create(tweet);
+			user.addTweet(tweet);
+			userDao.update(user);
+			return tweet;
+		}
+		return null;
     }
 
 	@RolesAllowed({"USER","ADMINISTRATOR", "MODERATOR"})
-    public void delete(long id, long userId) {
+    public void delete(long id, long userId) throws TweetException {
         Tweet entity = tweetDao.findById(id);
 	    if(entity.getUser().getId().equals(userId)) {
 		    tweetDao.delete(entity);
@@ -71,7 +76,7 @@ public class TweetService {
         return tweetDao.findByUser(id);
     }
 
-	@PermitAll
+	@RolesAllowed({"USER","ADMINISTRATOR", "MODERATOR"})
     public List<Tweet> findAll() {
         return tweetDao.findAll();
     }

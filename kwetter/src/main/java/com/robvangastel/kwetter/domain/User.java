@@ -6,6 +6,7 @@
 package com.robvangastel.kwetter.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -45,23 +46,23 @@ public class User implements Serializable {
     @Column(length = 160)
     private String bio;
 
-	@JsonIgnore
-	@OneToMany
+	@JsonManagedReference
+	@OneToMany(cascade = CascadeType.PERSIST, mappedBy = "user")
     private List<Tweet> tweets;
 
-	@JsonIgnore
-	@OneToMany
+	@JsonManagedReference
+	@ManyToMany
     private List<User> following;
 
-	@JsonIgnore
-	@OneToMany
+	@JsonManagedReference
+	@ManyToMany(cascade = CascadeType.PERSIST, mappedBy = "following")
     private List<User> followers;
     
     public User(Role role, String email, String username, String password) {
         tweets = new ArrayList<>();
         following = new ArrayList<>();
         followers = new ArrayList<>();
-        
+
         this.role = role.toString();
         this.email = email;
 
@@ -189,7 +190,6 @@ public class User implements Serializable {
 
     /**
      * @param bio the bio to set
-     * @throws java.lang.Exception
      */
     public void setBio(String bio) {
         this.bio = bio;

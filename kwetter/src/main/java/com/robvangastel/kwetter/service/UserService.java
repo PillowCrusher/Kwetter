@@ -8,6 +8,7 @@ package com.robvangastel.kwetter.service;
 import com.robvangastel.kwetter.dao.IUserDao;
 import com.robvangastel.kwetter.dao.JPA;
 import com.robvangastel.kwetter.domain.User;
+import com.robvangastel.kwetter.exception.UserException;
 
 import java.util.List;
 
@@ -33,42 +34,34 @@ public class UserService {
     }
 
 	@PermitAll
-    public User create(User entity) {
+    public User create(User entity) throws UserException {
         if(dao.findByUsername(entity.getUsername()) == null
                 && dao.findByEmail(entity.getEmail()) == null) {
-            
-            if(entity.getPassword() != "") {
                 return dao.create(entity);
-            }
         }
         return null;
     }
 
-
 	@RolesAllowed({"ADMINISTRATOR"})
-    public void delete(long id) {
+    public void delete(long id) throws UserException {
         User entity = dao.findById(id);
         dao.delete(entity);
     }
 
 	@RolesAllowed({"USER","ADMINISTRATOR", "MODERATOR"})
-    public void update(User entity) {
+    public void update(User entity) throws Exception {
         User user = dao.findById(entity.getId());
-
-	    user.setBio(entity.getBio());
-        user.setLocation(entity.getLocation());
-        user.setWebsiteUrl(entity.getWebsiteUrl());
-
         dao.update(user);
     }
 
 	@RolesAllowed({"USER","ADMINISTRATOR", "MODERATOR"})
-    public void updateUsername(String username, long id) {
+    public void updateUsername(String username, long id) throws UserException {
         User user = dao.findById(id);
 
-	    if (dao.findByUsername(username) == null && username != "") {
+	    if (dao.findByUsername(username) == null && username.isEmpty()) {
 		    user.setUsername(username);
 	    }
+		dao.update(user);
     }
 
 	@PermitAll
@@ -87,7 +80,7 @@ public class UserService {
 	}
 
 	@RolesAllowed({"USER","ADMINISTRATOR", "MODERATOR"})
-    public void addFollowing(long followingId, long id) {
+    public void addFollowing(long followingId, long id) throws UserException {
 	    if(followingId != id) {
 		    User user = dao.findById(id);
 		    User followingUser = dao.findById(followingId);
@@ -103,7 +96,7 @@ public class UserService {
     }
 
 	@RolesAllowed({"USER","ADMINISTRATOR", "MODERATOR"})
-    public void removeFollowing(long followingId, long id) {
+    public void removeFollowing(long followingId, long id) throws UserException {
 	    if(followingId != id) {
 		    User user = dao.findById(id);
 		    User followingUser = dao.findById(followingId);

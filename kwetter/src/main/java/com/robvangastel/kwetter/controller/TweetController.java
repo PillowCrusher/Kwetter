@@ -58,16 +58,17 @@ public class TweetController {
     }
 
     @POST
-    public Tweet post(@FormParam("") Tweet tweet) {
+    public Tweet post(@FormParam("") Tweet tweet) throws Exception {
 	    return tweetService.create(tweet);
     }
     
     @DELETE
     @Path("/{id}")
-    public Response delete(@PathParam("id") long id, @QueryParam("userid") long userid) {
+    public Response delete(@PathParam("id") long id, @QueryParam("userid") long userid) throws Exception {
 
 	    System.out.println(context.getCallerPrincipal().getName());
-	    User user = userService.findById(userid);
+	    String username = context.getCallerPrincipal().getName();
+	    User user = userService.findByUsername(username);
 	    if(user != null) {
 		    tweetService.delete(id, user.getId());
 	    }
