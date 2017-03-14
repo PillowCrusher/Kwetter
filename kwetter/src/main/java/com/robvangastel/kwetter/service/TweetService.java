@@ -80,9 +80,9 @@ public class TweetService {
         return tweetDao.findByUser(id);
     }
 
-	@RolesAllowed({"USER","ADMINISTRATOR", "MODERATOR"})
+	@PermitAll
     public List<Tweet> findAll() {
-        return tweetDao.findAll();
+        return tweetDao.findAllOrderedByDate();
     }
     
 }

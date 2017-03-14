@@ -6,6 +6,7 @@
 package com.robvangastel.kwetter.dao;
 
 import com.robvangastel.kwetter.domain.Tweet;
+import com.robvangastel.kwetter.domain.User;
 import com.robvangastel.kwetter.exception.TweetException;
 
 import java.util.List;
@@ -39,12 +40,27 @@ public interface ITweetDao {
      * the Tweet(s) isn't found
      */
     List<Tweet> findByUser(long id);
+
+	/***
+	 * Find tweets for User, includes tweets of his
+	 * following list
+	 * @param user
+	 * @return Found tweet(s) or Null when
+	 * the Tweet(s) isn't found
+	 */
+	List<Tweet> findForUser(User user);
     
     /***
      * 
      * @return return all tweets
      */
     List<Tweet> findAll();
+
+	/***
+     *
+     * @return tweets orderd by Date
+     */
+    List<Tweet> findAllOrderedByDate();
 
     /***
      * Create a Tweet

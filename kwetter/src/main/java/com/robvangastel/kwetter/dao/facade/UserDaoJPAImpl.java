@@ -53,7 +53,12 @@ public class UserDaoJPAImpl extends AbstractJPADao<User> implements IUserDao {
 		return entityManager.merge(entity);
 	}
 
-    @Override
+	@Override
+	public User updateRole(User entity) throws UserException {
+		return entityManager.merge(entity);
+	}
+
+	@Override
     public User findByUsername(String username) {
         Query query = entityManager.createQuery(
                 "SELECT u FROM User u WHERE u.username = :username")

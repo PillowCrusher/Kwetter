@@ -9,6 +9,7 @@ import com.robvangastel.kwetter.dao.AbstractJPADao;
 import com.robvangastel.kwetter.dao.ITweetDao;
 import com.robvangastel.kwetter.dao.JPA;
 import com.robvangastel.kwetter.domain.Tweet;
+import com.robvangastel.kwetter.domain.User;
 import com.robvangastel.kwetter.exception.TweetException;
 
 import java.util.List;
@@ -67,6 +68,21 @@ public class TweetDaoJPAImpl extends AbstractJPADao<Tweet> implements ITweetDao 
 			    .setParameter("id", id);
 	    return query.getResultList();
     }
+
+	@Override
+	public List<Tweet> findForUser(User user) {
+		Query query = entityManager.createQuery(
+				"SELECT t FROM Tweet t WHERE t.user.id = :id ORDER BY timeStamp DESC")
+				.setParameter("id", user.getId());
+		return query.getResultList();
+	}
+
+	@Override
+	public List<Tweet> findAllOrderedByDate() {
+		Query query = entityManager.createQuery(
+				"SELECT t FROM Tweet t ORDER BY timeStamp DESC");
+		return query.getResultList();
+	}
 
 	@Override
 	public void deleteById(long id) throws TweetException {

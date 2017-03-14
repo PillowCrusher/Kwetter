@@ -46,7 +46,7 @@ public class Tweet implements Serializable {
 	@ElementCollection
 	private List<String> mentions;
     
-    public Tweet(String message, Date timeStamp, User user) {
+    public Tweet(String message, User user) {
 
 	    List<String> hashtags = new ArrayList<>();
 	    Matcher hashtagMatches = Pattern.compile("\\B#\\w\\w+").matcher(message);
@@ -66,27 +66,6 @@ public class Tweet implements Serializable {
         this.timeStamp = new Date(1l);
         this.user = user;
     }
-
-	public Tweet(String message, User user) {
-
-		List<String> hashtags = new ArrayList<>();
-		Matcher hashtagMatches = Pattern.compile("\\B#\\w\\w+").matcher(message);
-		while (hashtagMatches.find()) {
-			hashtags.add(hashtagMatches.group());
-		}
-		this.setHashtags(hashtags);
-
-		List<String> mentions = new ArrayList<>();
-		Matcher mentionMatches = Pattern.compile("\\B@\\w\\w+").matcher(message);
-		while (mentionMatches.find()) {
-			mentions.add(mentionMatches.group());
-		}
-		this.setMentions(mentions);
-
-		this.message = message;
-		this.timeStamp = new Date(1l);
-		this.user = user;
-	}
     
     public Tweet() {}
 

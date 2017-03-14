@@ -112,12 +112,24 @@ public class UserDaoColImpl implements IUserDao {
 
 	            user.setFollowers(entity.getFollowers());
 	            user.setFollowing(entity.getFollowing());
+	            return user;
             }
         }
         return null;
     }
 
-    @Override
+	@Override
+	public User updateRole(User entity) throws UserException {
+		for(User user : users) {
+			if(user.getId().equals(entity.getId())) {
+				user.setRole(entity.getRole());
+				return user;
+			}
+		}
+		return null;
+	}
+
+	@Override
     public void delete(User entity) {
         users.remove(entity);
     }

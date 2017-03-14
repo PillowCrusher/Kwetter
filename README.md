@@ -21,7 +21,7 @@ In deze opdracht komen de volgende onderwerpen aan bod:
 - [x] Volg SOLID Principles
 - [x] Opzetten lokale enterprise webserver die resources/beans managed
 - [x] Gebruiken maken van voor object management en resource management door webserver
-- [-] TDD op model, service, service + persistence. EXTRA Container managed testen
+- [x] TDD op model, service, service + persistence. EXTRA Container managed testen
 - [x] HTTP RestService (niveau 1)
 - [x] Authorisatie door EA met database, gebruikers hebben rollen
 - [x] Web Authenticatie realiseren op service niveau met JAAS annotaties

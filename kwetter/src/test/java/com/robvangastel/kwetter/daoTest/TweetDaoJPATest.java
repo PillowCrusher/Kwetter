@@ -6,15 +6,12 @@ import com.robvangastel.kwetter.domain.Tweet;
 import com.robvangastel.kwetter.domain.User;
 import com.robvangastel.kwetter.exception.TweetException;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,24 +60,24 @@ public class TweetDaoJPATest {
 	public void createTest() throws Exception {
 		// Constr String message, Date timeStamp, User user
 		// Case 1 - Create tweet with message
-		Tweet tweet = dao.create(new Tweet("Tweet message", new Date(1L), user));
+		Tweet tweet = dao.create(new Tweet("Tweet message", user));
 		assertNotNull(tweet);
 		// Case 2 - Check if message can be empty
-		Tweet tweetEmpty = dao.create(new Tweet("", new Date(1L), user));
+		Tweet tweetEmpty = dao.create(new Tweet("", user));
 		assertNull(tweetEmpty);
 
 		// Case 3 - Check if message can be 140 Characters
 		String message140Char = "Hello World! Hello World! Hello World! Hello "
 				+ "World! Hello World! Hello World! Hello World! Hello World! "
 				+ "Hello World! Hello World! Hello Worl"; //140 characters
-		Tweet tweet140Chars = dao.create(new Tweet(message140Char, new Date(1L), user));
+		Tweet tweet140Chars = dao.create(new Tweet(message140Char, user));
 		assertNotNull(tweet140Chars);
 
 		// Case 4 - Check if message can be 141 Characters
 		String message141Char = "Hello World! Hello World! Hello World! Hello "
 				+ "World! Hello World! Hello World! Hello World! Hello World! "
 				+ "Hello World! Hello World! Hello World"; //141 characters
-		Tweet tweet141Chars = dao.create(new Tweet(message141Char, new Date(1L), user));
+		Tweet tweet141Chars = dao.create(new Tweet(message141Char, user));
 		assertNull(tweet141Chars);
 
 	}
@@ -97,7 +94,7 @@ public class TweetDaoJPATest {
 	public void findByIdTest() throws Exception {
 		transaction.begin();
 		//Case 1 - Find an existing tweet by id
-		Tweet tweet = new Tweet("Hello world!", new Date(1L), user);
+		Tweet tweet = new Tweet("Hello world!", user);
 		Tweet createdTweet = dao.create(tweet);
 		transaction.commit();
 
@@ -122,7 +119,7 @@ public class TweetDaoJPATest {
 	public void findByMessageTest() throws Exception {
 		transaction.begin();
 		//Case 1 - Find an existing tweet by message
-		Tweet tweet = new Tweet("Hello world!", new Date(1L), user);
+		Tweet tweet = new Tweet("Hello world!", user);
 		Tweet createdTweet = dao.create(tweet);
 		transaction.commit();
 
@@ -132,7 +129,7 @@ public class TweetDaoJPATest {
 		assertEquals(1, tweetFound.size());
 
 		//Casee 2 - Find a not existing tweet by message
-		Tweet tweet2 = new Tweet("Hello world!", new Date(1L), user);
+		Tweet tweet2 = new Tweet("Hello world!", user);
 		dao.create(tweet2);
 		transaction.commit();
 
@@ -158,8 +155,8 @@ public class TweetDaoJPATest {
 		transaction.begin();
 
 		//Case 1 - Find all existing tweets by user
-		Tweet tweet1 = new Tweet("Hello world!", new Date(1L), user);
-		Tweet tweet2 = new Tweet("Hello world!", new Date(2L), user);
+		Tweet tweet1 = new Tweet("Hello world!", user);
+		Tweet tweet2 = new Tweet("Hello world!", user);
 
 		List<Tweet> tweets = new ArrayList<>();
 		tweets.add(tweet1);
@@ -189,7 +186,7 @@ public class TweetDaoJPATest {
 	public void deleteByIdTest() throws Exception {
 		//Case 1 - Delete an existing Tweet
 		transaction.begin();
-		Tweet tweet = new Tweet("Hello world!", new Date(1L), user);
+		Tweet tweet = new Tweet("Hello world!", user);
 		Tweet createdTweet = dao.create(tweet);
 		transaction.commit();
 
@@ -208,7 +205,7 @@ public class TweetDaoJPATest {
 	public void deleteByIdExceptionTest() throws Exception {
 		//Case 2 - Delete a non-existing Tweet
 		transaction.begin();
-		Tweet tweet2 = new Tweet("Hello world!", new Date(1L), user);
+		Tweet tweet2 = new Tweet("Hello world!", user);
 		Tweet created2Tweet = dao.create(tweet2);
 		transaction.commit();
 

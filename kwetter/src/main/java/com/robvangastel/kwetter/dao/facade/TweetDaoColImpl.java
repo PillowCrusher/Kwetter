@@ -7,6 +7,7 @@ package com.robvangastel.kwetter.dao.facade;
 
 import com.robvangastel.kwetter.dao.ITweetDao;
 import com.robvangastel.kwetter.domain.Tweet;
+import com.robvangastel.kwetter.domain.User;
 import com.robvangastel.kwetter.exception.TweetException;
 
 import java.util.ArrayList;
@@ -68,12 +69,36 @@ public class TweetDaoColImpl implements ITweetDao {
         return tweetsFound;
     }
 
-    @Override
+	@Override
+	public List<Tweet> findForUser(User user) {
+		List<Tweet> tweetsFound = new ArrayList<>();
+		List<Long> ids = new ArrayList<>();
+
+		for (User follower : user.getFollowing()) {
+			ids.add(follower.getId());
+		}
+		ids.add(user.getId());
+
+		for(Tweet tweet : tweets) {
+			if(ids.contains(tweet.getUser().getId())) {
+				tweetsFound.add(tweet);
+			}
+		}
+
+		return tweetsFound;
+	}
+
+	@Override
     public List<Tweet> findAll() {
         return tweets;
     }
 
-    @Override
+	@Override
+	public List<Tweet> findAllOrderedByDate() {
+		return tweets;
+	}
+
+	@Override
     public Tweet create(Tweet entity) {
         if(!entity.getMessage().isEmpty()) {
             if(entity.getMessage().length() < 141 && entity.getMessage().length() > 0) {

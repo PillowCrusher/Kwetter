@@ -61,6 +61,13 @@ public interface IUserDao {
      */
     User update(User entity) throws UserException;
 
+	/***
+	 *  Set Role User
+	 * @param entity User to update role
+	 * @throws UserException
+	 */
+	User updateRole(User entity) throws UserException;
+
     /***
      * Delete user
      * @param entity User to delete
