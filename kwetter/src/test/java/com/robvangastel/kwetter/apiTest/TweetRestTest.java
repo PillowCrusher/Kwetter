@@ -1,5 +1,6 @@
 package com.robvangastel.kwetter.apiTest;
 
+import com.robvangastel.kwetter.domain.Tweet;
 import com.robvangastel.kwetter.domain.User;
 import org.junit.Assert;
 import org.junit.Test;
@@ -20,13 +21,13 @@ public class TweetRestTest {
 		long id = 0l;
 		// fill out a query param and execute a get request
 		Client client = ClientBuilder.newClient();
-		WebTarget target = client.target("http://localhost:9080/api/user/" + id);
+		WebTarget target = client.target("http://localhost:9080/api/tweet/" + id);
 		Response response = target.request().get(); //queryParam("name", "Bill").
 		try
 		{
 			Assert.assertEquals(200, response.getStatus());
-			User user = response.readEntity(User.class);
-			Assert.assertEquals("Admin", user.getUsername());
+			Tweet tweet = response.readEntity(Tweet.class);
+//			Assert.assertEquals("Admin", user.getUsername());
 		}
 		finally
 		{
