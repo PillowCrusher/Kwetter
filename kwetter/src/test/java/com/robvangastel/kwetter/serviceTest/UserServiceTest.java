@@ -2,6 +2,7 @@ package com.robvangastel.kwetter.serviceTest;
 
 import com.robvangastel.kwetter.dao.IUserDao;
 import com.robvangastel.kwetter.domain.Role;
+import com.robvangastel.kwetter.domain.Tweet;
 import com.robvangastel.kwetter.domain.User;
 import com.robvangastel.kwetter.service.UserService;
 import org.junit.Before;
@@ -16,6 +17,7 @@ import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
@@ -42,125 +44,188 @@ public class UserServiceTest {
 	// @PermitAll
 	// public User create(User entity) throws UserException;
 	@Test
-	public void createTest() {
+	public void createTest1() throws Exception {
 		// Case 1 - Existing Username
+		User user = new User(Role.USER, "email@mail.com", "username", "password");
+		user.setId(1l);
 
+		when(userDao.findByUsername(user.getUsername())).thenReturn(null);
+		when(userDao.findByEmail(user.getEmail())).thenReturn(null);
+
+		userService.create(user);
+		verify(userDao, atLeastOnce()).create(user);
+	}
+
+	// @PermitAll
+	// public User create(User entity) throws UserException;
+	@Test
+	public void createTest2() throws Exception {
 		// Case 2 - Existing Email
+		User user = new User(Role.USER, "email@mail.com", "username", "password");
+		user.setId(1l);
 
+		when(userDao.findByUsername(user.getUsername())).thenReturn(null);
+		when(userDao.findByEmail(user.getEmail())).thenReturn(user);
+
+		userService.create(user);
+		verify(userDao, never()).create(user);
+	}
+
+	// @PermitAll
+	// public User create(User entity) throws UserException;
+	@Test
+	public void createTest3() throws Exception {
 		// Case 3 - Non-existing Email & Username
+		User user = new User(Role.USER, "email@mail.com", "username", "password");
+		user.setId(1l);
 
+		when(userDao.findByUsername(user.getUsername())).thenReturn(user);
+		when(userDao.findByEmail(user.getEmail())).thenReturn(user);
+
+		userService.create(user);
+		verify(userDao, never()).create(user);
 	}
 
 	// @RolesAllowed({"USER","ADMINISTRATOR", "MODERATOR"})
 	// public void updateUsername(String username, long id);
 	@Test
-	public void updateUsernameTest() throws Exception {
+	public void updateUsernameTest1() throws Exception {
 		// Case 1 - Update new username
-		User user1 = userService.create(new User(Role.USER, "user113@mail.com", "user113", "password"));
+		User user = new User(Role.USER, "user113@mail.com", "user113", "password");
+		user.setId(1l);
 		String newUsername = "username2";
 
-		userService.updateUsername(newUsername, user1.getId());
-		User user1Found = userService.findById(user1.getId());
+		when(userDao.findById(1l)).thenReturn(user);
+		when(userDao.findByUsername(newUsername)).thenReturn(null);
 
-		assertEquals(user1Found.getId(), user1.getId());
-		assertEquals(user1Found.getUsername(), newUsername);
-
-		// Case 2 - Update to existing username
-		User user2 = userService.create(new User(Role.USER, "user2@mail.com", "user2", "password"));
-
-		userService.updateUsername(newUsername, user2.getId());
-		User user2Found = userService.findById(user2.getId());
-
-		assertNotEquals(user2Found.getUsername(), newUsername);
-
-		// Case 3 - Update to empty username
-		String emptyUsername = "";
-		userService.updateUsername("", user2.getId());
-		user2Found = userService.findById(user2.getId());
-
-		assertNotEquals(user2Found.getUsername(), emptyUsername);
+		userService.updateUsername(newUsername, user.getId());
+		verify(userDao, atLeastOnce()).update(user);
 	}
 
-	// @PermitAll
-	// public User create(User entity) throws Exception;
+	// @RolesAllowed({"USER","ADMINISTRATOR", "MODERATOR"})
+	// public void updateUsername(String username, long id);
 	@Test
-	public void createTweetTest() throws Exception {
-		// Case 1 - Create user and check if the existing user is equal
-		User user1 = userService.create(new User(Role.USER, "user123@mail.com", "user123", "password"));
-		User user1Found = userService.findById(user1.getId());
+	public void updateUsernameTest2() throws Exception {
+		// Case 2 - Update to empty username
+		User user = new User(Role.USER, "user113@mail.com", "user113", "password");
+		user.setId(1l);
+		String newUsername = "";
 
-		assertEquals(user1, user1Found);
+		when(userDao.findById(1l)).thenReturn(user);
+		when(userDao.findByUsername(newUsername)).thenReturn(null);
 
-		// Case 2 - Create user with the same email
-		User user2 = userService.create(new User(Role.USER, "user123@mail.com", "user2", "password"));
-		assertNull(user2);
-
-		// Case 3 - Create user with the same username
-		User user3 = userService.create(new User(Role.USER, "user3@mail.com", "user123", "password"));
-		assertNull(user3);
-
-		// Case 4 - Create user with empty password
-		User user4 = userService.create(new User(Role.USER, "user4@mail.com", "user4", ""));
-		assertNull(user4);
-
+		userService.updateUsername(newUsername, user.getId());
+		verify(userDao, never()).update(user);
 	}
+
+	// @RolesAllowed({"USER","ADMINISTRATOR", "MODERATOR"})
+	// public void updateUsername(String username, long id);
+	@Test
+	public void updateUsernameTest3() throws Exception {
+		// Case 3 - Update to existing username
+		User user = new User(Role.USER, "user113@mail.com", "user113", "password");
+		user.setId(1l);
+		String newUsername = "";
+
+		when(userDao.findById(1l)).thenReturn(user);
+		when(userDao.findByUsername(newUsername)).thenReturn(user);
+
+		userService.updateUsername(newUsername, user.getId());
+		verify(userDao, never()).update(user);
+	}
+
 	// @RolesAllowed({"USER","ADMINISTRATOR", "MODERATOR"})
 	// public void addFollowing(long followingId, long id) throws Exception;
 	@Test
-	public void addFollowingTest() throws Exception {
+	public void addFollowingTest1() throws Exception {
 		// Case 1 - Add another user to your following list
-		User user1 = userService.create(new User(Role.USER, "user500@mail.com", "user500", "password"));
-		User user2 = userService.create(new User(Role.USER, "user510@mail.com", "user510", "password"));
+		User user1 = new User(Role.USER, "user500@mail.com", "user500", "password");
+		User user2 = new User(Role.USER, "user510@mail.com", "user510", "password");
+		user1.setId(1l);
+		user2.setId(2l);
+
+		when(userDao.findById(1l)).thenReturn(user1);
+		when(userDao.findById(2l)).thenReturn(user2);
+
 
 		userService.addFollowing(user1.getId(), user2.getId());
-		User userfound = userService.findById(user1.getId());
 
-		assertNotNull(userfound.getFollowing());
+		verify(userDao, atLeastOnce()).update(user1);
+		verify(userDao, atLeastOnce()).update(user2);
+	}
 
+	// @RolesAllowed({"USER","ADMINISTRATOR", "MODERATOR"})
+	// public void addFollowing(long followingId, long id) throws Exception;
+	@Test
+	public void addFollowingTest2() throws Exception {
 		// Case 2 - Add yourself to your following list
-		User user3 = userService.create(new User(Role.USER, "user530@mail.com", "user530", "password"));
+		User user1 = new User(Role.USER, "user500@mail.com", "user500", "password");
+		user1.setId(1l);
 
-		userService.addFollowing(user3.getId(), user3.getId());
-		User user3found = userService.findById(user3.getId());
-		List<User> EmptyUserList = new ArrayList<>();
+		when(userDao.findById(1l)).thenReturn(user1);
 
-		assertEquals(EmptyUserList, user3found.getFollowing());
+		userService.addFollowing(user1.getId(), user1.getId());
+		verify(userDao, never()).update(user1);
+	}
 
+	// @RolesAllowed({"USER","ADMINISTRATOR", "MODERATOR"})
+	// public void addFollowing(long followingId, long id) throws Exception;
+	@Test
+	public void addFollowingTest3() throws Exception {
 		// Case 3 - Add an not existing id to your following list
-		userService.addFollowing(user3.getId(), user3.getId()+1L);
-		user3found = userService.findById(user3.getId());
+		User user1 = new User(Role.USER, "user500@mail.com", "user500", "password");
+		user1.setId(1l);
 
-		assertEquals(EmptyUserList, user3found.getFollowing());
+		when(userDao.findById(1l)).thenReturn(user1);
+		when(userDao.findById(3l)).thenReturn(null);
+
+		userService.addFollowing(user1.getId(), 3l);
+		verify(userDao, never()).update(user1);
 	}
 
 	// @RolesAllowed({"USER","ADMINISTRATOR", "MODERATOR"})
 	// public void removeFollowing(long followingId, long id) throws Exception;
 	@Test
-	public void removeFollowingTest() throws Exception {
+	public void removeFollowingTest1() throws Exception {
 		// Case 1 - Remove another user from your following list
-		List<User> EmptyUserList = new ArrayList<>();
+		User user1 = new User(Role.USER, "user500@mail.com", "user500", "password");
+		User user2 = new User(Role.USER, "user510@mail.com", "user510", "password");
+		user1.setId(1l);
+		user2.setId(2l);
 
-		User user1 = userService.create(new User(Role.USER, "user500@mail.com", "user500", "password"));
-		User user2 = userService.create(new User(Role.USER, "user510@mail.com", "user510", "password"));
+		when(userDao.findById(1l)).thenReturn(user1);
+		when(userDao.findById(2l)).thenReturn(user2);
 
-		userService.addFollowing(user1.getId(), user2.getId());
 		userService.removeFollowing(user1.getId(), user2.getId());
-		User userfound = userService.findById(user1.getId());
+		verify(userDao, atLeastOnce()).update(user1);
+	}
 
-		assertEquals(EmptyUserList, userfound.getFollowing());
-
+	// @RolesAllowed({"USER","ADMINISTRATOR", "MODERATOR"})
+	// public void removeFollowing(long followingId, long id) throws Exception;
+	@Test
+	public void removeFollowingTest2() throws Exception {
 		// Case 2 - Remove yourself from your following list
-		User user3 = userService.create(new User(Role.USER, "user530@mail.com", "user530", "password"));
+		User user1 = new User(Role.USER, "user500@mail.com", "user500", "password");
+		user1.setId(1l);
 
-		userService.removeFollowing(user3.getId(), user3.getId());
-		User user3found = userService.findById(user3.getId());
+		when(userDao.findById(1l)).thenReturn(user1);
 
-		assertEquals(EmptyUserList, user3found.getFollowing());
+		userService.removeFollowing(user1.getId(), user1.getId());
+		verify(userDao, never()).update(user1);
+	}
 
+	// @RolesAllowed({"USER","ADMINISTRATOR", "MODERATOR"})
+	// public void removeFollowing(long followingId, long id) throws Exception;
+	@Test
+	public void removeFollowingTest3() throws Exception {
 		// Case 3 - Remove an not existing id from your following list
-		userService.addFollowing(user3.getId(), user3.getId()+1L);
-		user3found = userService.findById(user3.getId());
+		User user1 = new User(Role.USER, "user500@mail.com", "user500", "password");
+		user1.setId(1l);
 
-		assertEquals(EmptyUserList, user3found.getFollowing());
+		when(userDao.findById(1l)).thenReturn(user1);
+		when(userDao.findById(3l)).thenReturn(null);
+
+		userService.removeFollowing(user1.getId(), 3l);
+		verify(userDao, never()).update(user1);
 	}
 }

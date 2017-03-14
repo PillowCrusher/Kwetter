@@ -104,10 +104,14 @@ public class UserDaoColImpl implements IUserDao {
        for(User user : users) {
             if(user.getId().equals(entity.getId())) {
 	            checkUpdate(entity);
+
                 user.setUsername(entity.getUsername());
 	            user.setPassword(entity.getPassword());
                 user.setBio(entity.getBio());
                 user.setLocation(entity.getLocation());
+
+	            user.setFollowers(entity.getFollowers());
+	            user.setFollowing(entity.getFollowing());
             }
         }
         return null;

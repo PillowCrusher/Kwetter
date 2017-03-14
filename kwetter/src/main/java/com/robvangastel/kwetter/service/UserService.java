@@ -58,10 +58,10 @@ public class UserService {
     public void updateUsername(String username, long id) throws UserException {
         User user = dao.findById(id);
 
-	    if (dao.findByUsername(username) == null && username.isEmpty()) {
+	    if (dao.findByUsername(username) == null && !username.isEmpty()) {
 		    user.setUsername(username);
+		    dao.update(user);
 	    }
-		dao.update(user);
     }
 
 	@PermitAll
