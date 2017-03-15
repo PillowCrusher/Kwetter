@@ -54,10 +54,10 @@ public class TweetService {
     }
 
 	@RolesAllowed({"USER","ADMINISTRATOR", "MODERATOR"})
-    public void delete(long id, long userId) throws TweetException, UserException {
+    public void delete(long id, User user) throws TweetException, UserException {
         Tweet entity = tweetDao.findById(id);
 		if(entity != null) {
-			if (entity.getUser().getId().equals(userId)) {
+			if (entity.getUser().getId().equals(user.getId())) {
 				tweetDao.delete(entity);
 				return;
 			}

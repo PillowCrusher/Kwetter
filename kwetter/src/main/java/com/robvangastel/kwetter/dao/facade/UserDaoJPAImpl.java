@@ -114,8 +114,8 @@ public class UserDaoJPAImpl extends AbstractJPADao<User> implements IUserDao {
 			throw new UserException("Email has an invalid length");
 		}
 
-		if(entity.getBio().length() > 160 || entity.getBio().length() < 0 || entity.getBio().isEmpty()) {
-			throw new UserException("Email has an invalid length");
+		if(entity.getBio().length() > 160) {
+			throw new UserException("Bio has an invalid length");
 		}
 	}
 }

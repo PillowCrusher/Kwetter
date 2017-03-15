@@ -7,6 +7,7 @@ package com.robvangastel.kwetter.service;
 
 import com.robvangastel.kwetter.dao.IUserDao;
 import com.robvangastel.kwetter.dao.JPA;
+import com.robvangastel.kwetter.domain.Role;
 import com.robvangastel.kwetter.domain.User;
 import com.robvangastel.kwetter.exception.UserException;
 
@@ -55,14 +56,18 @@ public class UserService {
     }
 
 	@RolesAllowed({"USER","ADMINISTRATOR", "MODERATOR"})
-    public void updateUsername(String username, long id) throws UserException {
-        User user = dao.findById(id);
-
+    public void updateUsername(String username, User user) throws UserException {
 	    if (dao.findByUsername(username) == null && !username.isEmpty()) {
 		    user.setUsername(username);
 		    dao.update(user);
 	    }
     }
+
+	@RolesAllowed({"ADMINISTRATOR"})
+	public void updateRole(Role role, User user) throws UserException {
+		user.setRole(role);
+		dao.updateRole(user);
+	}
 
 	@PermitAll
     public User findById(long id) {

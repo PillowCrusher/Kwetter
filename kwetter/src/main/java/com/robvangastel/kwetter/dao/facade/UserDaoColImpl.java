@@ -75,30 +75,6 @@ public class UserDaoColImpl implements IUserDao {
         return entity;
     }
 
-	private void checkCreate(User entity) throws UserException {
-		if(entity.getUsername().length() > 20 || entity.getUsername().length() < 0 || entity.getUsername().isEmpty()) {
-			throw new UserException("Username has an invalid length");
-		}
-
-		if(entity.getPassword().length() > 20 || entity.getPassword().length() < 0 || entity.getPassword().isEmpty()) {
-			throw new UserException("Email has an invalid length");
-		}
-	}
-
-	private void checkUpdate(User entity) throws UserException {
-		if(entity.getUsername().length() > 20 || entity.getUsername().length() < 0 || entity.getUsername().isEmpty()) {
-			throw new UserException("Username has an invalid length");
-		}
-
-		if(entity.getPassword().length() > 20 || entity.getPassword().length() < 0 || entity.getPassword().isEmpty()) {
-			throw new UserException("Email has an invalid length");
-		}
-
-		if(entity.getBio().length() > 160 || entity.getBio().length() < 0 || entity.getBio().isEmpty()) {
-			throw new UserException("Email has an invalid length");
-		}
-	}
-
     @Override
     public User update(User entity) throws UserException {
        for(User user : users) {
@@ -143,5 +119,30 @@ public class UserDaoColImpl implements IUserDao {
             }
         }
 	    throw new UserException("User is not found.");
+    }
+
+
+    private void checkCreate(User entity) throws UserException {
+        if(entity.getUsername().length() > 20 || entity.getUsername().length() < 0 || entity.getUsername().isEmpty()) {
+            throw new UserException("Username has an invalid length");
+        }
+
+        if(entity.getPassword().length() > 20 || entity.getPassword().length() < 0 || entity.getPassword().isEmpty()) {
+            throw new UserException("Email has an invalid length");
+        }
+    }
+
+    private void checkUpdate(User entity) throws UserException {
+        if(entity.getUsername().length() > 20 || entity.getUsername().length() < 0 || entity.getUsername().isEmpty()) {
+            throw new UserException("Username has an invalid length");
+        }
+
+        if(entity.getPassword().length() > 20 || entity.getPassword().length() < 0 || entity.getPassword().isEmpty()) {
+            throw new UserException("Email has an invalid length");
+        }
+
+        if(entity.getBio().length() > 160 || entity.getBio().length() < 0 || entity.getBio().isEmpty()) {
+            throw new UserException("Email has an invalid length");
+        }
     }
 }

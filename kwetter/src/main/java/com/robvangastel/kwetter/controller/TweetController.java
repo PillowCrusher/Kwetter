@@ -32,8 +32,8 @@ import javax.ws.rs.core.SecurityContext;
 @Produces({MediaType.APPLICATION_JSON})
 public class TweetController {
 
-	@Resource
-	private SessionContext context;
+    @Resource
+    private SessionContext context;
 
     @Inject
     private TweetService tweetService;
@@ -46,32 +46,38 @@ public class TweetController {
         return tweetService.findAll();
     }
 
+    @GET
+    @Path("/{id}")
+    public Tweet getById(@PathParam("id") long id) {
+        Tweet tweet = tweetService.findById(id);
+        if(tweet == null) {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        }
+        return tweet;
+    }
+
 	@GET
+    @Path("/message")
 	public List<Tweet> getByMessage(@QueryParam("arg") String arg) {
 		return tweetService.findByMessage(arg);
 	}
 
-    @GET
-    @Path("/{id}")
-    public Tweet getById(@PathParam("id") long id) {
-        return tweetService.findById(id);
-    }
-
     @POST
-    public Tweet post(@FormParam("") Tweet tweet) throws Exception {
-	    return tweetService.create(tweet);
+    public Tweet post(@QueryParam("message") String message) throws Exception {
+        User user = userService.findByUsername(context.getCallerPrincipal().getName());
+        if(user == null) {
+            throw new WebApplicationException(Response.Status.UNAUTHORIZED);
+        }
+	    return tweetService.create(new Tweet(message, user));
     }
     
     @DELETE
     @Path("/{id}")
-    public Response delete(@PathParam("id") long id, @QueryParam("userid") long userid) throws Exception {
-
-	    System.out.println(context.getCallerPrincipal().getName());
-	    String username = context.getCallerPrincipal().getName();
-	    User user = userService.findByUsername(username);
-	    if(user != null) {
-		    tweetService.delete(id, user.getId());
-	    }
-	    return Response.status(404).build();
+    public void delete(@PathParam("id") long id) throws Exception {
+        User user = userService.findByUsername(context.getCallerPrincipal().getName());
+        if(user == null) {
+            throw new WebApplicationException(Response.Status.UNAUTHORIZED);
+        }
+        tweetService.delete(id, user);
     }
 }

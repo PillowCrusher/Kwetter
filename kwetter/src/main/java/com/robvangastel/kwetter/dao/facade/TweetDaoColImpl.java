@@ -89,11 +89,6 @@ public class TweetDaoColImpl implements ITweetDao {
 	}
 
 	@Override
-    public List<Tweet> findAll() {
-        return tweets;
-    }
-
-	@Override
 	public List<Tweet> findAllOrderedByDate() {
 		return tweets;
 	}
@@ -133,5 +128,10 @@ public class TweetDaoColImpl implements ITweetDao {
             }
         }
 	    throw new TweetException("Tweet is not found.");
+    }
+
+    @Override
+    public List<Tweet> findAll() {
+        return tweets;
     }
 }
