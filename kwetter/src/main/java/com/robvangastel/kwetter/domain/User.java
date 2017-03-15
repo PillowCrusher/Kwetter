@@ -5,9 +5,13 @@
  */
 package com.robvangastel.kwetter.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -46,23 +50,20 @@ public class User implements Serializable {
     @Column(length = 160)
     private String bio;
 
-	@JsonManagedReference
+    @JsonBackReference
+    @LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(cascade = CascadeType.PERSIST, mappedBy = "user")
-    private List<Tweet> tweets;
+    private List<Tweet> tweets = new ArrayList<>();
 
-	@JsonManagedReference
+    @LazyCollection(LazyCollectionOption.FALSE)
 	@ManyToMany
-    private List<User> following;
+    private List<User> following = new ArrayList<>();
 
-	@JsonManagedReference
+    @LazyCollection(LazyCollectionOption.FALSE)
 	@ManyToMany(cascade = CascadeType.PERSIST, mappedBy = "following")
-    private List<User> followers;
+    private List<User> followers = new ArrayList<>();
     
     public User(Role role, String email, String username, String password) {
-        tweets = new ArrayList<>();
-        following = new ArrayList<>();
-        followers = new ArrayList<>();
-
         this.role = role.toString();
         this.email = email;
 
