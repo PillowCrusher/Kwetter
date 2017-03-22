@@ -1,6 +1,5 @@
 package com.robvangastel.kwetter.apiTest;
 
-import com.robvangastel.kwetter.domain.User;
 import com.robvangastel.kwetter.exception.ErrorMessage;
 import org.junit.Assert;
 import org.junit.Test;

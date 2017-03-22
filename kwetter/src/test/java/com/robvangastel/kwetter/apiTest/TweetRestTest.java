@@ -1,18 +1,10 @@
 package com.robvangastel.kwetter.apiTest;
 
-import com.robvangastel.kwetter.domain.Tweet;
-import com.robvangastel.kwetter.domain.User;
 import com.robvangastel.kwetter.exception.ErrorMessage;
-import com.robvangastel.kwetter.service.TweetService;
-import com.robvangastel.kwetter.service.UserService;
-import org.glassfish.jersey.client.ClientResponse;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.inject.Inject;
-import javax.ws.rs.POST;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
