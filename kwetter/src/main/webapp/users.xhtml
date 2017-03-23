@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Users</title>
+</h:head>
+
+<h:body>
+    <b:container>
+        <b:row>
+            <b:column span="12">
+                <b:navBar brand="Kwetter" brandHref="#" inverse="true">
+                    <b:navbarLinks>
+                        <b:navLink value="Kwetter" href="#"></b:navLink>
+                        <b:navLink value="Link" href="#"></b:navLink>
+                        <b:navLink value="Link" href="#"></b:navLink>
+                    </b:navbarLinks>
+                </b:navBar>
+            </b:column>
+        </b:row>
+        <b:row>
+            <b:column span="8" offset="2">
+                <h:panelGroup id="users">
+                    <b:form>
+                        <b:dataTable value="#{UserBean.users}" var ="user">
+                            <b:dataTableColumn value="#{user.id}" />
+                            <b:dataTableColumn value="#{user.username}" />
+                            <b:dataTableColumn value="#{user.email}" />
+                            <b:dataTableColumn value="#{user.role}" />
+                            <b:dataTableColumn value="#{user.id}" />
+                            <b:dataTableColumn value="#{user.id}" />
+                            <b:column>
+                                <h:commandLink class="btn btn-danger" value="Remove" action="#{UserBean.deleteUser(user.id)}">
+                                    <f:ajax event="action" render="users"/>
+                                </h:commandLink>
+                            </b:column>
+                            <b:column>
+                                <h:outputLink class="btn btn-primary" value ="userDetail.xhtml">Details
+                                    <f:param name="userId" value="#{user.id}"/>
+                                </h:outputLink>
+                            </b:column>
+                        </b:dataTable>
+                    </b:form>
+                </h:panelGroup>
+            </b:column>
+        </b:row>
+    </b:container>
+</h:body>
+</html>
