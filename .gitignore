@@ -30,3 +30,12 @@ kwetter/target
 kwetter/nb-configuration.xml
 kwetter/kwetter.iml
 kwetter/.idea/
+
+# Node.js & vue.js
+.DS_Store
+node_modules/
+dist/
+npm-debug.log
+selenium-debug.log
+test/unit/coverage
+test/e2e/reports
