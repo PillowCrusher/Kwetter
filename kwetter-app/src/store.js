@@ -6,7 +6,8 @@ Vue.use(Vuex)
 var store = new Vuex.Store({
 	// Initial state
 	state: {
-		authenticated: true,
+		authenticated: false,
+		authenticationToken: '',
 		currentUser: {
 			firstName: '',
 			surname: '',
@@ -19,6 +20,9 @@ var store = new Vuex.Store({
     },
 		SET_AUTHENTICATED (state, authenticated) {
 			state.authenticated = authenticated
+		},
+		SET_AUTHENTICATIONTOKEN (state, token) {
+			state.authenticationToken = token
 		}
 	},
 	strict: false // Vuex's patent pending anti-intern device

@@ -7,7 +7,7 @@ import VueResource from 'vue-resource'
 import store from './store.js'
 
 // Toastr messages
-import 'toastr'
+import toastr from 'toastr'
 
 // Main css files
 import './assets/css/bootstrap.min.css'
@@ -79,12 +79,12 @@ Vue.router.redirect({
 
 // Vue transition status check
 // Vue.router.beforeEach(function (transition) {
-	// if(true) {
-	// 	transition.next()
-	// }
-	// else {
-  //   transition.redirect('/Login')
-  // }
+// 	if(store.state.authenticated) {
+// 		transition.next()
+// 	}
+// 	else {
+//     transition.redirect('/Login')
+//   }
 // })
 
 // API URL

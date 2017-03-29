@@ -93,6 +93,13 @@ public class UserController {
 		return user;
 	}
 
+	@POST
+	@Path("/authenticate")
+	public void post(@QueryParam("username") String username,
+					 @QueryParam("password") String password) throws Exception {
+		userService.authenticate(username, password);
+	}
+
 	@PUT
 	public void update(@QueryParam("location") String location,
 					   @QueryParam("websiteURL") String websiteURL,

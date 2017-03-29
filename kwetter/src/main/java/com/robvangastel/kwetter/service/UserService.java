@@ -162,6 +162,17 @@ public class UserService {
 	    }
     }
 
+	@PermitAll
+	public void authenticate(String username, String password) throws UserException {
+		User u = dao.findByUsername(username);
+		if(u.equals(null)) {
+			throw new UserException("User not found exception");
+		}
+		if(!u.getPassword().equals(password)) {
+			throw new UserException("Password does not match exception");
+		}
+	}
+
 	/***
 	 *
 	 * @return all Users

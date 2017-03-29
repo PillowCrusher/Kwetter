@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "babel-runtime": "^6.0.0",
+    "basic-authorization-header": "^0.2.7",
     "jquery": "^2.1.1",
     "toastr": "^2.1.2",
     "vue": "^1.0.21",
