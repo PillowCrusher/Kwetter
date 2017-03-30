@@ -6,9 +6,10 @@
            version="3.0">
 
     <welcome-file-list>
-        <welcome-file>index.xhtml</welcome-file>
+        <welcome-file>login.xhtml</welcome-file>
     </welcome-file-list>
 
+    <!-- JSF -->
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
@@ -31,10 +32,11 @@
         </session-timeout>
     </session-config>
 
+    <!-- API security -->
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>All Access</web-resource-name>
-            <url-pattern>/*</url-pattern>
+            <url-pattern>/api/*</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
             <http-method>HEAD</http-method>
@@ -61,4 +63,5 @@
         <auth-method>BASIC</auth-method>
         <realm-name>secureDomain</realm-name>
     </login-config>
+    <!-- END: API security -->
 </web-app>

@@ -12,43 +12,43 @@
 </h:head>
 
 <h:body>
-    <!--<b:container>-->
-        <!--<b:row>-->
-            <!--<b:column span="12">-->
-                <!--<b:navBar brand="Kwetter" brandHref="#" inverse="true">-->
-                    <!--<b:navbarLinks>-->
-                        <!--<b:navLink value="Kwetter" href="#"></b:navLink>-->
-                        <!--<b:navLink value="Link" href="#"></b:navLink>-->
-                        <!--<b:navLink value="Link" href="#"></b:navLink>-->
-                    <!--</b:navbarLinks>-->
-                <!--</b:navBar>-->
-            <!--</b:column>-->
-        <!--</b:row>-->
-        <!--<b:row>-->
-            <!--<b:column span="8" offset="2">-->
-                <!--<h:panelGroup id="tweets">-->
-                    <!--<b:form>-->
-                        <!--<b:dataTable value="#{TweetBean.tweets}" var ="tweet">-->
-                            <!--<b:dataTableColumn value="#{tweet.id}" />-->
-                            <!--<b:dataTableColumn value="#{tweet.timeStamp}" />-->
-                            <!--<b:dataTableColumn value="#{tweet.message}" />-->
-                            <!--<b:dataTableColumn value="#{tweet.user.username}" />-->
-                            <!--<b:dataTableColumn value="#{tweet.user.email}" />-->
-                            <!--<b:column>-->
-                                <!--<h:commandLink class="btn btn-danger" value="Remove" action="#{UserBean.deleteUser(user.id)}">-->
-                                    <!--<f:ajax event="action" render="users"/>-->
-                                <!--</h:commandLink>-->
-                            <!--</b:column>-->
-                            <!--<b:column>-->
-                                <!--<h:outputLink class="btn btn-primary" value ="userDetail.xhtml">Details-->
-                                    <!--<f:param name="userId" value="#{user.id}"/>-->
-                                <!--</h:outputLink>-->
-                            <!--</b:column>-->
-                        <!--</b:dataTable>-->
-                    <!--</b:form>-->
-                <!--</h:panelGroup>-->
-            <!--</b:column>-->
-        <!--</b:row>-->
-    <!--</b:container>-->
+    <b:container>
+        <b:row>
+            <b:column span="12">
+                <b:navBar brand="Kwetter" brandHref="#" inverse="true">
+                    <b:navbarLinks>
+                        <b:navLink value="Kwetter" href="#"></b:navLink>
+                        <b:navLink value="Link" href="#"></b:navLink>
+                        <b:navLink value="Link" href="#"></b:navLink>
+                    </b:navbarLinks>
+                </b:navBar>
+            </b:column>
+        </b:row>
+        <b:row>
+            <b:column span="8" offset="2">
+                <h:panelGroup id="tweets">
+                    <b:form>
+                        <b:dataTable value="#{TweetBean.tweets}" var ="tweet">
+                            <b:dataTableColumn value="#{tweet.id}" />
+                            <b:dataTableColumn value="#{tweet.timeStamp}" />
+                            <b:dataTableColumn value="#{tweet.message}" />
+                            <b:dataTableColumn value="#{tweet.user.username}" />
+                            <b:dataTableColumn value="#{tweet.user.email}" />
+                            <b:column>
+                                <h:commandLink class="btn btn-danger" value="Remove" action="#{UserBean.deleteUser(user.id)}">
+                                    <f:ajax event="action" render="users"/>
+                                </h:commandLink>
+                            </b:column>
+                            <b:column>
+                                <h:outputLink class="btn btn-primary" value ="userDetail.xhtml">Details
+                                    <f:param name="userId" value="#{user.id}"/>
+                                </h:outputLink>
+                            </b:column>
+                        </b:dataTable>
+                    </b:form>
+                </h:panelGroup>
+            </b:column>
+        </b:row>
+    </b:container>
 </h:body>
 </html>

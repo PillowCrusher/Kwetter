@@ -13,6 +13,7 @@ import com.robvangastel.kwetter.domain.User;
 import com.robvangastel.kwetter.exception.TweetException;
 import com.robvangastel.kwetter.exception.UserException;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -29,7 +30,7 @@ import javax.inject.Inject;
  */
 
 @Stateless
-public class TweetService {
+public class TweetService implements Serializable {
     
     @Inject @JPA
     private ITweetDao tweetDao;

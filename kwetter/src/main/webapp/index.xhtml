@@ -11,49 +11,49 @@
     <title>Kwetter</title>
 </h:head>
 
-<!--<h:body>-->
-    <!--<b:container>-->
-        <!--<b:row>-->
-            <!--<b:column span="12">-->
-                <!--<b:navBar brand="Kwetter" brandHref="#" inverse="true">-->
-                    <!--<b:navbarLinks>-->
-                        <!--&lt;!&ndash;<b:inputText id="searchQuery" style="margin-top: 10px" value="#{PersonalBean.searchQuery}" placeholder="search?"/>&ndash;&gt;-->
-                        <!--<b:selectOneMenu style="float-right" id="brandID">-->
-                            <!--<f:selectItem itemLabel="Fiat" itemValue="1"/>-->
-                            <!--<f:selectItem itemLabel="logout" itemValue="2"/>-->
-                        <!--</b:selectOneMenu>-->
-                    <!--</b:navbarLinks>-->
-                <!--</b:navBar>-->
-            <!--</b:column>-->
-        <!--</b:row>-->
-        <!--<b:row>-->
-            <!--<b:form>-->
-                <!--<b:column span="6">-->
-                    <!--<b:inputText id="query" value="#{PersonalBean.query}" label="What's happening?" renderLabel="true"/>-->
-                    <!--<h:message for="query"/>-->
-                <!--</b:column>-->
-            <!--</b:form>-->
-            <!--<b:column span="6">-->
-                <!--<h:outputLabel value="Your tweets"></h:outputLabel>-->
-                <!--<h:outputLabel value="Last tweet"></h:outputLabel>-->
-                <!--<h:outputLabel value="Following"></h:outputLabel>-->
-                <!--<h:outputLabel value="Follower"></h:outputLabel>-->
-            <!--</b:column>-->
-        <!--</b:row>-->
-        <!--<b:row>-->
-            <!--<b:column span="12">-->
-                <!--<h:form>-->
-                    <!--<b:tabView contentStyle="border-right: 1px solid #ddd;border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:10px">-->
-                        <!--<b:tab title="timeline">-->
+<h:body>
+    <b:container>
+        <b:row>
+            <b:column span="12">
+                <b:navBar brand="Kwetter" brandHref="#" inverse="true">
+                    <b:navbarLinks>
+                        <b:inputText id="searchQuery" style="margin-top: 10px" value="#{personalBean.searchQuery}" placeholder="search?"/>
+                        <b:selectOneMenu style="float-right" id="brandID">
+                            <f:selectItem itemLabel="#{indexBean.currentUser.username}" itemValue="1"/>
+                            <f:selectItem itemLabel="logout" itemValue="2"/>
+                        </b:selectOneMenu>
+                    </b:navbarLinks>
+                </b:navBar>
+            </b:column>
+        </b:row>
+        <b:row>
+            <b:form>
+                <b:column span="6">
+                    <b:inputText id="query" value="#{personalBean.query}" label="What's happening?" renderLabel="true"/>
+                    <h:message for="query"/>
+                </b:column>
+            </b:form>
+            <b:column span="6">
+                <h:outputLabel value="Your tweets"></h:outputLabel>
+                <h:outputLabel value="Last tweet"></h:outputLabel>
+                <h:outputLabel value="Following"></h:outputLabel>
+                <h:outputLabel value="Follower"></h:outputLabel>
+            </b:column>
+        </b:row>
+        <b:row>
+            <b:column span="12">
+                <h:form>
+                    <b:tabView contentStyle="border-right: 1px solid #ddd;border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:10px">
+                        <b:tab title="timeline">
 
-                        <!--</b:tab>-->
-                        <!--<b:tab title="@Mentions">-->
+                        </b:tab>
+                        <b:tab title="@Mentions">
 
-                        <!--</b:tab>-->
-                    <!--</b:tabView>-->
-                <!--</h:form>-->
-            <!--</b:column>-->
-        <!--</b:row>-->
-    <!--</b:container>-->
-<!--</h:body>-->
+                        </b:tab>
+                    </b:tabView>
+                </h:form>
+            </b:column>
+        </b:row>
+    </b:container>
+</h:body>
 </html>
