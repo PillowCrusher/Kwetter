@@ -7,7 +7,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-    <title>login</title>
+    <title>Error</title>
 </h:head>
 <h:body>
     <b:container>
@@ -20,9 +20,11 @@
         <b:row>
             <b:column span="12">
                 <b:jumbotron>
-                    <b:button outcome="common/register.xhtml" value="Register your account" /> <br />
-                    <b:button outcome="admin/index" value="Administrator page" /> <br />
-                    <b:button outcome="users/index" value="user page" /> <br />
+                    <h:body>
+                        Sorry, login incorrect! <br />
+                        Try again <br />
+                        <a href="#{facesContext.externalContext.requestContextPath}" >Login</a>
+                    </h:body>
                 </b:jumbotron>
             </b:column>
         </b:row>

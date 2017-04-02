@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:b="http://bootsfaces.net/ui"
@@ -9,33 +8,27 @@
 <h:head>
     <title>login</title>
 </h:head>
-<h:body>
-    <b:container>
-        <b:row>
-            <b:column span="12">
-                <b:navBar brand="Kwetter" brandHref="#" inverse="true">
-                    <b:navbarLinks>
-                        <b:inputText id="searchQuery" style="margin-top: 10px" value="#{personalBean.searchQuery}" placeholder="search?"/>
-                    </b:navbarLinks>
-                </b:navBar>
-            </b:column>
-        </b:row>
-        <b:row>
-            <b:column span="12">
-                <h:form>
-                    <b:well>
-                        <h:panelGrid columns="2" cellpadding="5">
-                            <h:outputText value="username: "/>
-                            <b:inputText value="#{credentials.username}" required="true" requiredMessage="Please enter your username"/>
-                            <h:outputText value="password: "/>
-                            <b:inputSecret value="#{credentials.password}" required="true" requiredMessage="Please enter your password"/>
-                            <b:commandButton update="@form" action="#{indexBean.Login}" value="Login" />
-                        </h:panelGrid>
-                    </b:well>
-                </h:form>
-                <b:button value="Register an account" outcome="register" />
-            </b:column>
-        </b:row>
-    </b:container>
-</h:body>
+    <h:body>
+        <b:container>
+            <b:row>
+                <b:column span="12">
+                    <b:navBar brand="Kwetter" brandHref="#" inverse="true">
+                    </b:navBar>
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column span="12">
+                    <b:jumbotron>
+                        <form method="post" action="j_security_check">
+                            username: <input type="text" name="j_username" /> <br />
+                            password: <input type="password" name="j_password" />
+                            <br />
+                            <input type="submit" value="login" />
+                        </form>
+                    </b:jumbotron>
+                </b:column>
+            </b:row>
+        </b:container>
+    </h:body>
 </html>
+
