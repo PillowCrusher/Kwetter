@@ -76,6 +76,16 @@ public class TweetService implements Serializable {
 		throw new UserException("User not found Exception.");
     }
 
+    @RolesAllowed({"ADMINISTRATOR", "MODERATOR"})
+    public void deleteById(long id) throws TweetException, UserException {
+        Tweet entity = tweetDao.findById(id);
+        if(entity != null) {
+            tweetDao.delete(entity);
+            return;
+        }
+        throw new UserException("User not found Exception.");
+    }
+
     /***
      *
      * @param id of tweet
@@ -106,6 +116,16 @@ public class TweetService implements Serializable {
         return tweetDao.findByUser(id);
     }
 
+    /***
+     *  Find all tweets for user with id
+     * @param id user id
+     * @return Tweets
+     */
+    @PermitAll
+    public List<Tweet> findforUser(long id) {
+	    User u = userDao.findById(id);
+        return tweetDao.findForUser(u);
+    }
     /***
      *
      * @return All tweets

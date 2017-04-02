@@ -1,5 +1,6 @@
 package com.robvangastel.kwetter.bean;
 
+import com.robvangastel.kwetter.domain.Role;
 import com.robvangastel.kwetter.domain.User;
 import com.robvangastel.kwetter.exception.UserException;
 import com.robvangastel.kwetter.service.UserService;
@@ -28,5 +29,11 @@ public class UsersBean implements Serializable {
 
     public void deleteUser(long id) throws UserException {
         userService.delete(id);
+    }
+
+    public void setRole(String role, long id) throws UserException {
+        Role r = Role.valueOf(role);
+        User user = userService.findById(id);
+        userService.updateRole(r, user);
     }
 }

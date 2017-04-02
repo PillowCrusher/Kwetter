@@ -23,4 +23,8 @@ public class TweetBean implements Serializable {
     public List<Tweet> getTweets() {
         return tweetService.findAll();
     }
+
+    public void deleteTweet(long id) throws Exception {
+        tweetService.deleteById(id);
+    }
 }

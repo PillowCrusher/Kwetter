@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Kwetter</title>
+</h:head>
+<h:body>
+    <b:container>
+        <b:row>
+            <b:column span="12">
+                <b:navBar brand="Kwetter" brandHref="#" inverse="true">
+                    <b:navbarLinks>
+                        <b:selectOneMenu style="float-right" id="brandID">
+                            <f:selectItem itemLabel="#{loggedUser.username}" itemValue="1"/>
+                        </b:selectOneMenu>
+                        <h:button value="Logout" outcome="#{userBean.logout()}"/>
+                    </b:navbarLinks>
+                </b:navBar>
+            </b:column>
+        </b:row>
+        <b:row>
+            <b:column span="6">
+                <b:panel>
+                    <h:outputText value="SO"/>
+                </b:panel>
+            </b:column>
+            <b:column span="6">
+                <b:panel>
+                    <h:outputLabel value="Name"> #{detailBean.user.username}</h:outputLabel>
+                    <br />
+                    <h:outputLabel value="Location"> #{detailBean.user.location}</h:outputLabel>
+                    <br />
+                    <h:outputLabel value="Web"> #{detailBean.user.websiteUrl}</h:outputLabel>
+                    <br />
+                    <h:outputLabel value="Bio"> #{detailBean.user.bio}</h:outputLabel>
+                </b:panel>
+            </b:column>
+        </b:row>
+        <b:row>
+            <b:column span="6">
+                <b:panel>
+                    <b:dataTable value="#{detailBean.user.tweets}" var ="tweet">
+                        <b:dataTableColumn value="#{tweet.timeStamp}" />
+                        <b:dataTableColumn value="#{tweet.message}" />
+                        <b:dataTableColumn value="#{tweet.user.username}" />
+                    </b:dataTable>
+                </b:panel>
+            </b:column>
+            <b:column span="6">
+                <b:panel>
+                    <h:outputLabel value="Your tweets"> #{detailBean.user.tweets.size()}</h:outputLabel>
+                    <br />
+                    <h:outputLabel value="Following"> #{detailBean.user.following.size()}</h:outputLabel>
+                    <br />
+                    <h:outputLabel value="Follower"> #{detailBean.user.followers.size()}</h:outputLabel>
+                    <br />
+                </b:panel>
+            </b:column>
+        </b:row>
+        <b:row>
+            <b:column span="6" offset="6">
+                <b:panel>
+                    <b:dataTable value="#{detailBean.user.following}" var ="user">
+                        <b:dataTableColumn value="#{user.username}" />
+                        <b:column>
+                            <h:outputLink class="btn btn-primary" value="user.xhtml">Details
+                                <f:param name="id" value="#{user.id}"/>
+                            </h:outputLink>
+                        </b:column>
+                    </b:dataTable>
+                </b:panel>
+            </b:column>
+        </b:row>
+    </b:container>
+</h:body>
+</html>

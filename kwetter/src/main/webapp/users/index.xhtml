@@ -14,11 +14,10 @@
             <b:column span="12">
                 <b:navBar brand="Kwetter" brandHref="#" inverse="true">
                     <b:navbarLinks>
-                        <b:inputText id="searchQuery" style="margin-top: 10px" value="#{personalBean.searchQuery}" placeholder="search?"/>
                         <b:selectOneMenu style="float-right" id="brandID">
                             <f:selectItem itemLabel="#{loggedUser.username}" itemValue="1"/>
-                            <f:selectItem itemLabel="logout" itemValue="2"/>
                         </b:selectOneMenu>
+                        <h:button value="Logout" outcome="#{userBean.logout()}"/>
                     </b:navbarLinks>
                 </b:navBar>
             </b:column>
@@ -26,15 +25,27 @@
         <b:row>
             <b:form>
                 <b:column span="6">
-                    <b:inputText id="query" value="#{personalBean.query}" label="What's happening?" renderLabel="true"/>
-                    <h:message for="query"/>
+                    <h:message for="message" label="What's happening?"/>
+                    <b:inputText placeholder="Type something here..." id="message" value="#{userBean.message}" />
+                    <h:commandButton value="send" update="@update" action="#{userBean.sendTweet()}"/>
                 </b:column>
             </b:form>
             <b:column span="6">
-                <h:outputLabel value="Your tweets"></h:outputLabel>
-                <h:outputLabel value="Last tweet"></h:outputLabel>
-                <h:outputLabel value="Following"></h:outputLabel>
-                <h:outputLabel value="Follower"></h:outputLabel>
+                <b:row>
+                    <b:column span="4">
+                        <h:graphicImage value="https://i.gyazo.com/7a42d014261c10ab71f44122384ad8de.png"/>
+                    </b:column>
+                    <b:column span="6">
+                        <h:outputLabel value="Your tweets"> #{userBean.user.tweets.size()}</h:outputLabel>
+                        <br />
+                        <h:outputLabel value="Following"> #{userBean.user.following.size()}</h:outputLabel>
+                        <br />
+                        <h:outputLabel value="Follower"> #{userBean.user.followers.size()}</h:outputLabel>
+                        <br />
+                        <h:outputLabel value="Last tweet"></h:outputLabel>
+                        <h:outputText value=" #{userBean.lastTweet}"></h:outputText>
+                    </b:column>
+                </b:row>
             </b:column>
         </b:row>
         <b:row>
@@ -42,8 +53,57 @@
                 <h:form>
                     <b:tabView contentStyle="border-right: 1px solid #ddd;border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:10px">
                         <b:tab title="timeline">
+                            <b:dataTable value="#{userBean.tweetsUser}" var ="tweet">
+                                <b:dataTableColumn value="#{tweet.timeStamp}" />
+                                <b:dataTableColumn value="#{tweet.message}" />
+                                <b:dataTableColumn value="#{tweet.user.username}" />
+                            </b:dataTable>
                         </b:tab>
-                        <b:tab title="@Mentions">
+                        <!--<b:tab title="@Mentions">-->
+                            <!--<b:dataTable value="#{tweetBean.tweets}" var ="tweet">-->
+                                <!--<b:dataTableColumn value="#{tweet.timeStamp}" />-->
+                                <!--<b:dataTableColumn value="#{tweet.message}" />-->
+                                <!--<b:dataTableColumn value="#{tweet.user.username}" />-->
+                            <!--</b:dataTable>-->
+                        <!--</b:tab>-->
+                    </b:tabView>
+                </h:form>
+            </b:column>
+        </b:row>
+        <br />
+        <b:row>
+            <b:column span="12">
+                <h:form>
+                    <b:tabView contentStyle="border-right: 1px solid #ddd;border-left: 1px solid #ddd;border-bottom: 1px solid #ddd;padding:10px">
+                        <b:tab title="tweets">
+                            <h:panelGroup id="tweets">
+                                <b:form>
+                                    <b:dataTable value="#{tweetBean.tweets}" var ="tweet">
+                                        <b:dataTableColumn value="#{tweet.id}" />
+                                        <b:dataTableColumn value="#{tweet.timeStamp}" />
+                                        <b:dataTableColumn value="#{tweet.message}" />
+                                        <b:dataTableColumn value="#{tweet.user.username}" />
+                                        <b:dataTableColumn value="#{tweet.user.email}" />
+                                    </b:dataTable>
+                                </b:form>
+                            </h:panelGroup>
+                        </b:tab>
+                        <b:tab title="users">
+                            <h:panelGroup id="users">
+                                <b:form>
+                                    <b:dataTable value="#{usersBean.users}" var ="user">
+                                        <b:dataTableColumn value="#{user.id}" />
+                                        <b:dataTableColumn value="#{user.username}" />
+                                        <b:dataTableColumn value="#{user.email}" />
+                                        <b:dataTableColumn value="#{user.role}" />
+                                        <b:column>
+                                            <h:outputLink class="btn btn-primary" value="user.xhtml?faces-redirect=true">Details
+                                                <f:param name="id" value="#{user.id}"/>
+                                            </h:outputLink>
+                                        </b:column>
+                                    </b:dataTable>
+                                </b:form>
+                            </h:panelGroup>
                         </b:tab>
                     </b:tabView>
                 </h:form>
