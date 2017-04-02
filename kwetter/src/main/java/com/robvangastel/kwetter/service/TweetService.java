@@ -76,6 +76,10 @@ public class TweetService implements Serializable {
 		throw new UserException("User not found Exception.");
     }
 
+    /***
+     * @throws TweetException
+     * @throws UserException
+     */
     @RolesAllowed({"ADMINISTRATOR", "MODERATOR"})
     public void deleteById(long id) throws TweetException, UserException {
         Tweet entity = tweetDao.findById(id);

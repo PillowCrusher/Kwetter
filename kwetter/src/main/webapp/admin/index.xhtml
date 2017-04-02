@@ -55,19 +55,25 @@
 										<b:dataTableColumn value="#{user.email}" />
 										<b:dataTableColumn value="#{user.role}" />
 										<b:column>
-											<h:commandButton class="btn btn-danger" type="submit" value="Remove" action="#{usersBean.deleteUser(user.id)}">
-												<f:ajax event="action" render="users"/>
-											</h:commandButton>
+											<h:form>
+												<h:commandButton class="btn btn-danger" type="submit" value="Remove" action="#{usersBean.deleteUser(user.id)}">
+													<f:ajax event="action" render="users"/>
+												</h:commandButton>
+											</h:form>
 										</b:column>
 										<b:column>
-											<h:commandButton class="btn btn-primary" type="submit" value="Change role" action="#{usersBean.setRole('ADMINISTRATOR' , user.id)}">
-												<f:ajax event="action" render="users"/>
-											</h:commandButton>
+											<h:form>
+												<h:commandButton class="btn btn-primary" type="submit" value="Change role" action="#{usersBean.setRole('ADMINISTRATOR' , user.id)}">
+													<f:ajax event="action" render="users"/>
+												</h:commandButton>
+											</h:form>
 										</b:column>
 										<b:column>
-											<h:outputLink class="btn btn-primary" value="users/user.xhtml?faces-redirect=true">Details
-												<f:param name="id" value="#{user.id}"/>
-											</h:outputLink>
+											<h:form>
+												<h:outputLink class="btn btn-primary" value="users/user.xhtml?faces-redirect=true">Details
+													<f:param name="id" value="#{user.id}"/>
+												</h:outputLink>
+											</h:form>
 										</b:column>
 									</b:dataTable>
 								</b:form>
