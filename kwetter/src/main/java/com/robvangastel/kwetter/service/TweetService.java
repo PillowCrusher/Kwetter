@@ -77,6 +77,8 @@ public class TweetService implements Serializable {
     }
 
     /***
+     * Delete Tweet by id
+     * @param id Tweet id
      * @throws TweetException
      * @throws UserException
      */
