@@ -39,3 +39,7 @@ npm-debug.log
 selenium-debug.log
 test/unit/coverage
 test/e2e/reports
+
+kwetter/src/main/java/com/robvangastel/kwetter/bean/IndexBean.java
+
+kwetter/src/main/java/com/robvangastel/kwetter/bean/PersonalBean.java
