@@ -13,5 +13,7 @@ export function setAuthenticated ({dispatch}) {
  * Sets the authenitication token for the logged in user
  */
  export function setAuthenticationToken ({dispatch}, token) {
+   console.log(dispatch);
+   console.log(token);
    dispatch('SET_AUTHENTICATIONTOKEN', token)
  }

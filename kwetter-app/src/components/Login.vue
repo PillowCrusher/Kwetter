@@ -53,7 +53,7 @@ export default {
       })
     },
     setAuthenticated (authenticated) {
-      service.setAuthenticated(store)
+      service.setAuthenticated(this.store)
     }
   }
 }
