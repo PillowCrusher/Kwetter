@@ -17,7 +17,7 @@ import java.util.List;
  */
 
 @Named(value = "usersBean")
-@RequestScoped
+@SessionScoped
 public class UsersBean implements Serializable {
 
     @Inject

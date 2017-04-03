@@ -126,7 +126,8 @@ public class UserService implements Serializable {
 	 * @param id of the User being followed
 	 * @throws UserException When User doesnt exist
      */
-	@RolesAllowed({"USER","ADMINISTRATOR", "MODERATOR"})
+//	@RolesAllowed({"USER","ADMINISTRATOR", "MODERATOR"})
+	@PermitAll
     public void addFollowing(long followingId, long id) throws UserException {
 	    if(followingId != id) {
 		    User user = dao.findById(id);

@@ -5,6 +5,7 @@ import com.robvangastel.kwetter.domain.User;
 import com.robvangastel.kwetter.service.UserService;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -17,7 +18,7 @@ import java.util.Map;
  * Created by Rob on 2-4-2017.
  */
 @Named(value = "detailBean")
-@RequestScoped
+@SessionScoped
 public class DetailBean implements Serializable {
 
     @Inject

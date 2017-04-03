@@ -68,9 +68,9 @@
                     <b:dataTable value="#{detailBean.user.following}" var ="user">
                         <b:dataTableColumn value="#{user.username}" />
                         <b:column>
-                            <h:outputLink class="btn btn-primary" value="user.xhtml">Details
-                                <f:param name="id" value="#{user.id}"/>
-                            </h:outputLink>
+                            <h:form>
+                                <a class="btn btn-primary" href="/kwetter/faces/users/user.xhtml?id=#{user.id}">Details</a>
+                            </h:form>
                         </b:column>
                     </b:dataTable>
                 </b:panel>

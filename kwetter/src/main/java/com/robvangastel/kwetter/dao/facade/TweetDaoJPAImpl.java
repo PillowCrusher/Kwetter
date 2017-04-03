@@ -72,7 +72,7 @@ public class TweetDaoJPAImpl extends AbstractJPADao<Tweet> implements ITweetDao 
 	@Override
 	public List<Tweet> findForUser(User user) {
 		Query query = entityManager.createQuery(
-				"SELECT t FROM Tweet t WHERE t.user.id = :id AND t.user = t.user.following ORDER BY timeStamp DESC")
+				"SELECT t FROM Tweet t WHERE t.user.id = :id AND t.user = t.user.following ORDER BY timeStamp ASC")
 				.setParameter("id", user.getId());
 		return query.getResultList();
 	}

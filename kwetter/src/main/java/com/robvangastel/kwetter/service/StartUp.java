@@ -32,10 +32,15 @@ public class StartUp {
 
 		try {
 			userService.create(u);
-			userService.create(new User(Role.ADMINISTRATOR, "user@admin.com", "admin", "password"));
-			userService.create(new User(Role.MODERATOR, "user@moderator.com", "moderator", "password"));
+			User u2 = userService.create(new User(Role.ADMINISTRATOR, "user@admin.com", "admin", "password"));
+			User u3 = userService.create(new User(Role.MODERATOR, "user@moderator.com", "moderator", "password"));
 
-			dao.create(new Tweet("Kwetter #cool #swag", u));
+			userService.addFollowing(u2.getId(), u3.getId());
+			userService.addFollowing(u.getId(), u2.getId());
+
+			dao.create(new Tweet("I'm president of America #America #MakeAmericaGreatAgain", u));
+			dao.create(new Tweet("Twweeeet Tweet", u2));
+			dao.create(new Tweet("My first Tweet!", u3));
 
 		} catch(Exception e) {
 			System.out.println(e.getMessage());

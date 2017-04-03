@@ -15,11 +15,6 @@
         <param-value>Development</param-value>
     </context-param>
 
-    <context-param>
-        <param-name>com.memorynotfound.title</param-name>
-        <param-value>Passing JSF Context Parameters</param-value>
-    </context-param>
-
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
