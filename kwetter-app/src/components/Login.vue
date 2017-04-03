@@ -39,7 +39,7 @@ export default {
 	},
   methods: {
     authenticate () {
-      this.$http.post( this.$apiurl + '/user/authenticate?username' + this.username
+      this.$http.post( this.$apiurl + '/user/authenticate?username=' + this.username
       + '&password=' + this.password).then(response => {
         // Redirect
         this.$route.router.go('/')
