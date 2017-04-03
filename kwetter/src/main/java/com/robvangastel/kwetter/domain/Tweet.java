@@ -72,7 +72,7 @@ public class Tweet implements Serializable {
 	    this.setMentions(mentions);
 
         this.message = message;
-        this.timeStamp = new Timestamp(Calendar.getInstance().getTimeInMillis() / 1000);
+        this.timeStamp = new Timestamp(System.currentTimeMillis());
         this.user = user;
     }
     
