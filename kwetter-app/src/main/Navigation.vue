@@ -16,31 +16,26 @@
 	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <form class="navbar-form navbar-left">
          <div class="form-group">
-           <input type="text" class="form-control" placeholder="Search">
+           <input type="text" v-model="query" class="form-control" placeholder="Search">
          </div>
-         <button type="submit" class="btn btn-default" v-link="'/Tweets'">Submit</button>
+         <button type="submit" @click="searchTweet()" class="btn btn-default">Search</button>
         </form>
 	      <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administrator settings <span class="caret"></span></a>
+            <a v-if="!isAdmin" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administrator settings <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a v-link="'/Manage/Users'">Manage users</a></li>
               <li><a v-link="'/Manage/Tweets'">Manage tweets</a></li>
             </ul>
           </li>
 	        <li class="dropdown">
-	          <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User <span class="caret"></span></a>
+	          <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{myUsername}} <span class="caret"></span></a>
 	          <ul class="dropdown-menu">
-	            <li><a v-link="'/User/Profile'">Profile</a></li>
-	            <li><a v-link="'/User/Following'">Following</a></li>
-	            <li><a v-link="'/User/Followers'">Followers</a></li>
+	            <li><a v-link="'/User/' + myUserId + '/Profile'">My Profile</a></li>
 	            <li role="separator" class="divider"></li>
 	            <li><a v-link="'/Login'">Logout</a></li>
 	          </ul>
 	        </li>
-					<form class="navbar-form navbar-left">
-						<button type="submit" v-if="!isAuthenticated" class="btn btn-default" v-link="'/Login'">Login</button>
-					</form>
 	      </ul>
 	    </div><!-- /.navbar-collapse -->
 	  </div><!-- /.container-fluid -->
@@ -48,13 +43,40 @@
 </template>
 
 <script>
-	import store from '../store'
-
 	export default {
+		data () {
+			return {
+				query: '',
+			}
+		},
 		computed: {
 			isAuthenticated () {
-				return store.state.authenticated
+				return this.$store.state.authenticated
 			},
+			isAdmin () {
+				if(this.$store.state.role == "ADMINISTRATOR") {
+					return true
+				}
+				return false
+			},
+			myUsername () {
+				return this.$store.state.currentUser.username
+			},
+			myUserId () {
+				return this.$store.state.currentUser.id
+			}
+		},
+		methods: {
+			searchTweet () {
+				if(this.query.length != 0) {
+					this.$http.get( this.$apiurl + '/tweet/message?arg=' + this.query).then(response => {
+						this.$store.commit("SET_SEARCHTWEETS", response.data)
+						this.$router.go('/Tweets')
+					}, response => {
+						this.showErrorToastr(response.data.message)
+					})
+				}
+			}
 		}
 	}
 </script>

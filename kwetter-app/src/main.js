@@ -46,7 +46,7 @@ Vue.mixin({
       /*
        * Shows success toastrMessage
        * Param: errorMessage - Message with success details
-      */
+       */
       showSuccesToastr (successMessage) {
         setTimeout(function() {
           toastr.options = {
@@ -74,18 +74,14 @@ Vue.router.map(require('./routes.js'))
 
 // Any invalid route will redirect to home
 Vue.router.redirect({
-	'*': '/'
+	'*': '/Login'
 })
 
 // Vue transition status check
-// Vue.router.beforeEach(function (transition) {
-// 	if(store.state.authenticated) {
-// 		transition.next()
-// 	}
-// 	else {
-//     transition.redirect('/Login')
-//   }
-// })
+Vue.router.beforeEach(function (transition) {
+  transition.next()
+  Vue.http.headers.common['Authorization'] = store.state.authenticationToken
+})
 
 // API URL
 Vue.prototype.$apiurl = process.env.API_URL

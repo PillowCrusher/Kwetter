@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -33,6 +34,7 @@ import javax.ws.rs.WebApplicationException;
 
 
 @Entity
+@JsonSerialize(using = TweetSerializer.class)
 public class Tweet implements Serializable {
     
     @Id
@@ -47,6 +49,7 @@ public class Tweet implements Serializable {
     private Timestamp timeStamp;
 
     @JsonManagedReference
+    @JsonIgnore
     @ManyToOne
     private User user;
 

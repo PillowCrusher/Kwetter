@@ -8,10 +8,10 @@ const state = {
 	authenticated: false,
 	authenticationToken: '',
 	currentUser: {
-		firstName: '',
-		surname: '',
-		role: '',
-	}
+		email: '',
+		username: ''
+	},
+	searchTweets: [],
 }
 
 // define the possible mutations that can be applied to our state
@@ -24,13 +24,19 @@ const mutations = {
 	},
 	SET_AUTHENTICATIONTOKEN (state, token) {
 		state.authenticationToken = token
+	},
+	SET_SEARCHTWEETS (state, tweets) {
+		state.searchTweets = tweets
 	}
 }
 
 const getters = {
-    getUser: state => {
-        return state.user
-    }
+    getAuthenticated: state => {
+        return state.authenticated
+    },
+		getUser: state => {
+			return state.currentUser
+		}
 }
 
 const actions = {

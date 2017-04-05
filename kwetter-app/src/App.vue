@@ -1,5 +1,5 @@
 <template>
-	<navigation></navigation>
+	<navigation v-if="isAuthenticated"></navigation>
 	<div class="container container-app">
 			<!-- SPA content  -->
 			<router-view></router-view>
@@ -8,7 +8,6 @@
 
 <script>
 	import Navigation from './main/Navigation'
-	import store from './store'
 
 	export default {
 		components: {
@@ -16,7 +15,7 @@
 		},
 		computed: {
 			isAuthenticated () {
-				return store.state.authenticated
+				return this.$store.state.authenticated
 			},
 		}
 	}

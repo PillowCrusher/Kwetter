@@ -26,8 +26,6 @@
 </template>
 
 <script>
-import store from '../store'
-import * as service from '../service'
 import basic from 'basic-authorization-header'
 
 export default {
@@ -37,23 +35,41 @@ export default {
       password: ''
 		}
 	},
+  ready () {
+    this.$store.commit("SET_AUTHENTICATIONTOKEN", "")
+    this.$store.commit('SET_AUTHENTICATED', false)
+  },
   methods: {
     authenticate () {
       this.$http.post( this.$apiurl + '/user/authenticate?username=' + this.username
       + '&password=' + this.password).then(response => {
-        // Redirect
-        this.$route.router.go('/')
-        // Set basic auth info
-        var token = basic(this.username, this.password)
-        console.log(token);
-        service.setAuthenticationToken(token)
 
+        this.getUser()
+        // Redirect
+        // Create basic auth token
+        var token = basic(this.username, this.password)
+
+        // Set store variables
+        this.$store.commit("SET_AUTHENTICATIONTOKEN", token)
+        this.$store.commit('SET_AUTHENTICATED', true)
       }, response => {
         this.showErrorToastr(response.data.message)
       })
     },
-    setAuthenticated (authenticated) {
-      service.setAuthenticated(this.store)
+    getUser () {
+      this.$http.get( this.$apiurl + '/user/username?username=' + this.username).then(response => {
+        var self = this;
+        $.when(this.$store.commit("SET_CURRENTUSER", response.data)).done(function(data) {
+          self.$route.router.go('/')
+        })
+      }, response => {
+        this.showErrorToastr(response.data.message)
+      })
+    }
+  },
+  computed: {
+    isAuthenticated () {
+      return this.$store.state.authenticated
     }
   }
 }
