@@ -1,5 +1,5 @@
 <template>
-	<nav class="navbar navbar-default">
+	<nav class="navbar navbar-default" v-if="isLoggedIn">
 	  <div class="container-fluid">
 	    <!-- Brand and toggle get grouped for better mobile display -->
 	    <div class="navbar-header">
@@ -22,20 +22,23 @@
         </form>
 	      <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
-            <a v-if="!isAdmin" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administrator settings <span class="caret"></span></a>
+            <a v-if="isAdmin == true" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administrator settings <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a v-link="'/Manage/Users'">Manage users</a></li>
               <li><a v-link="'/Manage/Tweets'">Manage tweets</a></li>
             </ul>
           </li>
 	        <li class="dropdown">
-	          <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{myUsername}} <span class="caret"></span></a>
+	          <a v-if="isAuthenticated" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{myUsername}} <span class="caret"></span></a>
 	          <ul class="dropdown-menu">
-	            <li><a v-link="'/User/' + myUserId + '/Profile'">My Profile</a></li>
+	            <li><a @click="viewProfile()">My Profile</a></li>
 	            <li role="separator" class="divider"></li>
 	            <li><a v-link="'/Login'">Logout</a></li>
 	          </ul>
 	        </li>
+					<form class="navbar-form navbar-left">
+						<button type="submit" v-if="!isAuthenticated" class="btn btn-default" v-link="'/Login'">Login</button>
+					</form>
 	      </ul>
 	    </div><!-- /.navbar-collapse -->
 	  </div><!-- /.container-fluid -->
@@ -54,16 +57,16 @@
 				return this.$store.state.authenticated
 			},
 			isAdmin () {
-				if(this.$store.state.role == "ADMINISTRATOR") {
+				if(this.$store.state.currentUser.role == "ADMINISTRATOR") {
 					return true
 				}
 				return false
 			},
+			isLoggedIn () {
+				return this.$store.state.loggedIn
+			},
 			myUsername () {
 				return this.$store.state.currentUser.username
-			},
-			myUserId () {
-				return this.$store.state.currentUser.id
 			}
 		},
 		methods: {
@@ -76,6 +79,9 @@
 						this.showErrorToastr(response.data.message)
 					})
 				}
+			},
+			viewProfile () {
+				this.$router.go('/User/' + this.$store.state.currentUser.id + '/Profile')
 			}
 		}
 	}

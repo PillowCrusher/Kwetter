@@ -54,7 +54,7 @@
             <div class="form-group">
               <label for="message-text" class="control-label">Select the new role</label>
               <select class="form-control" v-model="selectedRole" id="message-text">
-                  <option v-for="role in roles" v-bind:value="role.value">
+                  <option v-for="role in roles" v-bind:value="role">
                     {{ role }}
                   </option>
               </select>
@@ -87,7 +87,7 @@
     },
 		methods: {
       setUser(user) {
-
+        this.selectedUser = user
       },
 			getUsers () {
         this.$http.get( this.$apiurl + '/user').then(response => {
@@ -104,7 +104,7 @@
         })
       },
       editRole() {
-        this.$http.put( this.$apiurl + '/user/' + id + '?role=' + this.selectedRole).then(response => {
+        this.$http.put( this.$apiurl + '/user/' + this.selectedUser.id + '?role=' + this.selectedRole).then(response => {
           this.getUsers()
         }, response => {
           this.showErrorToastr(response.data.message)

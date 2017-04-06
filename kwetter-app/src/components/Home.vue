@@ -1,5 +1,5 @@
 <template>
-	<div class="animated fadeInRight">
+	<div v-if="isAuthenticated" class="animated fadeInRight">
 		<div class="row">
 			<div class="col-xs-12 col-lg-3 col-md-3 col-md-offset-1 col-lg-offset-1">
 				<div class="panel panel-default">
@@ -10,7 +10,7 @@
 							<h5>Tweet amount: {{getTweetsLength}}</h5>
 							<h5>following: {{getFollowingLength}}</h5>
 							<h5>follower: {{getFollowerLength}}</h5>
-							<h5>last tweet: {{getLastTweet}}</h5>
+							<h5>last tweet: {{getLastTweet.message}}</h5>
 						</div>
 					</div>
 				</div>
@@ -43,7 +43,7 @@
 						<div class="tab-pane fade active in" role="tabpanel" id="timeline" aria-labelledby="timeline-tab">
 							<div class="m-t-10">
 								<div class="panel panel-default" v-for="tweet in t_tweets">
-								  <div class="panel-heading">@{{tweet.username}} - {{tweet.timestamp}}</div>
+								  <div class="panel-heading"><a @click="viewProfile(tweet.user_id)">@{{tweet.username}}</a> - {{tweet.timestamp}}</div>
 								  <div class="panel-body">{{tweet.message}}</div>
 								</div>
 							</div>
@@ -61,6 +61,14 @@
 			</div>
 		</div>
 	</div>
+	<div v-if="!isAuthenticated" class="animated fadeInRight">
+		<div class="m-t-10">
+			<div class="panel panel-default" v-for="tweet in t_tweets">
+				<div class="panel-heading"><a @click="viewProfile(tweet.user_id)">@{{tweet.username}}</a> - {{tweet.timestamp}}</div>
+				<div class="panel-body">{{tweet.message}}</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -75,12 +83,24 @@
 				validMessage: true,
 
 				// Timeline tweets
-				t_tweets: null
+				t_tweets: null,
+
+				empty_tweet: {
+					user_id: 2,
+					username: "username",
+					message: "No tweet created yet!"
+				}
 			}
 		},
 		ready () {
-			this.currentUser = this.$store.state.currentUser
-			this.getTweets()
+			this.$store.commit('SET_LOGGEDIN', true)
+
+			if(this.$store.state.authenticated) {
+				this.currentUser = this.$store.state.currentUser
+				this.getTweets()
+			} else {
+				this.getAllTweets()
+			}
 		},
 		computed: {
 			messageLength () {
@@ -125,10 +145,13 @@
 				return 0
 			},
 			getLastTweet () {
-				if(this.t_tweets) {
-					return this.t_tweets[0].message
-				}
-				return "No tweet created yet!"
+        if(this.t_tweets[0] != null) {
+          return this.t_tweets[0]
+        }
+        return this.empty_tweet
+      },
+			isAuthenticated () {
+				return this.$store.state.authenticated
 			}
 		},
 		methods: {
@@ -149,6 +172,16 @@
 				}, response => {
 					this.showErrorToastr(response.data.message)
 				})
+			},
+			getAllTweets() {
+				this.$http.get( this.$apiurl + '/tweet').then(response => {
+					this.t_tweets = response.data
+				}, response => {
+					this.showErrorToastr(response.data.message)
+				})
+			},
+			viewProfile (id) {
+				this.$router.go('/User/' + id + '/Profile')
 			}
 		}
 	}

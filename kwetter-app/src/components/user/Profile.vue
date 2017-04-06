@@ -15,7 +15,11 @@
                     <h5>Tweet amount: {{getTweetsLength}}</h5>
                     <h5>following: {{getFollowingLength}}</h5>
                     <h5>follower: {{getFollowerLength}}</h5>
-                    <h5>last tweet: {{getLastTweet}}</h5>
+                    <h5>last tweet: {{getLastTweet.message}}</h5>
+                    <div v-if="showButtons">
+                      <button v-if="showFollow" @click="followUser()" class="btn btn-success btn-block">follow</button>
+                      <button v-if="showUnfollow" @click="unfollowUser()" class="btn btn-danger btn-block">unfollow</button>
+                    </div>
                   </div>
                 </div>
     					</div>
@@ -27,7 +31,7 @@
               <div class="panel-body">
                 <div class="m-t-10">
                   <div class="panel panel-default" v-for="tweet in t_tweets">
-                    <div class="panel-heading">@{{tweet.username}} - {{tweet.timestamp}}</div>
+                    <div class="panel-heading"><a @click="viewProfile(tweet.user_id)">@{{tweet.username}}</a> - {{tweet.timestamp}}</div>
                     <div class="panel-body">{{tweet.message}}</div>
                   </div>
                 </div>
@@ -86,12 +90,17 @@
         currentUser: {},
 
         // Timeline tweets
-        t_tweets: null
+        t_tweets: null,
+
+        empty_tweet: {
+          user_id: 2,
+          username: "username",
+          message: "No tweet created yet!"
+        }
       }
     },
-    ready () {
-      this.getUser(this.$route.params.id)
-      this.getTweets(this.$route.params.id)
+    created () {
+      this.loadUser(this.$route.params.id)
     },
     computed: {
       getFollowingLength () {
@@ -113,13 +122,38 @@
         return 0
       },
       getLastTweet () {
-        if(this.t_tweets) {
-          return this.t_tweets[0].message
+        if(this.t_tweets[0] != null) {
+          return this.t_tweets[0]
         }
-        return "No tweet created yet!"
+        return this.empty_tweet
+      },
+      showButtons () {
+        if(this.$store.state.currentUser.id == this.$route.params.id) {
+          return false
+        }
+        return true
+      },
+      showFollow () {
+        if(this.$store.state.currentUser.following["id"] == this.$route.params.id) {
+          return false
+        }
+        return true
+      },
+      showUnfollow () {
+        if(this.$store.state.currentUser.following["id"] != this.$route.params.id) {
+          return false
+        }
+        return true
       }
     },
     methods: {
+      loadUser (id) {
+        var self = this
+        setTimeout(function() {
+          self.getUser(id)
+          self.getTweets(id)
+        }, 500)
+      },
       getTweets (id) {
         this.$http.get( this.$apiurl + '/user/'+ id + '/tweet').then(response => {
           this.t_tweets = response.data
@@ -130,14 +164,38 @@
       getUser (id) {
         this.$http.get( this.$apiurl + '/user/' + id).then(response => {
           this.currentUser = response.data
+          this.empty_tweet.username = response.data.username
+          this.empty_tweet.username = response.data.id
+        }, response => {
+          this.showErrorToastr(response.data.message)
+        })
+      },
+      setUser () {
+        this.$http.get( this.$apiurl + '/user/' + this.$route.params.id).then(response => {
+          this.$store.commit("SET_CURRENTUSER", response.data)
+        }, response => {
+          this.showErrorToastr(response.data.message)
+        })
+      },
+      followUser () {
+        this.$http.put(this.$apiurl + '/user/' + this.$route.params.id + '/follower/' + this.currentUser.id).then(response => {
+          this.setUser()
+        }, response => {
+          this.showErrorToastr(response.data.message)
+        })
+      },
+      unfollowUser () {
+        this.$http.put(this.$apiurl + '/user/' + this.$route.params.id + '/follower/' +  this.currentUser.id).then(response => {
+          this.setUser()
         }, response => {
           this.showErrorToastr(response.data.message)
         })
       },
       viewProfile (id) {
+        this.loadUser(id)
         this.$router.go('/User/' + id + '/Profile')
       }
-    }
+    },
   }
 </script>
 

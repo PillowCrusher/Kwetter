@@ -13,13 +13,16 @@
             <div class="form-group">
                 <input type="password" class="form-control" v-model="password" placeholder="Password" required="">
             </div>
-            <button type="submit" class="btn btn-primary block full-width" @click="authenticate()">Login</button>
+            <button class="btn btn-primary block full-width" @click="authenticate()">Login</button>
 
             <p class="text-muted text-center m-t-10">
-              <small>Do not have an account?</small>
+              <small>Dont have an account yet?</small>
               <a class="btn btn-sm btn-white btn-block" v-link="'/Register'">Create an account</a>
             </p>
         </form>
+        <p class="text-muted text-center">
+          <a class="btn-sm" v-link="'/'">proceed without an account</a>
+        </p>
       </div>
     </div>
   </div>
@@ -38,6 +41,7 @@ export default {
   ready () {
     this.$store.commit("SET_AUTHENTICATIONTOKEN", "")
     this.$store.commit('SET_AUTHENTICATED', false)
+    this.$store.commit('SET_LOGGEDIN', false)
   },
   methods: {
     authenticate () {
@@ -51,17 +55,19 @@ export default {
 
         // Set store variables
         this.$store.commit("SET_AUTHENTICATIONTOKEN", token)
-        this.$store.commit('SET_AUTHENTICATED', true)
       }, response => {
         this.showErrorToastr(response.data.message)
       })
     },
     getUser () {
       this.$http.get( this.$apiurl + '/user/username?username=' + this.username).then(response => {
-        var self = this;
-        $.when(this.$store.commit("SET_CURRENTUSER", response.data)).done(function(data) {
+        var self = this
+        this.$store.commit("SET_CURRENTUSER", response.data)
+        setTimeout(function() {
+          self.$store.commit('SET_AUTHENTICATED', true)
+          self.$store.commit('SET_LOGGEDIN', true)
           self.$route.router.go('/')
-        })
+        }, 500)
       }, response => {
         this.showErrorToastr(response.data.message)
       })

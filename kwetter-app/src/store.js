@@ -6,6 +6,7 @@ Vue.use(Vuex)
 // the root, initial state object
 const state = {
 	authenticated: false,
+	loggedIn: false,
 	authenticationToken: '',
 	currentUser: {
 		email: '',
@@ -21,6 +22,9 @@ const mutations = {
   },
 	SET_AUTHENTICATED (state, authenticated) {
 		state.authenticated = authenticated
+	},
+	SET_LOGGEDIN (state, loggedIn) {
+		state.loggedIn = loggedIn
 	},
 	SET_AUTHENTICATIONTOKEN (state, token) {
 		state.authenticationToken = token
