@@ -45,13 +45,13 @@ public class UserSerializer extends StdSerializer<User> {
 
             for(User u : followers) {
                 jgen.writeStartObject();
-                jgen.writeNumberField("id", value.getId());
-                jgen.writeStringField("role", value.getRole().toString());
-                jgen.writeStringField("email", value.getEmail());
-                jgen.writeStringField("username", value.getUsername());
-                jgen.writeStringField("location", value.getLocation());
-                jgen.writeStringField("websiteUrl", value.getWebsiteUrl());
-                jgen.writeStringField("bio", value.getBio());
+                jgen.writeNumberField("id", u.getId());
+                jgen.writeStringField("role", u.getRole().toString());
+                jgen.writeStringField("email", u.getEmail());
+                jgen.writeStringField("username", u.getUsername());
+                jgen.writeStringField("location", u.getLocation());
+                jgen.writeStringField("websiteUrl", u.getWebsiteUrl());
+                jgen.writeStringField("bio", u.getBio());
                 jgen.writeEndObject();
             }
 
@@ -64,13 +64,13 @@ public class UserSerializer extends StdSerializer<User> {
 
             for(User u : following) {
                 jgen.writeStartObject();
-                jgen.writeNumberField("id", value.getId());
-                jgen.writeStringField("role", value.getRole().toString());
-                jgen.writeStringField("email", value.getEmail());
-                jgen.writeStringField("username", value.getUsername());
-                jgen.writeStringField("location", value.getLocation());
-                jgen.writeStringField("websiteUrl", value.getWebsiteUrl());
-                jgen.writeStringField("bio", value.getBio());
+                jgen.writeNumberField("id", u.getId());
+                jgen.writeStringField("role", u.getRole().toString());
+                jgen.writeStringField("email", u.getEmail());
+                jgen.writeStringField("username", u.getUsername());
+                jgen.writeStringField("location", u.getLocation());
+                jgen.writeStringField("websiteUrl", u.getWebsiteUrl());
+                jgen.writeStringField("bio", u.getBio());
                 jgen.writeEndObject();
             }
 

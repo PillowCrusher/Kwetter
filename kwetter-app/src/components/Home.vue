@@ -48,11 +48,11 @@
 								</div>
 							</div>
 						</div>
-						<div class="tab-pane fade" role="tabpanel" id="timeline" aria-labelledby="timeline-tab">
+						<div class="tab-pane fade" role="tabpanel" id="metions" aria-labelledby="metions-tab">
 							<div class="m-t-10">
-								<div class="panel panel-default">
-									<div class="panel-heading">Name + Tag</div>
-									<div class="panel-body">Tweet message, message</div>
+								<div class="panel panel-default" v-for="tweet in m_tweets">
+								  <div class="panel-heading"><a @click="viewProfile(tweet.user_id)">@{{tweet.username}}</a> - {{tweet.timestamp}}</div>
+								  <div class="panel-body">{{tweet.message}}</div>
 								</div>
 							</div>
 						</div>
@@ -85,6 +85,9 @@
 				// Timeline tweets
 				t_tweets: null,
 
+				// Mention tweets
+				m_tweets: null,
+
 				empty_tweet: {
 					user_id: 2,
 					username: "username",
@@ -98,6 +101,7 @@
 			if(this.$store.state.authenticated) {
 				this.currentUser = this.$store.state.currentUser
 				this.getTweets()
+				this.getMentions()
 			} else {
 				this.getAllTweets()
 			}
@@ -157,6 +161,7 @@
 		methods: {
 			sendTweet() {
 				if(this.validMessage) {
+					this.message = this.message.replace(/#/g, "%23");
 					this.$http.post( this.$apiurl + '/tweet?message=' + this.message).then(response => {
 						this.message = ""
 						this.t_tweets.unshift(response.data)
@@ -169,6 +174,13 @@
 			getTweets() {
 				this.$http.get( this.$apiurl + '/user/'+ this.currentUser.id + '/tweet').then(response => {
 					this.t_tweets = response.data
+				}, response => {
+					this.showErrorToastr(response.data.message)
+				})
+			},
+			getMentions() {
+				this.$http.get( this.$apiurl + '/tweet/mention?mention=%40admin').then(response => {
+					this.m_tweets = response.data
 				}, response => {
 					this.showErrorToastr(response.data.message)
 				})

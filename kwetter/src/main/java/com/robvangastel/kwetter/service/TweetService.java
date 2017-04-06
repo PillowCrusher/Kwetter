@@ -102,6 +102,10 @@ public class TweetService implements Serializable {
         return tweetDao.findById(id);
     }
 
+    @PermitAll
+    public List<Tweet> findByMention(String mention) {
+	    return tweetDao.findByMention(mention);
+    }
     /***
      *
      * @param arg Message of tweet search argument
@@ -119,7 +123,7 @@ public class TweetService implements Serializable {
      */
 	@PermitAll
     public List<Tweet> findByUser(long id) {
-        return tweetDao.findByUser(id);
+        return tweetDao.findForUser(userDao.findById(id));
     }
 
     /***

@@ -58,7 +58,7 @@ public class Tweet implements Serializable {
 	private List<String> hashtags = new ArrayList<>();
 
     @LazyCollection(LazyCollectionOption.FALSE)
-	@ElementCollection
+    @ElementCollection
 	private List<String> mentions = new ArrayList<>();
     
     public Tweet(String message, User user) {

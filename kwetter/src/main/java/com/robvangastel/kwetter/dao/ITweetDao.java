@@ -41,6 +41,13 @@ public interface ITweetDao {
      */
     List<Tweet> findByUser(long id);
 
+    /***
+     * Find Tweet(s) by Mention
+     * @param mention
+     * @return Found tweet(s) or Null when
+     * the Tweet(s) isn't found
+     */
+    List<Tweet> findByMention(String mention);
 	/***
 	 * Find tweets for User, includes tweets of his
 	 * following list

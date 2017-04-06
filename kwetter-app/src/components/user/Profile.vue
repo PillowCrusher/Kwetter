@@ -5,7 +5,7 @@
         <div class="row">
           <div class="col-lg-12">
             <div class="panel panel-default">
-    					<div class="panel-heading">Profile</div>
+    					<div class="panel-heading">{{currentUser.username}}</div>
     					<div class="panel-body">
                 <div class="row">
                   <div class="col-xs-4">
@@ -134,16 +134,26 @@
         return true
       },
       showFollow () {
-        if(this.$store.state.currentUser.following["id"] == this.$route.params.id) {
-          return false
+        if(this.$store.state.currentUser.following) {
+          for(var i = 0; i < this.$store.state.currentUser.following.length; i++) {
+              if (this.$store.state.currentUser.following[i].id == this.currentUser.id) {
+                  return false
+              }
+          }
+          return true
         }
         return true
       },
       showUnfollow () {
-        if(this.$store.state.currentUser.following["id"] != this.$route.params.id) {
+        if(this.$store.state.currentUser.following) {
+          for(var i = 0; i < this.$store.state.currentUser.following.length; i++) {
+              if (this.$store.state.currentUser.following[i].id == this.currentUser.id) {
+                  return true
+              }
+          }
           return false
         }
-        return true
+        return false
       }
     },
     methods: {
@@ -171,21 +181,21 @@
         })
       },
       setUser () {
-        this.$http.get( this.$apiurl + '/user/' + this.$route.params.id).then(response => {
+        this.$http.get( this.$apiurl + '/user/' + this.$store.state.currentUser.id).then(response => {
           this.$store.commit("SET_CURRENTUSER", response.data)
         }, response => {
           this.showErrorToastr(response.data.message)
         })
       },
       followUser () {
-        this.$http.put(this.$apiurl + '/user/' + this.$route.params.id + '/follower/' + this.currentUser.id).then(response => {
+        this.$http.put(this.$apiurl + '/user/' + this.$store.state.currentUser.id + '/following/' + this.currentUser.id).then(response => {
           this.setUser()
         }, response => {
           this.showErrorToastr(response.data.message)
         })
       },
       unfollowUser () {
-        this.$http.put(this.$apiurl + '/user/' + this.$route.params.id + '/follower/' +  this.currentUser.id).then(response => {
+        this.$http.put(this.$apiurl + '/user/' + this.$store.state.currentUser.id + '/follower/' +  this.currentUser.id).then(response => {
           this.setUser()
         }, response => {
           this.showErrorToastr(response.data.message)

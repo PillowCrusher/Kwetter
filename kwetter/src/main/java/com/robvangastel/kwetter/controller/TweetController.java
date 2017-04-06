@@ -56,6 +56,13 @@ public class TweetController {
         return tweet;
     }
 
+    @GET
+    @Path("/mention")
+    public List<Tweet> getByMention(@QueryParam("mention") String mention) {
+        List<Tweet> tweets = tweetService.findByMention(mention);
+        return tweets;
+    }
+
 	@GET
     @Path("/message")
 	public List<Tweet> getByMessage(@QueryParam("arg") String arg) {
