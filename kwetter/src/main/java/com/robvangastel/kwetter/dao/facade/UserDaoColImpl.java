@@ -79,7 +79,7 @@ public class UserDaoColImpl implements IUserDao {
     public User update(User entity) throws UserException {
        for(User user : users) {
             if(user.getId().equals(entity.getId())) {
-	            checkUpdate(entity);
+//	            checkUpdate(entity);
 
                 user.setUsername(entity.getUsername());
 	            user.setPassword(entity.getPassword());
