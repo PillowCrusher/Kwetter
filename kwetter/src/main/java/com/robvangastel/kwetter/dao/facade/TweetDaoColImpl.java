@@ -75,6 +75,11 @@ public class TweetDaoColImpl implements ITweetDao {
     }
 
     @Override
+    public List<String> findTrends() {
+        return null;
+    }
+
+    @Override
 	public List<Tweet> findForUser(User user) {
 		List<Tweet> tweetsFound = new ArrayList<>();
 		List<Long> ids = new ArrayList<>();

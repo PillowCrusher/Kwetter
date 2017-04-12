@@ -65,6 +65,12 @@ public class TweetController {
         return tweets;
     }
 
+    @GET
+    @Path("/trends")
+    public List<String> getTrends() {
+        return tweetService.findTrends();
+    }
+
 	@GET
     @Path("/message")
 	public List<Tweet> getByMessage(@QueryParam("arg") String arg) {

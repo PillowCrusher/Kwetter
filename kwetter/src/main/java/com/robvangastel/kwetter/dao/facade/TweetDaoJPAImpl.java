@@ -80,6 +80,18 @@ public class TweetDaoJPAImpl extends AbstractJPADao<Tweet> implements ITweetDao 
 	}
 
 	@Override
+	public List<String> findTrends() {
+		Query query = entityManager.createNativeQuery( //, count(*) as count
+				"SELECT LOWER(hashtags) \n" +
+						"FROM Tweet_hashtags \n" +
+						"GROUP BY hashtags \n" +
+						"ORDER BY COUNT(10) DESC, hashtags ASC LIMIT 10");
+
+		return query.getResultList();
+	}
+
+
+	@Override
 	public List<Tweet> findForUser(User user) {
 		ArrayList<Long> timelineUserIds = new ArrayList<>();
 

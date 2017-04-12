@@ -102,9 +102,23 @@ public class TweetService implements Serializable {
         return tweetDao.findById(id);
     }
 
+    /***
+     *
+     * @param mention mention
+     * @return found tweets with mention
+     */
     @PermitAll
     public List<Tweet> findByMention(String mention) {
 	    return tweetDao.findByMention(mention);
+    }
+
+    /***
+     *
+     * @return latest trends
+     */
+    @PermitAll
+    public List<String> findTrends() {
+	    return tweetDao.findTrends();
     }
     /***
      *

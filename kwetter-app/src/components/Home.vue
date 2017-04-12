@@ -15,7 +15,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-xs-12 col-md-7 col-lg-7">
+			<div class="col-xs-7 col-md-7 col-lg-7">
 				<h4>What's happening?</h4>
 				<div class="input-group">
 					<div class="input-group">
@@ -26,6 +26,12 @@
 						Character count: {{ messageLength }}
 					</div>
 				</div><!-- /input-group -->
+			</div>
+			<div class="col-xs-5 col-md-5 col-lg-5">
+				<h4>Trends</h4>
+				<ul class="list-group">
+					<li class="list-group-item" v-for="trend in trends">{{trend}}</li>
+				</ul>
 			</div>
 		</div>
 		<div class="row">
@@ -88,6 +94,8 @@
 				// Mention tweets
 				m_tweets: null,
 
+				trends: null,
+
 				empty_tweet: {
 					user_id: 2,
 					username: "username",
@@ -102,6 +110,7 @@
 				this.currentUser = this.$store.state.currentUser
 				this.getTweets()
 				this.getMentions()
+				this.getTrends()
 			} else {
 				this.getAllTweets()
 			}
@@ -166,6 +175,9 @@
 						this.message = ""
 						this.t_tweets.unshift(response.data)
 
+						this.getMentions()
+						this.getTrends()
+
 		      }, response => {
 		        this.showErrorToastr(response.data.message)
 		      })
@@ -179,8 +191,15 @@
 				})
 			},
 			getMentions() {
-				this.$http.get( this.$apiurl + '/tweet/mention?mention=%40admin').then(response => {
+				this.$http.get( this.$apiurl + '/tweet/mention?mention=%40' + this.$store.state.currentUser.username).then(response => {
 					this.m_tweets = response.data
+				}, response => {
+					this.showErrorToastr(response.data.message)
+				})
+			},
+			getTrends() {
+				this.$http.get( this.$apiurl + '/tweet/trends').then(response => {
+					this.trends = response.data
 				}, response => {
 					this.showErrorToastr(response.data.message)
 				})

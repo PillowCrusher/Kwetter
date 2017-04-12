@@ -48,6 +48,13 @@ public interface ITweetDao {
      * the Tweet(s) isn't found
      */
     List<Tweet> findByMention(String mention);
+
+    /***
+     * Find trends
+     * @return Trends by tweets
+     */
+    List<String> findTrends();
+
 	/***
 	 * Find tweets for User, includes tweets of his
 	 * following list
