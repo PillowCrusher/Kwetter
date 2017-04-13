@@ -16,7 +16,7 @@ public class stressTest {
 
         for(int i = 0; i < 500; i++) {
             when().
-                    get("http://localhost:9080/kwetter/api/user/2/tweets").
+                    get("http://localhost:9080/kwetter/api/user").
                     then().
                     statusCode(200).
                     and().

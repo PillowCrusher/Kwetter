@@ -17,7 +17,7 @@ public class responseTest {
     public void responsetime_timeline() {
 
         when().
-            get("http://localhost:9080/kwetter/api/user/{id}/tweets", 2).
+            get("http://localhost:9080/kwetter/api/user").
         then().
             statusCode(200).
         and().
