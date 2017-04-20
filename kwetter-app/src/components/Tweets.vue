@@ -1,37 +1,39 @@
 <template>
   <div class="animated fadeInRight">
 		<div class="row">
+			<div class="col-xs-10 col-xs-offset-1 m-b-10 text-right">
+				We have found {{tweetsLength}} tweets matching your search.
+			</div>
 			<div class="col-xs-10 col-xs-offset-1">
-        <table class="table table-condensed">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Username</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td colspan="2">Larry the Bird</td>
-              <td>@twitter</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="m-t-10">
+          <div class="panel panel-default" v-for="tweet in tweets">
+            <div class="panel-heading">@{{tweet.username}} - {{tweet.timestamp}}</div>
+            <div class="panel-body">{{tweet.message}}</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+	export default {
+		computed: {
+			tweetsLength () {
+        if(this.tweets != null) {
+					return this.tweets.length
+				}
+				return 0
+			},
+			tweets() {
+				return this.$store.state.searchTweets
+			}
+		}
+	}
+</script>
+
+<style scoped>
+.m-b-10 {
+	margin-bottom: 10px;
+}
+</style>

@@ -13,21 +13,22 @@
             <div class="form-group">
                 <input type="password" class="form-control" v-model="password" placeholder="Password" required="">
             </div>
-            <button type="submit" class="btn btn-primary block full-width" @click="authenticate()">Login</button>
+            <button class="btn btn-primary block full-width" @click="authenticate()">Login</button>
 
             <p class="text-muted text-center m-t-10">
-              <small>Do not have an account?</small>
+              <small>Dont have an account yet?</small>
               <a class="btn btn-sm btn-white btn-block" v-link="'/Register'">Create an account</a>
             </p>
         </form>
+        <p class="text-muted text-center">
+          <a class="btn-sm" v-link="'/'">proceed without an account</a>
+        </p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import store from '../store'
-import * as service from '../service'
 import basic from 'basic-authorization-header'
 
 export default {
@@ -37,23 +38,44 @@ export default {
       password: ''
 		}
 	},
+  ready () {
+    this.$store.commit("SET_AUTHENTICATIONTOKEN", "")
+    this.$store.commit('SET_AUTHENTICATED', false)
+    this.$store.commit('SET_LOGGEDIN', false)
+  },
   methods: {
     authenticate () {
-      this.$http.post( this.$apiurl + '/user/authenticate?username' + this.username
+      this.$http.post( this.$apiurl + '/user/authenticate?username=' + this.username
       + '&password=' + this.password).then(response => {
-        // Redirect
-        this.$route.router.go('/')
-        // Set basic auth info
-        var token = basic(this.username, this.password)
-        console.log(token);
-        service.setAuthenticationToken(token)
 
+        this.getUser()
+        // Redirect
+        // Create basic auth token
+        var token = basic(this.username, this.password)
+
+        // Set store variables
+        this.$store.commit("SET_AUTHENTICATIONTOKEN", token)
       }, response => {
         this.showErrorToastr(response.data.message)
       })
     },
-    setAuthenticated (authenticated) {
-      service.setAuthenticated(store)
+    getUser () {
+      this.$http.get( this.$apiurl + '/user/username?username=' + this.username).then(response => {
+        var self = this
+        this.$store.commit("SET_CURRENTUSER", response.data)
+        setTimeout(function() {
+          self.$store.commit('SET_AUTHENTICATED', true)
+          self.$store.commit('SET_LOGGEDIN', true)
+          self.$route.router.go('/')
+        }, 500)
+      }, response => {
+        this.showErrorToastr(response.data.message)
+      })
+    }
+  },
+  computed: {
+    isAuthenticated () {
+      return this.$store.state.authenticated
     }
   }
 }

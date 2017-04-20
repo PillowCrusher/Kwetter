@@ -167,7 +167,7 @@ public class UserService implements Serializable {
 	@PermitAll
 	public void authenticate(String username, String password) throws UserException {
 		User u = dao.findByUsername(username);
-		if(u.equals(null)) {
+		if(u == null) {
 			throw new UserException("User not found exception");
 		}
 		if(!u.getPassword().equals(password)) {

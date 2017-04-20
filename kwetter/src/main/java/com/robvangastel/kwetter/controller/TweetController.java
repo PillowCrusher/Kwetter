@@ -7,20 +7,22 @@ package com.robvangastel.kwetter.controller;
 
 import com.robvangastel.kwetter.domain.Tweet;
 import com.robvangastel.kwetter.domain.User;
+import com.robvangastel.kwetter.interceptor.TweetInterceptor;
 import com.robvangastel.kwetter.service.TweetService;
 import com.robvangastel.kwetter.service.UserService;
 
 import java.util.List;
+import java.util.Properties;
 import javax.annotation.Resource;
-import javax.annotation.security.RolesAllowed;
+import javax.batch.operations.JobOperator;
+import javax.batch.runtime.BatchRuntime;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.interceptor.Interceptors;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
 
 /**
  *
@@ -56,6 +58,19 @@ public class TweetController {
         return tweet;
     }
 
+    @GET
+    @Path("/mention")
+    public List<Tweet> getByMention(@QueryParam("mention") String mention) {
+        List<Tweet> tweets = tweetService.findByMention(mention);
+        return tweets;
+    }
+
+    @GET
+    @Path("/trends")
+    public List<String> getTrends() {
+        return tweetService.findTrends();
+    }
+
 	@GET
     @Path("/message")
 	public List<Tweet> getByMessage(@QueryParam("arg") String arg) {
@@ -63,6 +78,7 @@ public class TweetController {
 	}
 
     @POST
+    @Interceptors(TweetInterceptor.class)
     public Tweet post(@QueryParam("message") String message) throws Exception {
         User user = userService.findByUsername(context.getCallerPrincipal().getName());
         if(user == null) {
@@ -79,5 +95,14 @@ public class TweetController {
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }
         tweetService.delete(id, user);
+    }
+
+    @GET
+    @Path("/batch")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String startBatch() {
+        JobOperator jo = BatchRuntime.getJobOperator();
+        long jid = jo.start("kwetterJson", new Properties());
+        return "Job submitted: " + jid;
     }
 }

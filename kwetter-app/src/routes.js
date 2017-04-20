@@ -10,8 +10,6 @@ import UserManage from './components/manage/Users'
 
 // User pages
 import Profile from './components/user/Profile'
-import Following from './components/user/Following'
-import Followers from './components/user/Followers'
 
 var routes = {
 	'/': {
@@ -41,22 +39,14 @@ var routes = {
 		title: 'Manage tweets overview'
 	},
 	'/Manage/Users': {
-		component: TweetManage,
+		component: UserManage,
 		title: 'Manage tweets overview'
 	},
 
 	// User pages
-	'/User/Profile': {
+	'/User/:id/Profile': {
 		component: Profile,
 		title: 'Profile overview'
-	},
-	'/User/Following': {
-		component: Following,
-		title: 'Following overview'
-	},
-	'/User/Followers': {
-		component: Followers,
-		title: 'Followers overview'
 	}
 }
 
