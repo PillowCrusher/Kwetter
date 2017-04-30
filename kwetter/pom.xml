@@ -15,6 +15,7 @@
         <mysql-connector.version>5.1.40</mysql-connector.version>
         <jackson.version>2.7.5</jackson.version>
         <mockito.version>1.10.19</mockito.version>
+        <hornetq.client.version>2.4.0-SNAPSHOT</hornetq.client.version>
 
         <servlet.version>3.1.0</servlet.version>
         <jsf.version>2.2.12</jsf.version>
@@ -74,6 +75,21 @@
         </dependency>
         <!-- END: PrimeFaces -->
 
+        <dependency>
+            <groupId>org.hornetq</groupId>
+            <artifactId>hornetq-core-client</artifactId>
+            <version>${hornetq.client.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hornetq</groupId>
+            <artifactId>hornetq-jms-client</artifactId>
+            <version>${hornetq.client.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hornetq</groupId>
+            <artifactId>hornetq-ra</artifactId>
+            <version>${hornetq.client.version}</version>
+        </dependency>
 
         <!-- junit -->
         <dependency>
@@ -146,6 +162,12 @@
             <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.jms</groupId>
+            <artifactId>javax.jms-api</artifactId>
+            <version>2.0.1</version>
         </dependency>
 
         <dependency>
