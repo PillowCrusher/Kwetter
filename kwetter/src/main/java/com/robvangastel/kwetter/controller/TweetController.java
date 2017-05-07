@@ -10,6 +10,7 @@ import com.robvangastel.kwetter.domain.User;
 import com.robvangastel.kwetter.interceptor.TweetInterceptor;
 import com.robvangastel.kwetter.service.TweetService;
 import com.robvangastel.kwetter.service.UserService;
+import com.robvangastel.kwetter.websockets.SocketController;
 
 import java.util.List;
 import javax.annotation.Resource;
@@ -87,6 +88,7 @@ public class TweetController {
         if(user == null) {
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }
+        SocketController.send("new tweet");
 	    return tweetService.create(new Tweet(message, user));
     }
     

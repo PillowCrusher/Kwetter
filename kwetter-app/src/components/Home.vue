@@ -111,6 +111,7 @@
 				this.getTweets()
 				this.getMentions()
 				this.getTrends()
+				this.connectSocket()
 			} else {
 				this.getAllTweets()
 			}
@@ -168,6 +169,20 @@
 			}
 		},
 		methods: {
+			connectSocket() {
+				if (!window.WebSocket) {
+						alert("window.WebSocket not supported");
+				} else {
+						var socket = new WebSocket('ws://localhost:9080/kwetter/api/socket/admin');
+						socket.onopen = function () {
+								console.log("Open WebSocket connection");
+						}
+						socket.onmessage = function (msg) {
+								console.log('message: ');
+								console.log(msg.data);
+						}
+				}
+			},
 			sendTweet() {
 				if(this.validMessage) {
 					this.message = this.message.replace(/#/g, "%23");
