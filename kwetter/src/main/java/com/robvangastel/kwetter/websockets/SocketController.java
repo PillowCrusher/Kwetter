@@ -1,21 +1,18 @@
 package com.robvangastel.kwetter.websockets;
 
+import com.robvangastel.kwetter.domain.Tweet;
 import com.robvangastel.kwetter.domain.User;
-import com.robvangastel.kwetter.service.TweetService;
 import com.robvangastel.kwetter.service.UserService;
 
-import javax.annotation.Resource;
-import javax.ejb.SessionContext;
 import javax.inject.Inject;
-import javax.websocket.EncodeException;
 import javax.websocket.OnClose;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,9 +21,8 @@ import java.util.Map;
 
 @ServerEndpoint("/api/socket/{username}")
 public class SocketController {
-    static Map<String, ArrayList<Session>> peers = new HashMap<>();
 
-    private Session wsSession;
+    static Map<User, ArrayList<Session>> peers = new HashMap<>();
 
     @Inject
     UserService userService;
@@ -34,34 +30,29 @@ public class SocketController {
     @OnOpen
     public void openConnection(@PathParam("username") String username, Session session) {
         User user = userService.findByUsername(username);
-
-        addValues(user.getUsername(), session);
-        this.wsSession = session;
-
-        send("New session started "
-                + this.wsSession.getId()
-                + " by user with username: "
-                + session.getUserPrincipal().getName());
+        addValues(user, session);
     }
 
     @OnClose
     public void closedConnection(Session session) {
-        for (String key : peers.keySet()) {
-            for (Session s : peers.get(key)) {
-                if (s == session) {
-                    ArrayList tempList = peers.get(key);
-                    tempList.remove(session);
-                    peers.put(key, tempList);
-                }
-            }
-        }
+//        for (User key : peers.keySet()) {
+//            for (Session s : peers.get(key)) {
+//                if (s == session) {
+//                    ArrayList tempList = peers.get(key);
+//                    tempList.remove(session);
+//                    peers.put(key, tempList);
+//                }
+//            }
+//        }
     }
 
-    public static void send(String msg) {
+    public static void send(Tweet tweet, List<User> users) {
         try {
-            for (String key : peers.keySet()) {
+            for (User key : peers.keySet()) {
                 for (Session session : peers.get(key)) {
-                    session.getBasicRemote().sendObject(msg);
+                    if(users.contains(key)) {
+                        session.getBasicRemote().sendObject(tweet);
+                    }
                 }
             }
         } catch(Exception e) {
@@ -69,16 +60,12 @@ public class SocketController {
         }
     }
 
-    private void addValues(String key, Session value) {
-        ArrayList tempList;
+    private void addValues(User key, Session value) {
+        ArrayList tempList = new ArrayList();
         if (peers.containsKey(key)) {
             tempList = peers.get(key);
-            if (tempList == null) {
-                tempList = new ArrayList();
-            }
             tempList.add(value);
         } else {
-            tempList = new ArrayList();
             tempList.add(value);
         }
         peers.put(key, tempList);

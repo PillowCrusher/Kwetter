@@ -88,8 +88,12 @@ public class TweetController {
         if(user == null) {
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }
-        SocketController.send("new tweet");
-	    return tweetService.create(new Tweet(message, user));
+        Tweet tweet = new Tweet(message, user);
+        List<User> users = user.getFollowing();
+        users.add(user);
+
+        SocketController.send(tweet, users);
+	    return tweetService.create(tweet);
     }
     
     @DELETE
