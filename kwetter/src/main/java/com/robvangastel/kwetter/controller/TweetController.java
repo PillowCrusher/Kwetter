@@ -12,6 +12,7 @@ import com.robvangastel.kwetter.service.TweetService;
 import com.robvangastel.kwetter.service.UserService;
 import com.robvangastel.kwetter.websockets.SocketController;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
@@ -89,7 +90,8 @@ public class TweetController {
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }
         Tweet tweet = new Tweet(message, user);
-        List<User> users = user.getFollowing();
+        List<User> users = new ArrayList<User>();
+        users.addAll(user.getFollowing());
         users.add(user);
 
         SocketController.send(tweet, users);
