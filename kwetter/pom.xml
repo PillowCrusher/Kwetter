@@ -75,22 +75,6 @@
         </dependency>
         <!-- END: PrimeFaces -->
 
-        <dependency>
-            <groupId>org.hornetq</groupId>
-            <artifactId>hornetq-core-client</artifactId>
-            <version>${hornetq.client.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hornetq</groupId>
-            <artifactId>hornetq-jms-client</artifactId>
-            <version>${hornetq.client.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hornetq</groupId>
-            <artifactId>hornetq-ra</artifactId>
-            <version>${hornetq.client.version}</version>
-        </dependency>
-
         <!-- junit -->
         <dependency>
             <groupId>junit</groupId>
@@ -190,10 +174,6 @@
             <artifactId>rest-assured</artifactId>
             <version>3.0.0</version>
         </dependency>
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/develop
     </dependencies>
 
     <build>
