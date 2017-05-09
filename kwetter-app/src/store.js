@@ -3,29 +3,57 @@ import Vue from 'vue'
 
 Vue.use(Vuex)
 
-var store = new Vuex.Store({
-	// Initial state
-	state: {
-		authenticated: false,
-		authenticationToken: '',
-		currentUser: {
-			firstName: '',
-			surname: '',
-			role: '',
-		}
+// the root, initial state object
+const state = {
+	authenticated: false,
+	loggedIn: false,
+	authenticationToken: '',
+	currentUser: {
+		email: '',
+		username: ''
 	},
-	mutations: {
-		SET_CURRENTUSER (state, user) {
-      state.currentUser = user
-    },
-		SET_AUTHENTICATED (state, authenticated) {
-			state.authenticated = authenticated
-		},
-		SET_AUTHENTICATIONTOKEN (state, token) {
-			state.authenticationToken = token
-		}
-	},
-	strict: false // Vuex's patent pending anti-intern device
-})
+	searchTweets: [],
+}
 
-export default store
+// define the possible mutations that can be applied to our state
+const mutations = {
+	SET_CURRENTUSER (state, user) {
+    state.currentUser = user
+  },
+	SET_AUTHENTICATED (state, authenticated) {
+		state.authenticated = authenticated
+	},
+	SET_LOGGEDIN (state, loggedIn) {
+		state.loggedIn = loggedIn
+	},
+	SET_AUTHENTICATIONTOKEN (state, token) {
+		state.authenticationToken = token
+	},
+	SET_SEARCHTWEETS (state, tweets) {
+		state.searchTweets = tweets
+	}
+}
+
+const getters = {
+    getAuthenticated: state => {
+        return state.authenticated
+    },
+		getUser: state => {
+			return state.currentUser
+		}
+}
+
+const actions = {
+    setUser(context, user) {
+        context.commit('setCurrentUser', user)
+    }
+}
+
+// create the Vuex instance by combining the state and mutations objects
+// then export the Vuex store for use by our components
+export default new Vuex.Store({
+	state,
+	getters,
+	mutations,
+	actions
+})

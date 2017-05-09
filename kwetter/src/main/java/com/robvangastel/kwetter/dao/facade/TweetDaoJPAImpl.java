@@ -12,6 +12,7 @@ import com.robvangastel.kwetter.domain.Tweet;
 import com.robvangastel.kwetter.domain.User;
 import com.robvangastel.kwetter.exception.TweetException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -55,8 +56,9 @@ public class TweetDaoJPAImpl extends AbstractJPADao<Tweet> implements ITweetDao 
 
     @Override
     public List<Tweet> findByMessage(String message) {
+    	message = "%" + message + "%";
 	    Query query = entityManager.createQuery(
-			    "SELECT t FROM Tweet t WHERE t.message = :message")
+			    "SELECT t FROM Tweet t WHERE t.message like :message")
 			    .setParameter("message", message);
 	    return query.getResultList();
     }
@@ -64,17 +66,43 @@ public class TweetDaoJPAImpl extends AbstractJPADao<Tweet> implements ITweetDao 
     @Override
     public List<Tweet> findByUser(long id) {
 	    Query query = entityManager.createQuery(
-			    "SELECT t FROM Tweet t WHERE t.user.id = :id")
+			    "SELECT t FROM Tweet t WHERE t.user.id = :id ORDER BY timeStamp DESC")
 			    .setParameter("id", id);
 	    return query.getResultList();
     }
 
+    @Override
+	public List<Tweet> findByMention(String mention) {
+		Query query = entityManager.createQuery( //"from User as user where 'ADMIN' in elements(user.roles)";
+				"FROM Tweet as t WHERE :mention in elements(t.mentions) ORDER BY timeStamp DESC")
+				.setParameter("mention", mention);
+		return (List<Tweet>) query.getResultList();
+	}
+
+	@Override
+	public List<String> findTrends() {
+		Query query = entityManager.createNativeQuery( //, count(*) as count
+				"SELECT LOWER(hashtags) \n" +
+						"FROM Tweet_hashtags \n" +
+						"GROUP BY hashtags \n" +
+						"ORDER BY COUNT(10) DESC, hashtags ASC LIMIT 10");
+
+		return query.getResultList();
+	}
+
+
 	@Override
 	public List<Tweet> findForUser(User user) {
-		Query query = entityManager.createQuery(
-				"SELECT t FROM Tweet t WHERE t.user.id = :id AND t.user = t.user.following ORDER BY timeStamp ASC")
-				.setParameter("id", user.getId());
-		return query.getResultList();
+		ArrayList<Long> timelineUserIds = new ArrayList<>();
+
+		for(User u: user.getFollowing()) {
+			timelineUserIds.add(u.getId());
+		}
+
+		timelineUserIds.add(user.getId());
+		Query query = entityManager.createQuery("from Tweet where user.id in :following order by id desc ").setParameter("following", timelineUserIds);
+		ArrayList<Tweet> result = (ArrayList<Tweet>)query.getResultList();
+		return result;
 	}
 
 	@Override

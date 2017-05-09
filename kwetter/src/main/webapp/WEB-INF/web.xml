@@ -9,6 +9,23 @@
         <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
 
+    <filter>
+        <filter-name>CORS</filter-name>
+        <filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
+        <init-param>
+            <param-name>cors.supportedHeaders</param-name>
+            <param-value>Authorization, Content-Type</param-value>
+        </init-param>
+        <init-param>
+            <param-name>cors.supportedMethods</param-name>
+            <param-value>GET, HEAD, POST, DELETE, PUT, OPTIONS</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>CORS</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <!-- JSF -->
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
@@ -30,96 +47,96 @@
         </session-timeout>
     </session-config>
 
-    <security-constraint>
-        <display-name>Admin Pages</display-name>
-        <web-resource-collection>
-            <web-resource-name>Protected Admin Area</web-resource-name>
-            <description></description>
-            <url-pattern>/faces/admin/*</url-pattern>
-            <http-method>GET</http-method>
-            <http-method>POST</http-method>
-            <http-method>HEAD</http-method>
-            <http-method>PUT</http-method>
-            <http-method>OPTIONS</http-method>
-            <http-method>TRACE</http-method>
-            <http-method>DELETE</http-method>
-        </web-resource-collection>
-        <auth-constraint>
-            <description/>
-            <role-name>ADMINISTRATOR</role-name>
-        </auth-constraint>
-        <user-data-constraint>
-            <transport-guarantee>NONE</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
+    <!--<security-constraint>-->
+        <!--<display-name>Admin Pages</display-name>-->
+        <!--<web-resource-collection>-->
+            <!--<web-resource-name>Protected Admin Area</web-resource-name>-->
+            <!--<description></description>-->
+            <!--<url-pattern>/faces/admin/*</url-pattern>-->
+            <!--<http-method>GET</http-method>-->
+            <!--<http-method>POST</http-method>-->
+            <!--<http-method>HEAD</http-method>-->
+            <!--<http-method>PUT</http-method>-->
+            <!--<http-method>OPTIONS</http-method>-->
+            <!--<http-method>TRACE</http-method>-->
+            <!--<http-method>DELETE</http-method>-->
+        <!--</web-resource-collection>-->
+        <!--<auth-constraint>-->
+            <!--<description/>-->
+            <!--<role-name>ADMINISTRATOR</role-name>-->
+        <!--</auth-constraint>-->
+        <!--<user-data-constraint>-->
+            <!--<transport-guarantee>NONE</transport-guarantee>-->
+        <!--</user-data-constraint>-->
+    <!--</security-constraint>-->
 
-    <security-constraint>
-        <display-name>User Access</display-name>
-        <web-resource-collection>
-            <web-resource-name>Protected User Area</web-resource-name>
-            <description/>
-            <url-pattern>/faces/users/*</url-pattern>
-            <http-method>GET</http-method>
-            <http-method>POST</http-method>
-            <http-method>HEAD</http-method>
-            <http-method>PUT</http-method>
-            <http-method>OPTIONS</http-method>
-            <http-method>TRACE</http-method>
-            <http-method>DELETE</http-method>
-        </web-resource-collection>
-        <auth-constraint>
-            <description/>
-            <role-name>ADMINISTRATOR</role-name>
-            <role-name>USER</role-name>
-        </auth-constraint>
-        <user-data-constraint>
-            <transport-guarantee>NONE</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
+    <!--<security-constraint>-->
+        <!--<display-name>User Access</display-name>-->
+        <!--<web-resource-collection>-->
+            <!--<web-resource-name>Protected User Area</web-resource-name>-->
+            <!--<description/>-->
+            <!--<url-pattern>/faces/users/*</url-pattern>-->
+            <!--<http-method>GET</http-method>-->
+            <!--<http-method>POST</http-method>-->
+            <!--<http-method>HEAD</http-method>-->
+            <!--<http-method>PUT</http-method>-->
+            <!--<http-method>OPTIONS</http-method>-->
+            <!--<http-method>TRACE</http-method>-->
+            <!--<http-method>DELETE</http-method>-->
+        <!--</web-resource-collection>-->
+        <!--<auth-constraint>-->
+            <!--<description/>-->
+            <!--<role-name>ADMINISTRATOR</role-name>-->
+            <!--<role-name>USER</role-name>-->
+        <!--</auth-constraint>-->
+        <!--<user-data-constraint>-->
+            <!--<transport-guarantee>NONE</transport-guarantee>-->
+        <!--</user-data-constraint>-->
+    <!--</security-constraint>-->
 
-    <security-constraint>
-        <display-name>None Protected Access</display-name>
-        <web-resource-collection>
-            <web-resource-name>None Protected Area</web-resource-name>
-            <description/>
-            <url-pattern>/faces/common/*</url-pattern>
-            <http-method>GET</http-method>
-            <http-method>POST</http-method>
-            <http-method>HEAD</http-method>
-            <http-method>PUT</http-method>
-            <http-method>OPTIONS</http-method>
-            <http-method>TRACE</http-method>
-            <http-method>DELETE</http-method>
-        </web-resource-collection>
-        <user-data-constraint>
-            <transport-guarantee>NONE</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
+    <!--<security-constraint>-->
+        <!--<display-name>None Protected Access</display-name>-->
+        <!--<web-resource-collection>-->
+            <!--<web-resource-name>None Protected Area</web-resource-name>-->
+            <!--<description/>-->
+            <!--<url-pattern>/faces/common/*</url-pattern>-->
+            <!--<http-method>GET</http-method>-->
+            <!--<http-method>POST</http-method>-->
+            <!--<http-method>HEAD</http-method>-->
+            <!--<http-method>PUT</http-method>-->
+            <!--<http-method>OPTIONS</http-method>-->
+            <!--<http-method>TRACE</http-method>-->
+            <!--<http-method>DELETE</http-method>-->
+        <!--</web-resource-collection>-->
+        <!--<user-data-constraint>-->
+            <!--<transport-guarantee>NONE</transport-guarantee>-->
+        <!--</user-data-constraint>-->
+    <!--</security-constraint>-->
 
-    <security-role>
-        <role-name>ADMINISTRATOR</role-name>
-    </security-role>
+    <!--<security-role>-->
+        <!--<role-name>ADMINISTRATOR</role-name>-->
+    <!--</security-role>-->
 
-    <security-role>
-        <role-name>USER</role-name>
-    </security-role>
+    <!--<security-role>-->
+        <!--<role-name>USER</role-name>-->
+    <!--</security-role>-->
 
-    <error-page>
-        <error-code>403</error-code>
-        <location>/faces/loginerror.xhtml</location>
-    </error-page>
+    <!--<error-page>-->
+        <!--<error-code>403</error-code>-->
+        <!--<location>/faces/loginerror.xhtml</location>-->
+    <!--</error-page>-->
 
-    <login-config>
-        <auth-method>FORM</auth-method>
-        <realm-name>secureDomain</realm-name>
-        <form-login-config>
-            <form-login-page>/faces/login.xhtml</form-login-page>
-            <form-error-page>/faces/loginerror.xhtml</form-error-page>
-        </form-login-config>
-    </login-config>
+    <!--<login-config>-->
+        <!--<auth-method>FORM</auth-method>-->
+        <!--<realm-name>secureDomain</realm-name>-->
+        <!--<form-login-config>-->
+            <!--<form-login-page>/faces/login.xhtml</form-login-page>-->
+            <!--<form-error-page>/faces/loginerror.xhtml</form-error-page>-->
+        <!--</form-login-config>-->
+    <!--</login-config>-->
 
     <!-- API security -->
-    <!--<security-constraint>
+    <security-constraint>
         <web-resource-collection>
             <web-resource-name>All Access</web-resource-name>
             <url-pattern>/api/*</url-pattern>
@@ -131,10 +148,10 @@
             <http-method>TRACE</http-method>
             <http-method>DELETE</http-method>
         </web-resource-collection>
-    </security-constraint>-->
-    <!--<login-config>-->
-    <!--<auth-method>BASIC</auth-method>-->
-    <!--<realm-name>secureDomain</realm-name>-->
-    <!--</login-config>-->
+    </security-constraint>
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>secureDomain</realm-name>
+    </login-config>
     <!-- END: API security -->
 </web-app>
