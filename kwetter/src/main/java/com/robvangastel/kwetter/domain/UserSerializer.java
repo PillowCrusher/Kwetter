@@ -46,12 +46,9 @@ public class UserSerializer extends StdSerializer<User> {
             for(User u : followers) {
                 jgen.writeStartObject();
                 jgen.writeNumberField("id", u.getId());
-                jgen.writeStringField("role", u.getRole().toString());
-                jgen.writeStringField("email", u.getEmail());
                 jgen.writeStringField("username", u.getUsername());
-                jgen.writeStringField("location", u.getLocation());
-                jgen.writeStringField("websiteUrl", u.getWebsiteUrl());
-                jgen.writeStringField("bio", u.getBio());
+                jgen.writeStringField("rel", "follower");
+                jgen.writeStringField("href", "http://localhost:9080/kwetter/api/user/" + u.getId());
                 jgen.writeEndObject();
             }
 

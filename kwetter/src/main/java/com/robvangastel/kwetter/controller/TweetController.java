@@ -10,19 +10,17 @@ import com.robvangastel.kwetter.domain.User;
 import com.robvangastel.kwetter.interceptor.TweetInterceptor;
 import com.robvangastel.kwetter.service.TweetService;
 import com.robvangastel.kwetter.service.UserService;
+import com.robvangastel.kwetter.websockets.SocketController;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import javax.annotation.Resource;
-import javax.batch.operations.JobOperator;
-import javax.batch.runtime.BatchRuntime;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.interceptor.Interceptors;
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.*;
 
 /**
  *
@@ -44,8 +42,12 @@ public class TweetController {
 	private UserService userService;
 
     @GET
-    public List<Tweet> get() {
-        return tweetService.findAll();
+    public Response get() {
+        List<Tweet> tweets = tweetService.findAll();
+
+        return Response.ok(tweets)
+                .header("total-count", tweets.size())
+                .build();
     }
 
     @GET
@@ -60,9 +62,12 @@ public class TweetController {
 
     @GET
     @Path("/mention")
-    public List<Tweet> getByMention(@QueryParam("mention") String mention) {
+    public Response getByMention(@QueryParam("mention") String mention) {
         List<Tweet> tweets = tweetService.findByMention(mention);
-        return tweets;
+
+        return Response.ok(tweets)
+                .header("total-count", tweets.size())
+                .build();
     }
 
     @GET
@@ -84,7 +89,13 @@ public class TweetController {
         if(user == null) {
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }
-	    return tweetService.create(new Tweet(message, user));
+        Tweet tweet = new Tweet(message, user);
+        List<User> users = new ArrayList<User>();
+        users.addAll(user.getFollowing());
+        users.add(user);
+
+        SocketController.send(tweet, users);
+	    return tweetService.create(tweet);
     }
     
     @DELETE
@@ -95,14 +106,5 @@ public class TweetController {
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }
         tweetService.delete(id, user);
-    }
-
-    @GET
-    @Path("/batch")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String startBatch() {
-        JobOperator jo = BatchRuntime.getJobOperator();
-        long jid = jo.start("kwetterJson", new Properties());
-        return "Job submitted: " + jid;
     }
 }
