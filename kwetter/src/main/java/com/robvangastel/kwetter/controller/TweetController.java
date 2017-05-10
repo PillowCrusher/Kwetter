@@ -90,11 +90,6 @@ public class TweetController {
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }
         Tweet tweet = new Tweet(message, user);
-        List<User> users = new ArrayList<User>();
-        users.addAll(user.getFollowing());
-        users.add(user);
-
-        SocketController.send(tweet, users);
 	    return tweetService.create(tweet);
     }
     

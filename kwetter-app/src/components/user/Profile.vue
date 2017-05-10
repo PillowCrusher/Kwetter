@@ -188,14 +188,14 @@
         })
       },
       followUser () {
-        this.$http.put(this.$apiurl + '/user/' + this.$store.state.currentUser.id + '/following/' + this.currentUser.id).then(response => {
+        this.$http.put(this.$apiurl + '/user/following/' + this.currentUser.id).then(response => {
           this.setUser()
         }, response => {
           this.showErrorToastr(response.data.message)
         })
       },
       unfollowUser () {
-        this.$http.put(this.$apiurl + '/user/' + this.$store.state.currentUser.id + '/follower/' +  this.currentUser.id).then(response => {
+        this.$http.put(this.$apiurl + '/user/follower/' +  this.currentUser.id).then(response => {
           this.setUser()
         }, response => {
           this.showErrorToastr(response.data.message)

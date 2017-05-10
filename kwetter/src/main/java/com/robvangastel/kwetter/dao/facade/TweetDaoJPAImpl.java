@@ -11,6 +11,7 @@ import com.robvangastel.kwetter.dao.JPA;
 import com.robvangastel.kwetter.domain.Tweet;
 import com.robvangastel.kwetter.domain.User;
 import com.robvangastel.kwetter.exception.TweetException;
+import com.robvangastel.kwetter.websockets.SocketController;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -12,8 +12,10 @@ import com.robvangastel.kwetter.domain.Tweet;
 import com.robvangastel.kwetter.domain.User;
 import com.robvangastel.kwetter.exception.TweetException;
 import com.robvangastel.kwetter.exception.UserException;
+import com.robvangastel.kwetter.websockets.SocketController;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -45,13 +47,20 @@ public class TweetService implements Serializable {
      * @throws UserException When User doesnt exist
      * @throws TweetException WHen the message isnt allowed
      */
-	@RolesAllowed({"USER","ADMINISTRATOR", "MODERATOR"})
+    @PermitAll
     public Tweet create(Tweet tweet) throws UserException, TweetException {
         User user = userDao.findById(tweet.getUser().getId());
 		if(user != null) {
 			tweet = tweetDao.create(tweet);
 			user.addTweet(tweet);
 			userDao.update(user);
+
+            List<User> users = new ArrayList<User>();
+            users.addAll(user.getFollowing());
+            users.add(user);
+
+            SocketController.send(tweet, users);
+
 			return tweet;
 		}
 		return null;

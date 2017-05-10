@@ -136,15 +136,17 @@ public class UserController {
 	}
 
 	@PUT
-	@Path("{id}/following/{followingId}")
-	public void updateFollowing(@PathParam("id") long id, @PathParam("followingId") long followingId) throws Exception {
-		userService.addFollowing(followingId, id);
+	@Path("/following/{followingId}")
+	public void updateFollowing(@PathParam("followingId") long followingId) throws Exception {
+		User user = userService.findByUsername(context.getCallerPrincipal().getName());
+		userService.addFollowing(followingId, user.getId());
 	}
 
 	@PUT
-	@Path("{id}/follower/{followerId}")
-	public void updateFollower(@PathParam("id") long id, @PathParam("followerId") long followerId) throws Exception {
-		userService.removeFollowing(followerId, id);
+	@Path("/follower/{followerId}")
+	public void updateFollower(@PathParam("followerId") long followerId) throws Exception {
+		User user = userService.findByUsername(context.getCallerPrincipal().getName());
+		userService.removeFollowing(followerId, user.getId());
 	}
 
 	@DELETE

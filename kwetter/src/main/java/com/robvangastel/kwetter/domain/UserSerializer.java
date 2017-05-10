@@ -49,6 +49,7 @@ public class UserSerializer extends StdSerializer<User> {
                 jgen.writeStringField("username", u.getUsername());
                 jgen.writeStringField("rel", "follower");
                 jgen.writeStringField("href", "http://localhost:9080/kwetter/api/user/" + u.getId());
+                jgen.writeStringField("href", "http://localhost:9080/kwetter/api/user/follower/" + u.getId());
                 jgen.writeEndObject();
             }
 
@@ -62,12 +63,11 @@ public class UserSerializer extends StdSerializer<User> {
             for(User u : following) {
                 jgen.writeStartObject();
                 jgen.writeNumberField("id", u.getId());
-                jgen.writeStringField("role", u.getRole().toString());
                 jgen.writeStringField("email", u.getEmail());
                 jgen.writeStringField("username", u.getUsername());
-                jgen.writeStringField("location", u.getLocation());
-                jgen.writeStringField("websiteUrl", u.getWebsiteUrl());
-                jgen.writeStringField("bio", u.getBio());
+                jgen.writeStringField("rel", "following");
+                jgen.writeStringField("href", "http://localhost:9080/kwetter/api/user/" + u.getId());
+                jgen.writeStringField("href", "http://localhost:9080/kwetter/api/user/following/" + u.getId());
                 jgen.writeEndObject();
             }
 

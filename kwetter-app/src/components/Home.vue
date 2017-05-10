@@ -173,7 +173,7 @@
 				if (!window.WebSocket) {
 						alert("window.WebSocket not supported");
 				} else {
-						var socket = new WebSocket('ws://localhost:9080/kwetter/api/socket/admin');
+						var socket = new WebSocket('ws://localhost:9080/kwetter/api/socket/' + this.$store.state.currentUser.username);
 						var self = this;
 
 						socket.onopen = function () {
