@@ -1,15 +1,12 @@
 package com.robvangastel.kwetter.service;
 
-import java.util.List;
 
 import com.robvangastel.kwetter.configuration.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.robvangastel.kwetter.dao.ITweetDao;
 import com.robvangastel.kwetter.dao.IUserDao;
 import com.robvangastel.kwetter.configuration.Login;
-import com.robvangastel.kwetter.domain.Message;
 import com.robvangastel.kwetter.domain.User;
 
 @Service

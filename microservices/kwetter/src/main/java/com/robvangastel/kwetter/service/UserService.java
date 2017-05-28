@@ -5,10 +5,13 @@ import com.robvangastel.kwetter.dao.ITweetDao;
 import com.robvangastel.kwetter.dao.IUserDao;
 import com.robvangastel.kwetter.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by Rob on 28-5-2017.
  */
+
+@Service
 public class UserService {
 
     @Autowired

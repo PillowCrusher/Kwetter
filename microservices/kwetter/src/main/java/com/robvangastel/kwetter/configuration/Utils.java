@@ -25,7 +25,7 @@ public class Utils {
 		}
 	}
 	
-	public static String gravatarURL(String email, String defaultImage, int size) {
+	public static String setAvatarURL(String email, String defaultImage, int size) {
 		return String.format(
 					"http://www.gravatar.com/avatar/%s?d=%s&s=%d",
 					md5Hex(email),
