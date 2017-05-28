@@ -5,12 +5,12 @@ import java.util.List;
 import com.robvangastel.kwetter.domain.Message;
 import com.robvangastel.kwetter.domain.User;
 
-public interface IMessageDao {
+public interface ITweetDao {
 	List<Message> getUserTimelineMessages(User user);
 	
 	List<Message> getUserFullTimelineMessages(User user);
 	
 	List<Message> getPublicTimelineMessages();
 	
-	void insertMessage(Message m);
+	void create(Message m);
 }

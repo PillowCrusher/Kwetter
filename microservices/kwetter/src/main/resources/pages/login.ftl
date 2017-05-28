@@ -12,7 +12,7 @@
     	</div>
     </#if>
 
-    <h3>Sign In</h3>
+    <h3>Sign in</h3>
 
     <form class="form-horizontal" action="/login" role="form" method="post">
 
@@ -32,7 +32,7 @@
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default">Sign In</button>
+                <button type="submit" class="btn btn-default">Sign in</button>
             </div>
         </div>
 

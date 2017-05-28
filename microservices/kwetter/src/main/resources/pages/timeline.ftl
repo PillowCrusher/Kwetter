@@ -26,7 +26,7 @@
                             <div class="input-group">
                                 <input type="text" name="text" class="form-control" required/>
                                 <span class="input-group-btn">
-                                    <button class="btn btn-primary" type="submit"> Share </button>
+                                    <button class="btn btn-primary" type="submit"> Send </button>
                                 </span>
                             </div>
                         </form>
@@ -46,7 +46,7 @@
 
                     <div class="media">
                         <a class="pull-left" href="/t/${message.username}">
-                            <img class="media-object" src="${message.gravatar}"/>
+                            <img class="media-object" src="${message.avatar}"/>
                         </a>
                         <div class="media-body">
                             <h4 class="media-heading">
@@ -57,7 +57,7 @@
 
                         ${message.text} <br/>
 
-                            <small>&mdash; ${message.pubDateStr}</small>
+                            <small>${message.pubDateStr}</small>
                         </div>
                     </div>
                 <#else>

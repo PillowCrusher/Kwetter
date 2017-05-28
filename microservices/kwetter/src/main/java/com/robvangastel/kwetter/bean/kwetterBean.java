@@ -1,4 +1,4 @@
-package com.robvangastel.kwetter.configuration;
+package com.robvangastel.kwetter.bean;
 
 import static spark.Spark.before;
 import static spark.Spark.get;
@@ -11,44 +11,47 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.robvangastel.kwetter.configuration.Login;
+import com.robvangastel.kwetter.service.TweetService;
+import com.robvangastel.kwetter.service.UserService;
 import org.apache.commons.beanutils.BeanUtils;
 import org.eclipse.jetty.util.MultiMap;
 import org.eclipse.jetty.util.UrlEncoded;
 
 import com.robvangastel.kwetter.domain.Message;
 import com.robvangastel.kwetter.domain.User;
-import com.robvangastel.kwetter.service.KwetterService;
+import com.robvangastel.kwetter.service.AuthService;
 
 import spark.ModelAndView;
 import spark.Request;
 import spark.template.freemarker.FreeMarkerEngine;
 import spark.utils.StringUtils;
 
-public class WebConfig {
-	
-	private static final String USER_SESSION_ID = "user";
-	private KwetterService service;
-	 
+public class kwetterBean {
 
-	public WebConfig(KwetterService service) {
-		this.service = service;
+	private AuthService authService;
+
+	private UserService userService;
+
+	private TweetService tweetService;
+
+	public kwetterBean(UserService userService, TweetService tweetService, AuthService authService) {
+		this.authService = authService;
+		this.userService = userService;
+		this.tweetService = tweetService;
+
 		staticFileLocation("/public");
 		setupRoutes();
 	}
 	
 	private void setupRoutes() {
-		/*
-		 * Shows a users timeline or if no user is logged in,
-		 *  it will redirect to the public timeline.
-		 *  This timeline shows the user's messages as well
-		 *  as all the messages of followed users.
-		 */
+
 		get("/", (req, res) -> {
 			User user = getAuthenticatedUser(req);
 			Map<String, Object> map = new HashMap<>();
 			map.put("pageTitle", "Timeline");
 			map.put("user", user);
-			List<Message> messages = service.getUserFullTimelineMessages(user);
+			List<Message> messages = tweetService.getUserFullTimelineMessages(user);
 			map.put("messages", messages);
 			return new ModelAndView(map, "timeline.ftl");
         }, new FreeMarkerEngine());
@@ -69,7 +72,7 @@ public class WebConfig {
 			Map<String, Object> map = new HashMap<>();
 			map.put("pageTitle", "Public Timeline");
 			map.put("user", user);
-			List<Message> messages = service.getPublicTimelineMessages();
+			List<Message> messages = tweetService.getPublicTimelineMessages();
 			map.put("messages", messages);
 			return new ModelAndView(map, "timeline.ftl");
         }, new FreeMarkerEngine());
@@ -80,14 +83,14 @@ public class WebConfig {
 		 */
 		get("/t/:username", (req, res) -> {
 			String username = req.params(":username");
-			User profileUser = service.getUserbyUsername(username);
+			User profileUser = userService.getUserbyUsername(username);
 			
 			User authUser = getAuthenticatedUser(req);
 			boolean followed = false;
 			if(authUser != null) {
-				followed = service.isUserFollower(authUser, profileUser);
+				followed = userService.isUserFollower(authUser, profileUser);
 			}
-			List<Message> messages = service.getUserTimelineMessages(profileUser);
+			List<Message> messages = tweetService.getUserTimelineMessages(profileUser);
 			
 			Map<String, Object> map = new HashMap<>();
 			map.put("pageTitle", username + "'s Timeline");
@@ -102,7 +105,7 @@ public class WebConfig {
 		 */
 		before("/t/:username", (req, res) -> {
 			String username = req.params(":username");
-			User profileUser = service.getUserbyUsername(username);
+			User profileUser = userService.getUserbyUsername(username);
 			if(profileUser == null) {
 				halt(404, "User not Found");
 			}
@@ -114,10 +117,10 @@ public class WebConfig {
 		 */
 		get("/t/:username/follow", (req, res) -> {
 			String username = req.params(":username");
-			User profileUser = service.getUserbyUsername(username);
+			User profileUser = userService.getUserbyUsername(username);
 			User authUser = getAuthenticatedUser(req);
-			
-			service.followUser(authUser, profileUser);
+
+			userService.followUser(authUser, profileUser);
 			res.redirect("/t/" + username);
 			return null;
         });
@@ -127,7 +130,7 @@ public class WebConfig {
 		before("/t/:username/follow", (req, res) -> {
 			String username = req.params(":username");
 			User authUser = getAuthenticatedUser(req);
-			User profileUser = service.getUserbyUsername(username);
+			User profileUser = userService.getUserbyUsername(username);
 			if(authUser == null) {
 				res.redirect("/login");
 				halt();
@@ -142,10 +145,10 @@ public class WebConfig {
 		 */
 		get("/t/:username/unfollow", (req, res) -> {
 			String username = req.params(":username");
-			User profileUser = service.getUserbyUsername(username);
+			User profileUser = userService.getUserbyUsername(username);
 			User authUser = getAuthenticatedUser(req);
-			
-			service.unfollowUser(authUser, profileUser);
+
+			userService.unfollowUser(authUser, profileUser);
 			res.redirect("/t/" + username);
 			return null;
         });
@@ -155,7 +158,7 @@ public class WebConfig {
 		before("/t/:username/unfollow", (req, res) -> {
 			String username = req.params(":username");
 			User authUser = getAuthenticatedUser(req);
-			User profileUser = service.getUserbyUsername(username);
+			User profileUser = userService.getUserbyUsername(username);
 			if(authUser == null) {
 				res.redirect("/login");
 				halt();
@@ -163,12 +166,7 @@ public class WebConfig {
 				halt(404, "User not Found");
 			}
 		});
-		
-		
-		/*
-		 * Presents the login form or redirect the user to
-		 * her timeline if it's already logged in
-		 */
+
 		get("/login", (req, res) -> {
 			Map<String, Object> map = new HashMap<>();
 			if(req.queryParams("r") != null) {
@@ -190,7 +188,7 @@ public class WebConfig {
 				halt(501);
 				return null;
 			}
-			Login result = service.checkUser(user);
+			Login result = authService.authenticate(user);
 			if(result.getUser() != null) {
 				addAuthenticatedUser(req, result.getUser());
 				res.redirect("/");
@@ -237,9 +235,9 @@ public class WebConfig {
 			}
 			String error = user.validate();
 			if(StringUtils.isEmpty(error)) {
-				User existingUser = service.getUserbyUsername(user.getUsername());
+				User existingUser = userService.getUserbyUsername(user.getUsername());
 				if(existingUser == null) {
-					service.registerUser(user);
+					userService.registerUser(user);
 					res.redirect("/login?r=1");
 					halt();
 				} else {
@@ -274,7 +272,7 @@ public class WebConfig {
 			m.setUserId(user.getId());
 			m.setPubDate(new Date());
 			BeanUtils.populate(m, params);
-			service.addMessage(m);
+			tweetService.addMessage(m);
 			res.redirect("/");
 			return null;
         });
@@ -301,16 +299,16 @@ public class WebConfig {
 	}
 
 	private void addAuthenticatedUser(Request request, User u) {
-		request.session().attribute(USER_SESSION_ID, u);
+		request.session().attribute("user", u);
 		
 	}
 
 	private void removeAuthenticatedUser(Request request) {
-		request.session().removeAttribute(USER_SESSION_ID);
+		request.session().removeAttribute("user");
 		
 	}
 
 	private User getAuthenticatedUser(Request request) {
-		return request.session().attribute(USER_SESSION_ID);
+		return request.session().attribute("user");
 	}
 }

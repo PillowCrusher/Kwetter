@@ -11,18 +11,18 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.robvangastel.kwetter.dao.IMessageDao;
+import com.robvangastel.kwetter.dao.ITweetDao;
 import com.robvangastel.kwetter.domain.Message;
 import com.robvangastel.kwetter.domain.User;
 import com.robvangastel.kwetter.configuration.Utils;
 
 @Repository
-public class IMessageDaoImpl implements IMessageDao {
+public class ITweetDaoImpl implements ITweetDao {
 
 	private NamedParameterJdbcTemplate template;
 
 	@Autowired
-	public IMessageDaoImpl(DataSource ds) {
+	public ITweetDaoImpl(DataSource ds) {
 		template = new NamedParameterJdbcTemplate(ds);
 	}
 
@@ -68,7 +68,7 @@ public class IMessageDaoImpl implements IMessageDao {
 	}
 
 	@Override
-	public void insertMessage(Message m) {
+	public void create(Message m) {
 		Map<String, Object> params = new HashMap<String, Object>();
         params.put("userId", m.getUserId());
         params.put("text", m.getText());
@@ -86,7 +86,7 @@ public class IMessageDaoImpl implements IMessageDao {
 		m.setUsername(rs.getString("username"));
 		m.setText(rs.getString("text"));
 		m.setPubDate(rs.getTimestamp("pub_date"));
-		m.setGravatar(Utils.gravatarURL(rs.getString("email"), "identicon", 48));
+		m.setAvatar(Utils.gravatarURL(rs.getString("email"), "identicon", 48));
 		
 		return m;
 	};

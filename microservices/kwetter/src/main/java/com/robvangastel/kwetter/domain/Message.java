@@ -11,7 +11,7 @@ public class Message {
 	private String text;
 	private Date pubDate;
 	private String pubDateStr;
-	private String gravatar;
+	private String avatar;
 
 	public Message() {}
 
@@ -62,11 +62,11 @@ public class Message {
 		return pubDateStr;
 	}
 
-	public String getGravatar() {
-		return gravatar;
+	public String getAvatar() {
+		return avatar;
 	}
 
-	public void setGravatar(String gravatar) {
-		this.gravatar = gravatar;
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
 	}
 }
