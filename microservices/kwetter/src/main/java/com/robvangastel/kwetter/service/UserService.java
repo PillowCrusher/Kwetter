@@ -1,7 +1,6 @@
 package com.robvangastel.kwetter.service;
 
 import com.robvangastel.kwetter.configuration.Utils;
-import com.robvangastel.kwetter.dao.ITweetDao;
 import com.robvangastel.kwetter.dao.IUserDao;
 import com.robvangastel.kwetter.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;

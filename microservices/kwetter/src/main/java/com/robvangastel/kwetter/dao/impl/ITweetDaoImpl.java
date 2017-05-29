@@ -86,7 +86,7 @@ public class ITweetDaoImpl implements ITweetDao {
 		m.setUsername(rs.getString("username"));
 		m.setText(rs.getString("text"));
 		m.setPubDate(rs.getTimestamp("pub_date"));
-		m.setAvatar(Utils.setAvatarURL(rs.getString("email"), "mm", 48));
+		m.setAvatar(Utils.setAvatarURL(rs.getString("email"), "identicon", 48));
 		
 		return m;
 	};

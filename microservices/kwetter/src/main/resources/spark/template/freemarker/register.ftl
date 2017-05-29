@@ -2,12 +2,6 @@
 
 <@layout.masterTemplate title="Sign In">
 
-    <#if error??>
-        <div class="alert alert-danger">
-            <strong>Error:</strong> ${error}
-        </div>
-    </#if>
-
     <h3>Sign Up</h3>
 
     <form class="form-horizontal" action="/register" role="form" method="post">
@@ -20,7 +14,7 @@
         </div>
 
         <div class="form-group">
-            <label for="email" class="col-sm-2 control-label">E-Mail: </label>
+            <label for="email" class="col-sm-2 control-label">email: </label>
             <div class="col-sm-10">
                 <input type="email" class="form-control" name="email" placeholder="E-Mail" value="${email!}" />
             </div>
@@ -34,8 +28,15 @@
         </div>
 
         <div class="form-group">
+            <label for="password2" class="col-sm-2 control-label">Password <small>(repeat)</small>:</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" name="password2"/>
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default">Sign up</button>
+                <button type="submit" class="btn btn-default">Sign Up</button>
             </div>
         </div>
   </form>

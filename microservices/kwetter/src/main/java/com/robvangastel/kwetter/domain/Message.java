@@ -1,8 +1,17 @@
 package com.robvangastel.kwetter.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Message {
 
 	private int id;
@@ -13,60 +22,10 @@ public class Message {
 	private String pubDateStr;
 	private String avatar;
 
-	public Message() {}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
-
-	public Date getPubDate() {
-		return pubDate;
-	}
-
 	public void setPubDate(Date pubDate) {
 		this.pubDate = pubDate;
 		if(pubDate != null) {
 			pubDateStr = new SimpleDateFormat("yyyy-MM-dd @ HH:mm").format(pubDate);
 		}
-	}
-
-	public String getPubDateStr() {
-		return pubDateStr;
-	}
-
-	public String getAvatar() {
-		return avatar;
-	}
-
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
 	}
 }

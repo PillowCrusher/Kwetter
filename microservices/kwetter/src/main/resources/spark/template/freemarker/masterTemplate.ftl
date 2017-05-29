@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
-<div class="container">
+<div class="container-fluid">
     <nav class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle"
@@ -29,10 +29,8 @@
             <ul class="nav navbar-nav navbar-right">
                 <#if user??>
                     <li><a href="/">Timeline</a></li>
-                    <li><a href="/public">Public Timeline</a></li>
-                    <li><a href="/logout">Sign out ${user.username}</a></li>
+                    <li><a href="/logout">Sign Out</a></li>
                 <#else>
-                    <li><a href="/public">Public Timeline</a></li>
                     <li><a href="/register">Sign up</a></li>
                     <li><a href="/login">Sign in</a></li>
                 </#if>
@@ -40,13 +38,9 @@
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container-fluid">
         <#nested />
     </div>
-
-    <footer class="footer">
-        <p>Kwetter - Application</p>
-    </footer>
 </div><!-- /container -->
 </body>
 </html>

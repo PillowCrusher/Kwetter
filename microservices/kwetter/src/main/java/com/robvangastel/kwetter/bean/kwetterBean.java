@@ -63,24 +63,16 @@ public class kwetterBean {
 			}
 		});
 
-		
-		/*
-		 * Displays the latest messages of all users.
-		 */
 		get("/public", (req, res) -> {
 			User user = getAuthenticatedUser(req);
 			Map<String, Object> map = new HashMap<>();
-			map.put("pageTitle", "Public Timeline");
+			map.put("pageTitle", "Global Timeline");
 			map.put("user", user);
 			List<Message> messages = tweetService.getPublicTimelineMessages();
 			map.put("messages", messages);
 			return new ModelAndView(map, "timeline.ftl");
         }, new FreeMarkerEngine());
-		
-		
-		/*
-		 * Displays a user's tweets.
-		 */
+
 		get("/t/:username", (req, res) -> {
 			String username = req.params(":username");
 			User profileUser = userService.getUserbyUsername(username);
@@ -100,9 +92,7 @@ public class kwetterBean {
 			map.put("messages", messages);
 			return new ModelAndView(map, "timeline.ftl");
         }, new FreeMarkerEngine());
-		/*
-		 * Checks if the user exists
-		 */
+
 		before("/t/:username", (req, res) -> {
 			String username = req.params(":username");
 			User profileUser = userService.getUserbyUsername(username);
@@ -110,11 +100,7 @@ public class kwetterBean {
 				halt(404, "User not Found");
 			}
 		});
-		
-		
-		/*
-		 * Adds the current user as follower of the given user.
-		 */
+
 		get("/t/:username/follow", (req, res) -> {
 			String username = req.params(":username");
 			User profileUser = userService.getUserbyUsername(username);
@@ -124,9 +110,7 @@ public class kwetterBean {
 			res.redirect("/t/" + username);
 			return null;
         });
-		/*
-		 * Checks if the user is authenticated and the user to follow exists
-		 */
+
 		before("/t/:username/follow", (req, res) -> {
 			String username = req.params(":username");
 			User authUser = getAuthenticatedUser(req);
@@ -138,11 +122,7 @@ public class kwetterBean {
 				halt(404, "User not Found");
 			}
 		});
-		
-		
-		/*
-		 * Removes the current user as follower of the given user.
-		 */
+
 		get("/t/:username/unfollow", (req, res) -> {
 			String username = req.params(":username");
 			User profileUser = userService.getUserbyUsername(username);
@@ -152,9 +132,7 @@ public class kwetterBean {
 			res.redirect("/t/" + username);
 			return null;
         });
-		/*
-		 * Checks if the user is authenticated and the user to unfollow exists
-		 */
+
 		before("/t/:username/unfollow", (req, res) -> {
 			String username = req.params(":username");
 			User authUser = getAuthenticatedUser(req);
@@ -174,9 +152,7 @@ public class kwetterBean {
 			}
 			return new ModelAndView(map, "login.ftl");
         }, new FreeMarkerEngine());
-		/*
-		 * Logs the user in.
-		 */
+
 		post("/login", (req, res) -> {
 			Map<String, Object> map = new HashMap<>();
 			User user = new User();

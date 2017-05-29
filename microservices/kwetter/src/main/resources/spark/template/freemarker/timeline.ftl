@@ -16,12 +16,7 @@
                     </#if>
                 </div>
             <#elseif pageTitle != 'Public Timeline'>
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">What's on your mind ${user.username}?</h3>
-                    </div>
-
-                    <div class="panel-body">
+                        <h4>Send Tweet</h4>
                         <form class="form-horizontal" action="/message" method="post">
                             <div class="input-group">
                                 <input type="text" name="text" class="form-control" required/>
@@ -38,7 +33,7 @@
 </div>
 
 <div class="row">
-    <div class="col-xs-11">
+    <div class="col-xs-10 col-xs-offset-1">
         <div id="media-list" class="row">
             <#if messages??>
                 <#list messages as message>
@@ -53,9 +48,7 @@
                                 <a href="/t/${message.username}">
                                 ${message.username}
                                 </a>
-                            </h4>
-
-                        ${message.text} <br/>
+                            </h4>${message.text} <br/>
 
                             <small>${message.pubDateStr}</small>
                         </div>
