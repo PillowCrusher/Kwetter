@@ -28,11 +28,9 @@ In deze opdracht komen de volgende onderwerpen aan bod:
 - [x] Gegevens kunnen bewaard worden in memory en in een database (JPA)
 
 **Optioneel**:
-- [ ] maak gebruik van CDI: events en interceptors
-- [ ] maak gebruik van Java Batch
+- [x] maak gebruik van CDI: events en interceptors
+- [x] maak gebruik van Java Batch
 - [ ] maak gebruik van Java Mail
 - [ ] maak gebruik van TDD: Embedded server testing
 
 Als voorbeeld van de lagenstructuur zie -> webLog applicatie  
-
-**Beoordeling back-end**
