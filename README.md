@@ -4,7 +4,6 @@
 In documenten zijn alle vereisten requirements opgesomt.
 
 ## Branches
----  
 Gekozen branch structuur
 
 - Master
@@ -13,7 +12,6 @@ Gekozen branch structuur
 - Feature branches  
 
 ## Back-end vereisten
----  
 In deze opdracht komen de volgende onderwerpen aan bod:
 
 - [x] Automatische tests ( Jenkins )
@@ -32,5 +30,3 @@ In deze opdracht komen de volgende onderwerpen aan bod:
 - [x] maak gebruik van Java Batch
 - [ ] maak gebruik van Java Mail
 - [ ] maak gebruik van TDD: Embedded server testing
-
-Als voorbeeld van de lagenstructuur zie -> webLog applicatie  
